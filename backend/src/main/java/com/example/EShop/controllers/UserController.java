@@ -61,7 +61,10 @@ public class UserController {
                                            @RequestParam(name = "password") String password) {
         User user = userService.createNewUser(username, surname, email, password);
         try {
-            return ResponseEntity.ok(new UserDto(user.getId(), user.getUsername(), user.getEmail()));
+            String token = authService.createAuthToken(user.getEmail(), user.getPassword());
+            User user2 = userRepository.findByEmail(email);
+            return ResponseEntity.ok(new AuthDto(user2, token));
+            // return ResponseEntity.ok(new UserDto(user.getId(), user.getUsername(), user.getEmail()));
         } catch (NullPointerException e) {
             throw new NullPointerException();
         }
