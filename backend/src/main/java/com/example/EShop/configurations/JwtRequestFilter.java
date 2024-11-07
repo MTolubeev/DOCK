@@ -1,10 +1,10 @@
 package com.example.EShop.configurations;
 
+import com.example.EShop.exceptions.ExpiredJwtException;
+import com.example.EShop.exceptions.SignatureException;
 import com.example.EShop.models.CustomUserDetails;
 import com.example.EShop.services.UserService;
 import com.example.EShop.utils.JwtTokenUtils;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.SignatureException;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,29 +22,32 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-
 @Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtTokenUtils jwtTokenUtils;
     private final UserService userDetailsService;
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER = "Bearer ";
+
     @Autowired
     public JwtRequestFilter(JwtTokenUtils jwtTokenUtils, @Lazy UserService userDetailsService) {
         this.jwtTokenUtils = jwtTokenUtils;
         this.userDetailsService = userDetailsService;
     }
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws StackOverflowError, IOException, ServletException, ServletException {
-        String authHeader = request.getHeader("Authorization");
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String authHeader = request.getHeader(AUTHORIZATION);
         String username = null;
         String jwt;
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwt = authHeader.substring(7);
+        if (authHeader != null) {
+            jwt = authHeader;
             try {
                 username = jwtTokenUtils.getUsername(jwt);
             } catch (ExpiredJwtException e) {
-                log.debug("Время жизни токена вышло");
+                log.debug("Token lifetime has expired");
             } catch (SignatureException e) {
-                log.debug("Подпись неправильная");
+                log.debug("The signature is incorrect");
             }
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -55,11 +58,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     customUserDetails.getAuthorities()
             );
             token
-           .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(token);
         }
         filterChain.doFilter(request, response);
     }
-
-
 }

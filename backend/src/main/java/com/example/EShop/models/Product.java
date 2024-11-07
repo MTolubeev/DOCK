@@ -53,12 +53,10 @@ public class Product {
     private List<Image> images = new ArrayList<>();
     private Long previewImageId;
 
-
     public void addImageToProduct(Image image) {
         image.setProduct(this);
         images.add(image);
     }
-
 
     public Long getId() {
         return id;
@@ -96,5 +94,4 @@ public class Product {
     public String toString() {
         return "Product{id=" + id + ", title='" + title + "', description='" + description + "', price=" + price + "', count=" + count + "}";
     }
-
 }

@@ -1,6 +1,7 @@
 package com.example.EShop.configurations;
 
 import com.example.EShop.services.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

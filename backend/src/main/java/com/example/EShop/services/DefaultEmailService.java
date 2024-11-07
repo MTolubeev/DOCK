@@ -1,6 +1,7 @@
 package com.example.EShop.services;
 
 import com.example.EShop.dtos.ProductOrderDto;
+import com.example.EShop.models.CustomUserDetails;
 import com.example.EShop.models.User;
 import com.example.EShop.repositories.UserRepository;
 import com.example.EShop.utils.JwtTokenUtils;
@@ -32,9 +33,9 @@ public class DefaultEmailService {
         emailSender.send(simpleMailMessage);
     }
 
-    public void sendEmail(String token) {
-        User user = userRepository.findByUsername(jwtTokenUtils.getUsername(token));
-        List<ProductOrderDto> usersProducts = basketService.getUserProductDtos(user);
+    public void sendEmail(CustomUserDetails userDetails) {
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        List<ProductOrderDto> usersProducts = basketService.getUserProductDtos(userRepository.findByUsername(userDetails.getUsername()));
 
         int totalPrice = 0;
         StringBuilder emailContent = new StringBuilder("Ваш заказ на E-shop:\n\n");
@@ -46,19 +47,15 @@ public class DefaultEmailService {
                     .append("\n");
             totalPrice += (int) (productOrder.getPrice() * productOrder.getCount());
         }
-
         emailContent.append("\nИтоговая стоимость: ").append(totalPrice).append(" руб.");
-
         String address = user.getEmail();
-
         sendSimpleEmail(
                 address,
                 "Ваш заказ на E-shop",
                 emailContent.toString()
         );
-
-        for (ProductOrderDto productOrder : usersProducts){
-            basketService.cleanBasketAfterEmail(user,productOrder.getId());
+        for (ProductOrderDto productOrder : usersProducts) {
+            basketService.cleanBasketAfterEmail(user, productOrder.getId());
         }
     }
 

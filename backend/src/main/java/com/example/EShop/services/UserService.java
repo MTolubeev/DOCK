@@ -9,8 +9,6 @@ import javax.transaction.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,23 +21,23 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
-
     public User createNewUser(String username, String surname, String email, String password) {
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setSurname(surname);
-        user.setPassword(passwordEncoder.encode(password));
-        user.getRoles().add(Role.ROLE_USER);
-        user.setActive(true);
-        return userRepository.save(user);
+        if(userRepository.findByEmail(email) == null && userRepository.findByUsername(username) == null) {
+            User user = new User();
+            user.setUsername(username);
+            user.setEmail(email);
+            user.setSurname(surname);
+            user.setPassword(passwordEncoder.encode(password));
+            user.getRoles().add(Role.ROLE_USER);
+            user.setActive(true);
+            return userRepository.save(user);
+        }
+        return null;
     }
 
     public List<User> list() {
@@ -52,7 +50,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     @Transactional
-    public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public CustomUserDetails loadUserByUsername(String username) throws com.example.EShop.exceptions.UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
 
         if (user == null) {

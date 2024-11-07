@@ -32,7 +32,6 @@ public class Basket {
     )
     private List<Product> products = new ArrayList<>();
 
-
     public User getUser() {
         return user;
     }

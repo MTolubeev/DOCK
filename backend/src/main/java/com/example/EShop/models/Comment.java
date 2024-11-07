@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 @Entity
 @Table(name = "comments")
 @Data
@@ -22,7 +20,6 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinColumn (name = "user_id")
@@ -37,7 +34,6 @@ public class Comment {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<CommentImage> images = new ArrayList<>();
-
 
     @Column(name = "text", columnDefinition = "text")
     private String text;

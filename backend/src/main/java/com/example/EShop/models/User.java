@@ -18,14 +18,19 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long uid;
+
     @Column(name = "email", unique = true)
     private String email;
+
     @Column(name = "username")
     private String username;
+
     @Column(name = "surname")
     private String surname;
+
     @Column(name = "active")
     private boolean active;
+
     @Column(name = "password", length = 1000)
     private String password;
 
@@ -37,7 +42,6 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
-
 
     private LocalDateTime dateOfCreated;
 
