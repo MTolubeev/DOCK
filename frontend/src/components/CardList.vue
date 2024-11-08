@@ -27,7 +27,7 @@ const subsubcategoryOptions = ref([]);
 
 const fetchItems = async () => {
   try {
-    const response = await axios.get("http://localhost:8080/product/getAll");
+    const response = await axios.get(`http://localhost:8080/product/getAll`);
 
     items.value = response.data.map((product) => {
       return {
@@ -37,13 +37,13 @@ const fetchItems = async () => {
     });
     emit('products-loaded');
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 
 const fetchCategories = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/product/getAll');
+    const response = await axios.get(`http://localhost:8080/product/getAll`);
     const products = response.data;
 
     const categoriesSet = new Set();

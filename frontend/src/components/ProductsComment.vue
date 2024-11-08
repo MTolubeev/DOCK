@@ -75,7 +75,8 @@
           class="admin-icon"
           src="@/assets/bin.webp"
           alt="admin badge"
-          @click="openDeleteDialog(comment.id)"/>
+          @click="openDeleteDialog(comment.id)"
+          />
       </n-card>
     </div>
     <div v-else>
@@ -99,13 +100,13 @@
 </template>
 
 <script setup>
-import { defineProps, ref, computed, onMounted } from "vue";
-import { NCard, NButton, NSelect, NDialog } from "naive-ui";
-import WriteReviewModal from "./WriteReviewModal.vue";
-import { useUserStore } from "@/store/userStore";
-import axios from "axios";
-import ImageGallery from "./ImageGallery.vue";
-import { useNotificationService } from "@/composables/useNotifications";
+import { defineProps, ref, computed, onMounted } from 'vue';
+import { NCard, NButton, NSelect, NDialog } from 'naive-ui';
+import WriteReviewModal from './WriteReviewModal.vue';
+import { useUserStore } from '@/store/userStore';
+import axios from 'axios';
+import ImageGallery from './ImageGallery.vue';
+import { useNotificationService } from '@/composables/useNotifications';
 
 const props = defineProps({
   comments: {
@@ -125,15 +126,15 @@ const showAll = ref(false);
 const showReviewModal = ref(false);
 const confirmDialogVisible = ref(false);
 const commentIdToDelete = ref(null);
-const sortOrder = ref("desc");
+const sortOrder = ref('desc');
 const currentImages = ref([]);
 const showImageGallery = ref(false);
 const currentImageGalleryId = ref(null);
 const maxStars = 5;
 
 const sortOptions = [
-  { label: "От высоких к низким", value: "desc" },
-  { label: "От низких к высоким", value: "asc" },
+  { label: "От высоких к низким", value: 'desc' },
+  { label: "От низких к высоким", value: 'asc' },
 ];
 
 const user = computed(() => userStore.user.value);
@@ -159,7 +160,7 @@ const isOwner = (comment) => {
 const sortedComments = computed(() => {
   const sorted = [...props.comments];
   sorted.sort((a, b) => {
-    return sortOrder.value === "asc" ? a.score - b.score : b.score - a.score;
+    return sortOrder.value === 'asc' ? a.score - b.score : b.score - a.score;
   });
   return showAll.value ? sorted : sorted.slice(0, 3);
 });
@@ -168,7 +169,7 @@ const handleWriteReview = () => {
   if (user.value) {
     showReviewModal.value = true;
   } else {
-    showNotificationMessage("error", "Ошибка добавления комментария","Авторизуйтесь для создания комментария");
+    showNotificationMessage('error', 'Ошибка добавления комментария','Авторизуйтесь для создания комментария');
   }
 };
 
@@ -206,16 +207,16 @@ const confirmDeleteComment = async () => {
     });
 
     if (response.status === 200) {
-      localStorage.setItem("showDeleteSuccessNotification", "true");
+      localStorage.setItem('showDeleteSuccessNotification', 'true');
       window.location.reload();
     } else {
-      showNotificationMessage("error", "Ошибка","Произошла ошибка при удалении комментария.");
+      showNotificationMessage('error', 'Ошибка','Произошла ошибка при удалении комментария.');
     }
   } catch (error) {
     if (error.response) {
-      showNotificationMessage("error", "Ошибка",`Ошибка: ${error.response.data.message || error.response.data}`);
+      showNotificationMessage('error', 'Ошибка',`Ошибка: ${error.response.data.message || error.response.data}`);
     } else {
-      showNotificationMessage("error", "Ошибка", "Произошла ошибка при удалении комментария.");
+      showNotificationMessage('error', 'Ошибка', 'Произошла ошибка при удалении комментария.');
     }
   } finally {
     closeConfirmDialog();
@@ -237,29 +238,29 @@ const handleDeleteImage = async ({ commentId, imageId }) => {
     );
 
     if (response.status === 200) {
-      localStorage.setItem("showDeleteImageSuccessNotification", "true");
+      localStorage.setItem('showDeleteImageSuccessNotification', 'true');
       window.location.reload();
     } else {
-      showNotificationMessage("error", "Ошибка при удалении изображения.");
+      showNotificationMessage('error', 'Ошибка при удалении изображения.');
     }
   } catch (error) {
     console.error(error);
-    showNotificationMessage("error","Произошла ошибка при удалении изображения.");
+    showNotificationMessage('error','Произошла ошибка при удалении изображения.');
   }
 };
 
 onMounted(async () => {
 await userStore.fetchUser();
-const deleteCommentNotification = localStorage.getItem("showDeleteSuccessNotification");
-  if (deleteCommentNotification === "true") {
-    showNotificationMessage("success", "Комментарий успешно удалён.");
-    localStorage.removeItem("showDeleteSuccessNotification");
+const deleteCommentNotification = localStorage.getItem('showDeleteSuccessNotification');
+  if (deleteCommentNotification === 'true') {
+    showNotificationMessage('success', 'Комментарий успешно удалён.');
+    localStorage.removeItem('showDeleteSuccessNotification');
   }
 
-const deleteImageNotification = localStorage.getItem("showDeleteImageSuccessNotification");
-  if (deleteImageNotification === "true") {
-    showNotificationMessage("success", "Изображение успешно удалено.");
-    localStorage.removeItem("showDeleteImageSuccessNotification");
+const deleteImageNotification = localStorage.getItem('showDeleteImageSuccessNotification');
+  if (deleteImageNotification === 'true') {
+    showNotificationMessage('success', 'Изображение успешно удалено.');
+    localStorage.removeItem('showDeleteImageSuccessNotification');
   }
 });
 </script>

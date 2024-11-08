@@ -6,7 +6,8 @@
       :src="item.imageUrl"
       width="200px"
       class="product-image"
-      alt="Product Image"/>
+      alt="Product Image"
+      />
     <div class="controls">
       <n-button @click="decrementCount">-</n-button>
       <span>{{ localCount }}</span>
@@ -20,10 +21,10 @@
 </template>
 
 <script setup>
-import { defineProps, ref, defineEmits, watch, computed, onMounted } from "vue";
-import { useCartStore } from "@/store/cartStore";
-import { useUserStore } from "@/store/userStore";
-import { NCard, NButton } from "naive-ui";
+import { defineProps, ref, defineEmits, watch, computed, onMounted } from 'vue';
+import { useCartStore } from '@/store/cartStore';
+import { useUserStore } from '@/store/userStore';
+import { NCard, NButton } from 'naive-ui';
 
 const props = defineProps({
   item: {
@@ -32,7 +33,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["updateItem"]);
+const emit = defineEmits(['updateItem']);
 
 const cartStore = useCartStore();
 const userStore = useUserStore();
@@ -45,7 +46,7 @@ const incrementCount = async () => {
   if (localCount.value >= 0) {
     localCount.value++;
     await cartStore.addToCart(props.item.id, token);
-    emit("updateItem", { ...props.item, count: localCount.value });
+    emit('updateItem', { ...props.item, count: localCount.value });
   }
 };
 
@@ -53,7 +54,7 @@ const decrementCount = async () => {
   if (localCount.value > 0) {
     localCount.value--;
     await cartStore.removeFromCart(props.item.id, token);
-    emit("updateItem", { ...props.item, count: localCount.value });
+    emit('updateItem', { ...props.item, count: localCount.value });
   }
 };
 

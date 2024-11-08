@@ -11,22 +11,26 @@
         v-model:value="username" 
         type="text" 
         placeholder="Имя" 
-        required  />
+        required  
+        />
       <n-input 
         v-model:value="surname" 
         type="text" 
         placeholder="Фамилия" 
-        required />
+        required 
+        />
       <n-input 
         v-model:value="email" 
         type="email" 
         placeholder="Email" 
-        required />
+        required 
+        />
       <n-input
         v-model:value="password" 
         type="password" 
         placeholder="Пароль" 
-        required />
+        required 
+        />
         <div class="buttons">
           <n-button color="#465a86" @click="register">Зарегистрироваться</n-button>
         </div>

@@ -8,11 +8,11 @@
 </template>
 
 <script setup>
-import { defineProps, ref, computed, onMounted } from "vue";
-import { useCartStore } from "@/store/cartStore";
+import { defineProps, ref, computed, onMounted } from 'vue';
+import { useCartStore } from '@/store/cartStore';
 import { useUserStore } from "@/store/userStore";
-import { NButton } from "naive-ui";
-import { useRouter } from "vue-router";
+import { NButton } from 'naive-ui';
+import { useRouter } from 'vue-router';
 import { useNotificationService } from '@/composables/useNotifications.js'; 
 
 const { showNotificationMessage } = useNotificationService();
@@ -52,10 +52,10 @@ const updateInCartStatus = async () => {
       const cart = await cartStore.fetchCart(userId, token);
       inCart.value = cart.some((item) => item.id === props.productId);
     } else {
-      console.error("User ID is missing.");
+      console.error('User ID is missing.');
     }
   } catch (error) {
-    console.error("Error fetching user or cart:", error);
+    console.error("Ошибка получения корзины", error);
   }
 };
 
@@ -78,7 +78,7 @@ const toggleCart = async () => {
     }
     await updateInCartStatus();
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 

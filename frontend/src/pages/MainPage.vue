@@ -43,15 +43,15 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import { NButton, NCard, NSpin } from "naive-ui";
-import axios from "axios";
-import AppHeader from "@/components/AppHeader.vue";
-import AppDrawer from "@/components/AppDrawer.vue";
-import AddProduct from "@/components/AddProduct.vue";
-import CardList from "@/components/CardList.vue";
-import { useUserStore } from "@/store/userStore";
-import { useDrawer } from "@/composables/useHeader.js";
+import { computed, onMounted, ref } from 'vue';
+import { NButton, NCard, NSpin } from 'naive-ui';
+import axios from 'axios';
+import AppHeader from '@/components/AppHeader.vue';
+import AppDrawer from '@/components/AppDrawer.vue';
+import AddProduct from '@/components/AddProduct.vue';
+import CardList from '@/components/CardList.vue';
+import { useUserStore } from '@/store/userStore';
+import { useDrawer } from '@/composables/useHeader.js';
 
 const userStore = useUserStore();
 const { isDrawerVisible, toggleDrawer, closeDrawer } = useDrawer();
@@ -70,12 +70,12 @@ const limitedComments = computed(() => {
 
 const openModal = () => {
   showModal.value = true;
-  document.body.style.overflow = "hidden";
+  document.body.style.overflow = 'hidden';
 };
 
 const closeModal = () => {
   showModal.value = false;
-  document.body.style.overflow = "";
+  document.body.style.overflow = '';
 };
 
 const getAllComments = async () => {
@@ -84,7 +84,7 @@ const getAllComments = async () => {
     comments.value = response.data;
     commentsLoaded.value = true;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 const onProductsLoaded = () => {

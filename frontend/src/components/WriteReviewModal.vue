@@ -10,7 +10,8 @@
         v-model:value="reviewText"
         type="textarea"
         placeholder="Введите ваш отзыв"
-        rows="4"/>
+        rows="4"
+        />
       <label>Оценка:</label>
       <div class="stars">
         <svg
@@ -42,7 +43,8 @@
             class="image-item">
             <img 
               :src="img.url" 
-              :alt="image" />
+              :alt="image" 
+              />
           </div>
         </div>
       </div>
@@ -113,7 +115,7 @@ const submitReview = async () => {
   });
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.post('http://localhost:8080/comments/add', formData, {
+    const response = await axios.post(`http://localhost:8080/comments/add`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': token,

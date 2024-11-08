@@ -1,8 +1,8 @@
-import { defineStore } from "pinia";
-import axios from "axios";
-import { ref } from "vue";
+import { defineStore } from 'pinia';
+import axios from 'axios';
+import { ref } from 'vue';
 
-export const useCartStore = defineStore("cart", () => {
+export const useCartStore = defineStore('cart', () => {
   const cartItems = ref([]);
 
   const fetchCart = async (userId, token) => {
@@ -38,7 +38,7 @@ export const useCartStore = defineStore("cart", () => {
         });
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   const removeFromCart = async (productId, token) => {
@@ -60,7 +60,7 @@ export const useCartStore = defineStore("cart", () => {
       }
       return existingItem;
     } catch (error) {
-      console.error("Ошибка удаления товара из корзины:", error.response.data);
+      console.error('Ошибка удаления товара из корзины:', error.response.data);
     }
   };
 
@@ -77,7 +77,7 @@ export const useCartStore = defineStore("cart", () => {
         }
       );
     } catch (error) {
-      console.log("товар не крякнул" + error);
+      console.error('товар не крякнул' + error);
     }
   };
 

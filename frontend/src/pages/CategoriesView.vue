@@ -41,14 +41,14 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
-import axios from "axios";
-import { useRoute } from "vue-router";
+import { ref, computed, onMounted, watch } from 'vue';
+import axios from 'axios';
+import { useRoute } from 'vue-router';
 import { useOrganizeProducts } from '@/composables/useOrganizeProducts.js';
-import CardItem from "@/components/CardItem.vue";
-import { useDrawer } from "@/composables/useHeader.js";
-import AppHeader from "@/components/AppHeader.vue";
-import AppDrawer from "@/components/AppDrawer.vue";
+import CardItem from '@/components/CardItem.vue';
+import { useDrawer } from '@/composables/useHeader.js';
+import AppHeader from '@/components/AppHeader.vue';
+import AppDrawer from '@/components/AppDrawer.vue';
 import { NSpin } from 'naive-ui'; 
 
 const { isDrawerVisible, toggleDrawer, closeDrawer } = useDrawer();
@@ -56,8 +56,8 @@ const route = useRoute();
 const categories = ref([]);
 const isLoading = ref(true); 
 const categoryName = ref(route.params.categoryName);
-const subcategoryName = ref(route.params.subcategoryName || "");
-const subsubcategoryName = ref(route.params.subsubcategoryName || "");
+const subcategoryName = ref(route.params.subcategoryName || '');
+const subsubcategoryName = ref(route.params.subsubcategoryName || '');
 const { organizeProductsByCategories } = useOrganizeProducts();
 
 const filteredProducts = computed(() => {
@@ -90,7 +90,7 @@ const filteredProducts = computed(() => {
 const fetchData = async () => {
   isLoading.value = true; 
   try {
-    const response = await axios.get("http://localhost:8080/product/getAll");
+    const response = await axios.get(`http://localhost:8080/product/getAll`);
     const products = response.data;
 
     if (Array.isArray(products)) {
@@ -99,10 +99,10 @@ const fetchData = async () => {
       });
       categories.value = organizeProductsByCategories(products);
     } else {
-      console.error("Неправильный формат данных:", products);
+      console.error('Неправильный формат данных:', products);
     }
   } catch (error) {
-    console.error("Ошибка при получении данных:", error);
+    console.error('Ошибка при получении данных:', error);
   } finally {
     isLoading.value = false; 
   }
@@ -114,8 +114,8 @@ watch(
   () => route.params,
   (newParams) => {
     categoryName.value = newParams.categoryName;
-    subcategoryName.value = newParams.subcategoryName || "";
-    subsubcategoryName.value = newParams.subsubcategoryName || "";
+    subcategoryName.value = newParams.subcategoryName || '';
+    subsubcategoryName.value = newParams.subsubcategoryName || '';
     fetchData();
     closeDrawer();
   },

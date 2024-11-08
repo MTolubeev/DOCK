@@ -2,7 +2,10 @@
   <div>
     <label>{{ label }}</label>
     <div class="select__control">
-      <NSelect v-model:value="selectedValue" :options="options" />
+      <NSelect 
+      v-model:value="selectedValue" 
+      :options="options" 
+      />
       <NButton @click="toggleInput" size="small" style="margin-left: 8px">
         {{ showInput ? "-" : "+" }}
       </NButton>
@@ -17,8 +20,8 @@
 </template>
 
 <script setup>
-import { ref, watch, defineProps, defineEmits } from "vue";
-import { NSelect, NButton, NInput } from "naive-ui";
+import { ref, watch, defineProps, defineEmits } from 'vue';
+import { NSelect, NButton, NInput } from 'naive-ui';
 
 defineProps({
   options: {
@@ -28,10 +31,10 @@ defineProps({
   label: String,
 });
 
-const emit = defineEmits(["data-changed"]);
+const emit = defineEmits(['data-changed']);
 
 const selectedValue = ref(null);
-const inputValue = ref("");
+const inputValue = ref('');
 const showInput = ref(false);
 
 const updateInputValue = (value) => {
@@ -41,21 +44,21 @@ const toggleInput = () => {
   showInput.value = !showInput.value;
   if (showInput.value) {
     selectedValue.value = null;
-    inputValue.value = ""; 
+    inputValue.value = ''; 
   }
 };
 
 watch(selectedValue, (newValue) => {
   if (newValue !== null) {
     showInput.value = false;
-    emit("data-changed", newValue);
-    inputValue.value = "";
+    emit('data-changed', newValue);
+    inputValue.value = '';
   }
 });
 
 watch(inputValue, (newValue) => {
-  if (showInput.value && newValue !== "") {
-    emit("data-changed", newValue);
+  if (showInput.value && newValue !== '') {
+    emit('data-changed', newValue);
   }
 });
 </script>

@@ -94,7 +94,7 @@ const placeOrder = async () => {
   const token = localStorage.getItem('token');
   try {
     isLoading.value = true; 
-    await axios.post('http://localhost:8080/email', {}, {
+    await axios.post(`http://localhost:8080/email`, {}, {
       headers: {
         Authorization: token,
       },
@@ -122,7 +122,7 @@ onMounted(async () => {
       const token = localStorage.getItem("token");
       await cartStore.fetchCart(user.value.id, token);
   } catch (err) {
-    console.error("Failed to load user or cart:", err.message);
+    console.error("Ошибка загрузки корзины пользователя", err);
   }
 });
 </script>

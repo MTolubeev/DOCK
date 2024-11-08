@@ -1,5 +1,6 @@
-import { ref } from "vue";
-import api from "@/services/api.js";
+import { ref } from 'vue';
+import api from '@/services/api.js';
+
 export const useUserStore = () => {
   const user = ref(null);
   const role = ref(null);
@@ -10,9 +11,9 @@ export const useUserStore = () => {
       const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
       const jsonPayload = decodeURIComponent(
         atob(base64)
-          .split("")
-          .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-          .join("")
+          .split('')
+          .map((c) => "%" + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
       );
       const decoded = JSON.parse(jsonPayload);
       user.value = {
@@ -24,13 +25,13 @@ export const useUserStore = () => {
       if (Array.isArray(decoded.roles)) {
         role.value = decoded.roles[0] || null;
       } else {
-        console.error("Roles is not an array");
+        console.error('Roles is not an array');
         role.value = null;
       }
 
       return decoded;
     } catch (error) {
-      console.error("Error decoding token:", error);
+      console.error('Error decoding token:', error);
       user.value = null;
       role.value = null;
       return {};
@@ -49,14 +50,14 @@ export const useUserStore = () => {
 
   const login = async (email, password) => {
     try {
-      const response = await api.post("/user/login", null, {
+      const response = await api.post(`/user/login`, null, {
         params: { email, password },
       });
       const token = response.data.token;
       localStorage.setItem("token", token);
       fetchUser();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

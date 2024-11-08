@@ -12,13 +12,15 @@
         type="email"
         placeholder="Email"
         required
-        autocomplete="email"/>
+        autocomplete="email"
+        />
       <n-input
         v-model:value="loginPassword"
         type="password" 
         placeholder="Пароль"
         required
-        autocomplete="current-password"/>
+        autocomplete="current-password"
+        />
       <div class="buttons">
         <n-button color="#465a86" class="registrantion" @click="login">Войти</n-button>
       </div>
@@ -27,25 +29,25 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { useUserStore } from "@/store/userStore";
-import { useNotificationService } from "@/composables/useNotifications.js";
-import { NButton, NInput, NDialog } from "naive-ui";
+import { ref, onBeforeMount } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { useUserStore } from '@/store/userStore';
+import { useNotificationService } from '@/composables/useNotifications.js';
+import { NButton, NInput, NDialog } from 'naive-ui';
 
 const router = useRouter();
 const route = useRoute();
 const userStore = useUserStore();
 const { showNotificationMessage } = useNotificationService();
 
-const loginEmail = ref("");
-const loginPassword = ref("");
+const loginEmail = ref('');
+const loginPassword = ref('');
 let cameFromRegistration = ref(false);
 
 const login = async () => {
   try {
     await userStore.login(loginEmail.value, loginPassword.value);
-    showNotificationMessage("success", "Успех", "Вы успешно вошли в аккаунт");
+    showNotificationMessage('success', 'Успех', 'Вы успешно вошли в аккаунт');
 
     if (cameFromRegistration.value) {
       router.push("/"); 
@@ -53,7 +55,7 @@ const login = async () => {
       window.history.back(); 
     }
   } catch (error) {
-    showNotificationMessage("error", "Ошибка", "Неправильный логин или пароль");
+    showNotificationMessage('error', 'Ошибка', 'Неправильный логин или пароль');
   }
 };
 
@@ -64,7 +66,7 @@ const closeModal = () => {
 onBeforeMount(() => {
   if (
     route?.redirectedFrom?.fullPath === "/registration" ||
-    route?.query?.from === "registration"
+    route?.query?.from === 'registration'
   ) {
     cameFromRegistration.value = true;
   }

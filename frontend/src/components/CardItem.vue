@@ -4,13 +4,15 @@
     class="card"
     size="huge"
     hoverable
-    @click="navigateToproduct">
+    @click="navigateToproduct"
+  >
     <div class="edit_container">
       <img
         v-if="isAdmin"
         src="@/assets/pencil.svg"
         alt="edit_product"
-        @click.stop="editModel"/>
+        @click.stop="editModel"
+      />
     </div>
     <div class="card-content">
       <div class="image-container">
@@ -25,19 +27,14 @@
         <span v-else>
           Цена: <b>{{ item.price }} руб.</b>
         </span>
-        <span v-if="item.count > 0">Количество товаров осталось: <b>{{ item.count }}</b></span>
+        <span v-if="item.count > 0"
+          >Количество товаров осталось: <b>{{ item.count }}</b></span
+        >
         <span v-else><b>Товара нет на складе</b></span>
       </div>
       <div class="card__button">
-        <BasketButton 
-        :product-id="item.id" 
-        :product="item" 
-        @click.stop 
-        />
-        <n-button
-          v-if="isAdmin"
-          type="error"
-          @click.stop="openConfirmDialog">
+        <BasketButton :product-id="item.id" :product="item" @click.stop />
+        <n-button v-if="isAdmin" type="error" @click.stop="openConfirmDialog">
           Удалить товар из списка
         </n-button>
       </div>
@@ -60,7 +57,8 @@
       negative-text="Отмена"
       :closable="false"
       @positive-click="deleteProduct"
-      @negative-click="closeConfirmDialog">
+      @negative-click="closeConfirmDialog"
+    >
       Вы уверены, что хотите удалить этот продукт?
     </n-dialog>
   </div>
@@ -90,7 +88,7 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  
+
   subsubcategoryOptions: {
     type: Array,
     required: true,
@@ -153,21 +151,17 @@ const handleSave = async (updatedProduct) => {
   newFrom.append("newCategory", updatedProduct.newCategory);
   newFrom.append("newSubCategory", updatedProduct.newSubCategory);
   newFrom.append("newSubSubCategory", updatedProduct.newSubSubCategory);
-  newFrom.append("images", updatedProduct.images)
-   try {
-    for (let pair of newFrom.entries()) {
-   console.log(`${pair[0]}: ${pair[1]}`);
- }
-     const response = await axios.put(`http://localhost:8080/product/change`, newFrom, {
-       headers: {
-         'Content-Type': 'multipart/form-data'
-       }
-     });
-     console.log("Server response:", response.data);
-     window.location.reload();
-   } catch (error) {
-     console.error("Error saving product:", error);
-   }
+  newFrom.append("images", updatedProduct.images);
+  try {
+    await axios.put(`http://localhost:8080/product/change`, newFrom, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    window.location.reload();
+  } catch (error) {
+    console.error("Error saving product:", error);
+  }
   isEdited.value = false;
 };
 
@@ -179,7 +173,6 @@ onMounted(() => {
   userStore.fetchUser();
   checkAuth();
 });
-
 </script>
 
 <style scoped>

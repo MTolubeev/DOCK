@@ -5,7 +5,10 @@
   :show="loader">
     <div v-if="product">
       <AppHeader @toggle-drawer="toggleDrawer" />
-      <AppDrawer :is-visible="isDrawerVisible" @close-drawer="closeDrawer" />
+      <AppDrawer 
+      :is-visible="isDrawerVisible" 
+      @close-drawer="closeDrawer" 
+      />
       <h2 class="breadcrumb">
         <router-link
             class="product__link"
@@ -38,7 +41,8 @@
                 v-if="product.imageUrl"
                 :src="product.imageUrl"
                 class="product__img"
-                alt="Product Image"/>
+                alt="Product Image"
+                />
           </div>
           <div class="card__info">
             <h1 class="product__title">{{ product.title }}</h1>
@@ -68,15 +72,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from "vue";
-import axios from "axios";
-import { useRoute } from "vue-router";
-import { NCard, NSpin } from "naive-ui";
-import AppHeader from "@/components/AppHeader.vue";
-import AppDrawer from "@/components/AppDrawer.vue";
+import { ref, onMounted, computed, watch } from 'vue';
+import axios from 'axios';
+import { useRoute } from 'vue-router';
+import { NCard, NSpin } from 'naive-ui';
+import AppHeader from '@/components/AppHeader.vue';
+import AppDrawer from '@/components/AppDrawer.vue';
 import { useDrawer } from '@/composables/useHeader.js';
-import ProductsComment from "@/components/ProductsComment.vue";
-import BasketButton from "@/components/BasketButton.vue";
+import ProductsComment from '@/components/ProductsComment.vue';
+import BasketButton from '@/components/BasketButton.vue';
 
 
 const { isDrawerVisible, toggleDrawer, closeDrawer } = useDrawer();
@@ -87,15 +91,15 @@ const isAuthenicated = ref(false);
 
 const loader = computed(() => !product.value);
 const productCategory = computed(() => {
-  return product.value?.categories?.[0]?.name || "Unknown";
+  return product.value?.categories?.[0]?.name || 'Unknown';
 });
 
 const productSubcategory = computed(() => {
-  return product.value?.categories?.[0]?.subcategory || "None";
+  return product.value?.categories?.[0]?.subcategory || 'None';
 });
 
 const productSubsubcategory = computed(() => {
-  return product.value?.categories?.[0]?.subsubcategory || "None";
+  return product.value?.categories?.[0]?.subsubcategory || 'None';
 });
 
 const fetchProduct = async (id) => {
@@ -109,7 +113,7 @@ const fetchProduct = async (id) => {
 
     product.value = productData;
   } catch (error) {
-    console.error("продукт не получили:", error);
+    console.error('продукт не получили:', error);
   }
 };
 

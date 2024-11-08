@@ -5,7 +5,8 @@
         <img
           :src="item.imageUrl"
           class="image__delete"
-          alt="png"/>
+          alt="png"
+          />
         <div class="overlay">
           <n-button color="#fff" style="color: #000;" size="large" @click.stop="deleteImage">Удалить</n-button>
         </div>
@@ -24,47 +25,55 @@
       <n-input 
         v-model:value="editProduct.title"
         type="text" 
-        placeholder="Название товара" />
+        placeholder="Название товара" 
+        />
       <label>Описание товара</label>
       <n-input
         v-model:value="editProduct.description"
         type="textarea"
-        placeholder="Введите описание товара"/>
+        placeholder="Введите описание товара"
+        />
       <label>Цена товара</label>
       <n-input
         v-model:value="editProduct.price"
         type="number"
-        placeholder="Введите цену товара"/>
+        placeholder="Введите цену товара"
+        />
       <label>Скидочная цена товара</label>
       <n-input
         v-model:value="editProduct.discountPrice"
         type="number"
-        placeholder="Введите скидку товара"/>
+        placeholder="Введите скидку товара"
+        />
       <label>Количество товаров</label>
       <n-input
         v-model:value="editProduct.count"
         type="numer"
-        placeholder="Введите количество товаров"/>
+        placeholder="Введите количество товаров"
+        />
   
       <label>Категория</label>
       <n-select
         v-model:value="selectedCategory"
         :options="categoryOptions"
         placeholder="Выберите категорию"
-        @update:value="handleCategoryChange"/>
+        @update:value="handleCategoryChange"
+        />
   
       <label>Подкатегория</label>
       <n-select
         v-model:value="selectedSubcategory"
         :options="subcategoryOptions"
         placeholder="Выберите подкатегорию"
-        @update:value="handleSubcategoryChange"/>
+        @update:value="handleSubcategoryChange"
+        />
   
       <label>Поподкатегория</label>
       <n-select
         v-model:value="selectedSubsubcategory"
         :options="subsubcategoryOptions"
-        placeholder="Выберите субсубкатегорию"/>
+        placeholder="Выберите субсубкатегорию"
+        />
   
       <div class="edit__button">
         <n-button color="#465a86" @click.stop="saveChanges">
@@ -78,8 +87,8 @@
   </template>
   
 <script setup>
-import { ref, defineProps, defineEmits } from "vue";
-import { NCard, NButton, NInput, NUpload, NSelect } from "naive-ui";
+import { ref, defineProps, defineEmits } from 'vue';
+import { NCard, NButton, NInput, NUpload, NSelect } from 'naive-ui';
 
 const props = defineProps({
   item: {
@@ -100,7 +109,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["save", "cancel"]);
+const emit = defineEmits(['save', 'cancel']);
 
 const imageDeleted = ref(false);
 const editProduct = ref({ ...props.item });
@@ -122,7 +131,7 @@ const handleChange = (event) => {
 };
   
 const cancelEdit = () => {
-  emit("cancel");
+  emit('cancel');
 };
   
 const saveChanges = () => {
