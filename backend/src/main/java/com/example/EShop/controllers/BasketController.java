@@ -31,6 +31,7 @@ public class BasketController {
             User userFromJwt = userRepository.findByUsername(jwtTokenUtils.getUsername(token));
             List<ProductOrderDto> products = basketService.getUserProductDtos(user);
             if (user.getId() == userFromJwt.getId()) {
+
                 return ResponseEntity.ok(products);
             } else {
                 return ResponseEntity.badRequest().body(" NO access");
@@ -40,13 +41,13 @@ public class BasketController {
         }
     }
 
+
     @PostMapping("/addToBasket")
     public ResponseEntity<?> addToBasket(@RequestParam Long productId,
                                          @RequestHeader(value = "Authorization") String token) {
         try {
             User user = userRepository.findByUsername(jwtTokenUtils.getUsername(token));
             Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
-
             basketService.addProduct(user, product);
             return ResponseEntity.ok("Product added to basket successfully");
         } catch (Exception e) {
@@ -66,6 +67,7 @@ public class BasketController {
             return ResponseEntity.badRequest().body("Error removing product from basket: " + e.getMessage());
         }
     }
+
     @PostMapping("/deleteFull/{productId}")
     public ResponseEntity<?> deleteFullFromBasket(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable Long productId) {
         try {
@@ -79,3 +81,46 @@ public class BasketController {
         }
     }
 }
+
+
+//import com.example.EShop.models.CustomUserDetails;
+//import com.example.EShop.services.BasketService;
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.core.annotation.AuthenticationPrincipal;
+//import org.springframework.web.bind.annotation.*;
+//
+//@RestController
+//@RequestMapping("/basket")
+//@RequiredArgsConstructor
+//public class BasketController {
+//
+//    private final BasketService basketService;
+//
+//    @GetMapping("/myBasket")
+//    @PreAuthorize("isAuthenticated()")
+//    public ResponseEntity<?> getBasket(@AuthenticationPrincipal CustomUserDetails userDetails) {
+//        return ResponseEntity.ok(basketService.getUserProductDtos(userDetails));
+//    }
+//
+//    @PostMapping("/addToBasket")
+//    public ResponseEntity<?> addToBasket(@RequestParam Long productId,
+//                                         @AuthenticationPrincipal CustomUserDetails userDetails) {
+//        basketService.addProduct(userDetails, productId);
+//        return ResponseEntity.ok("Product added to basket successfully");
+//    }
+//
+//    @PostMapping("/delete/{productId}")
+//    public ResponseEntity<?> deleteFromBasket(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long productId) {
+//        basketService.deleteProduct(userDetails, productId);
+//        return ResponseEntity.ok("Product removed from basket successfully");
+//    }
+//
+//    @PostMapping("/deleteFull/{productId}")
+//    public ResponseEntity<?> deleteFullFromBasket(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long productId) {
+//        basketService.deleteFullProduct(userDetails, productId);
+//        return ResponseEntity.ok("Product removed from basket successfully");
+//
+//    }
+//}

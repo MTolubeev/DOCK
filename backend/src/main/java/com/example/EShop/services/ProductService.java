@@ -2,18 +2,20 @@ package com.example.EShop.services;
 
 import com.example.EShop.dtos.CategoryDto;
 import com.example.EShop.dtos.CommentDto;
+import com.example.EShop.dtos.ProductChangeDto;
 import com.example.EShop.dtos.ProductDto;
-import com.example.EShop.models.Comment;
-import com.example.EShop.models.Image;
-import com.example.EShop.models.Product;
+import com.example.EShop.exceptions.CustomException;
+import com.example.EShop.exceptions.CustomRuntimeException;
+import com.example.EShop.models.*;
 import com.example.EShop.repositories.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -27,12 +29,39 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final BasketRepository basketRepository;
     private final ImageRepository imageRepository;
+    private final CommentService commentService;
+    private final UserRepository userRepository;
+    private final UserService userService;
+    private final BasketService basketService;
 
+    public ResponseEntity<?> forMainPage(CustomUserDetails userDetails) {
+        try {
+            List<ProductDto> products = findAllProducts();
+            List<Comment> comments = commentService.findAll();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("products", products);
+            response.put("comments", comments);
+            String token = HttpHeaders.AUTHORIZATION;
+
+            if (userDetails != null) {
+                User user = userRepository.findByUsername(userDetails.getUsername());
+                response.put("user", user);
+                response.put("basketSize", basketService.returnBasketSize(user));
+                response.put("firstLetterName", userService.returnFirstLetter(user));
+                return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + token).body(response);
+            } else {
+                return ResponseEntity.ok(response);
+            }
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching products");
+        }
+    }
 
     public ProductDto findAllProducts(Long id) {
         return productRepository.findById(id)
                 .map(this::convertProductToDto)
-                .orElse(null);  // Вернуть null, если продукт не найден
+                .orElse(null);
     }
 
     public List<ProductDto> findAllProducts() {
@@ -45,12 +74,11 @@ public class ProductService {
     private ProductDto convertProductToDto(Product product) {
         Image image = imageRepository.findById(product.getPreviewImageId()).orElse(null);
         String base64Image = image != null ? Base64.getEncoder().encodeToString(image.getBytes()) : null;
-
+        List<CommentDto> comments = new ArrayList<>(Collections.emptyList());
         List<Comment> commentsRaw = product.getComments();
-        List<CommentDto> comments = commentsRaw.stream()
-                .map(this::convertCommentToDto)
-                .collect(Collectors.toList());
-
+        for (Comment comment : commentsRaw) {
+            comments.add(commentService.convertToDto(comment));
+        }
         List<CategoryDto> categories = new ArrayList<>();
         String[] categoryStrings = product.getCategory().split(",");
         String[] categoryOrders = product.getCategoryOrder().split("/");
@@ -228,24 +256,9 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    private CommentDto convertCommentToDto(Comment comment) {
-        CommentDto dto = new CommentDto();
-
-        dto.setId(comment.getId());
-        dto.setText(comment.getText());
-        dto.setImages(comment.getImages());
-        dto.setScore(comment.getScore());
-        dto.setUserId(comment.getUser().getId());
-        dto.setUsername(comment.getUser().getUsername());
-        dto.setProductId(comment.getProduct().getId());
-        dto.setProductTitle(comment.getProduct().getTitle());
-
-        return dto;
-    }
-
     public void reorderCategories(Long productId, List<CategoryDto> newOrder) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new CustomRuntimeException("Product not found"));
 
         StringBuilder categoryBuilder = new StringBuilder();
         StringBuilder categoryOrderBuilder = new StringBuilder();
@@ -282,29 +295,29 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void changeProduct(Long productId, String newTitle, String newDescription, Integer newCount, Long newPrice, Long newDiscountPrice, String newCategory, String newSubCategory, String newSubSubCategory, MultipartFile images) throws IOException {
-        Product oldProduct = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+    public void changeProduct(ProductChangeDto productChangeDto) throws IOException {
+        Product oldProduct = productRepository.findById(productChangeDto.getProductId())
+                .orElseThrow(() -> new CustomRuntimeException("Product not found"));
 
-        if (newTitle != null) oldProduct.setTitle(newTitle);
-        if (newDescription != null) oldProduct.setDescription(newDescription);
-        if (newCount != null) oldProduct.setCount(newCount);
-        if (newPrice != null) oldProduct.setPrice(newPrice);
-        if (newDiscountPrice != null) oldProduct.setDiscountPrice(newDiscountPrice);
+        if (productChangeDto.getNewTitle() != null) oldProduct.setTitle(productChangeDto.getNewTitle());
+        if (productChangeDto.getNewDescription() != null) oldProduct.setDescription(productChangeDto.getNewDescription());
+        if (productChangeDto.getNewCount() != null) oldProduct.setCount(productChangeDto.getNewCount());
+        if (productChangeDto.getNewPrice() != null) oldProduct.setPrice(productChangeDto.getNewPrice());
+        if (productChangeDto.getNewDiscountPrice() != null) oldProduct.setDiscountPrice(productChangeDto.getNewDiscountPrice());
 
-        if (newCategory != null) {
-            String cat = newCategory;
-            if (newSubCategory != null)
-                cat += "/" + newSubCategory;
+        if (productChangeDto.getNewCategory() != null) {
+            String cat = productChangeDto.getNewCategory();
+            if (productChangeDto.getNewSubCategory() != null)
+                cat += "/" + productChangeDto;
             oldProduct.setCategory(cat);
-            if (newSubSubCategory != null)
-                cat += "/" + newSubSubCategory;
+            if (productChangeDto.getNewSubSubCategory() != null)
+                cat += "/" + productRepository;
             generateCategoryOrderForProduct(oldProduct);
         }
-        if (images != null) {
+        if (productChangeDto.getImages() != null) {
             Image image1;
             oldProduct.getImages().get(0).setPreviewImage(false);
-            image1 = toImageEntity(images);
+            image1 = toImageEntity(productChangeDto.getImages());
             image1.setPreviewImage(true);
             image1 = imageRepository.save(image1);
 

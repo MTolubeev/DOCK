@@ -3,7 +3,6 @@ package com.example.EShop.models;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
