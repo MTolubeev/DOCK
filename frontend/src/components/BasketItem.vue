@@ -61,7 +61,7 @@ const decrementCount = async () => {
 const removeItem = async () => {
   if (user.value && token) {
     await cartStore.removeFromCartAll(props.item.id, token);
-    await cartStore.fetchCart(user.value.id, token);
+    await cartStore.fetchCart(token);
   }
 };
 
@@ -76,7 +76,7 @@ onMounted(async () => {
   if (!user.value) {
     await userStore.fetchUser();
   }
-  await cartStore.fetchCart(user.value.id, token);
+  await cartStore.fetchCart(token);
 });
 </script>
 

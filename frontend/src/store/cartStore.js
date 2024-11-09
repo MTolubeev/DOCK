@@ -5,9 +5,9 @@ import { ref } from 'vue';
 export const useCartStore = defineStore('cart', () => {
   const cartItems = ref([]);
 
-  const fetchCart = async (userId, token) => {
+  const fetchCart = async (token) => {
     try {
-      const response = await axios.get(`http://localhost:8080/basket/${userId}`,
+      const response = await axios.get(`http://localhost:8080/basket/myBasket`,
         {
           headers: {
             Authorization: token,

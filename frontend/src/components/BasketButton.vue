@@ -49,7 +49,7 @@ const updateInCartStatus = async () => {
     await userStore.fetchUser();
     const userId = user.value?.id;
     if (userId) {
-      const cart = await cartStore.fetchCart(userId, token);
+      const cart = await cartStore.fetchCart(token);
       inCart.value = cart.some((item) => item.id === props.productId);
     } else {
       console.error('User ID is missing.');

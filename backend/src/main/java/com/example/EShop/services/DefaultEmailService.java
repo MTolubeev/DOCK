@@ -35,7 +35,7 @@ public class DefaultEmailService {
 
     public void sendEmail(CustomUserDetails userDetails) {
         User user = userRepository.findByUsername(userDetails.getUsername());
-        List<ProductOrderDto> usersProducts = basketService.getUserProductDtos(userRepository.findByUsername(userDetails.getUsername()));
+        List<ProductOrderDto> usersProducts = basketService.getUserProductDtos(userDetails);
 
         int totalPrice = 0;
         StringBuilder emailContent = new StringBuilder("Ваш заказ на E-shop:\n\n");

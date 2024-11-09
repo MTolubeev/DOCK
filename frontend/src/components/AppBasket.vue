@@ -78,7 +78,7 @@ const isLoading = ref(false);
 const cartItems = computed(() => cartStore.cartItems);
 const totalItems = computed(() => cartStore.cartItems.reduce((total, item) => total + item.count, 0));
 const totalPrice = computed(() => cartStore.cartItems.reduce((total, item) => total + item.price * item.count, 0));
-const user = computed(() => userStore.user.value);
+// const user = computed(() => userStore.user.value);
 
 const updateCartItem = (updatedItem) => {
   if (updatedItem === null) {
@@ -120,7 +120,7 @@ onMounted(async () => {
   try {
     await userStore.fetchUser();
       const token = localStorage.getItem("token");
-      await cartStore.fetchCart(user.value.id, token);
+      await cartStore.fetchCart(token);
   } catch (err) {
     console.error("Ошибка загрузки корзины пользователя", err);
   }

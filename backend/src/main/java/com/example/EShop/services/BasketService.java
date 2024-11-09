@@ -24,21 +24,15 @@ public class BasketService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
-//    public List<ProductOrderDto> getUserProductDtos(CustomUserDetails userDetails) {
-//        User user = userRepository.findByUsername(userDetails.getUsername());
-//        Basket basket = basketRepository.findByUser(user);
-//        if (basket != null && basket.getProducts() != null) {
-//            return convertToProductOrderDtos(basket.getProducts());
-//        }
-//        return new ArrayList<>();
-//    }
-public List<ProductOrderDto> getUserProductDtos(User user) {
-    Basket basket = basketRepository.findByUser(user);
-    if (basket != null && basket.getProducts() != null) {
-        return convertToProductOrderDtos(basket.getProducts());
+    public List<ProductOrderDto> getUserProductDtos(CustomUserDetails userDetails) {
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        Basket basket = basketRepository.findByUser(user);
+        if (basket != null && basket.getProducts() != null) {
+            return convertToProductOrderDtos(basket.getProducts());
+        }
+        return new ArrayList<>();
     }
-    return new ArrayList<>();
-}
+
 
     private List<ProductOrderDto> convertToProductOrderDtos(List<Product> products) {
         Map<Long, ProductOrderDto> productOrderDtoMap = new HashMap<>();
@@ -57,80 +51,34 @@ public List<ProductOrderDto> getUserProductDtos(User user) {
         return new ArrayList<>(productOrderDtoMap.values());
     }
 
-//    @Transactional
-//    public void addProduct(CustomUserDetails userDetails, Long productId) {
-//        User user = userRepository.findByUsername(userDetails.getUsername());
-//        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
-//        Basket basket = basketRepository.findByUser(user);
-//        if (product.getCount() > 0) {
-//
-//            if (basket == null) {
-//                basket = new Basket();
-//                basket.setUser(user);
-//            }
-//
-//            List<Product> products = basket.getProducts();
-//            if (products == null) {
-//                products = new ArrayList<>();
-//                basket.setProducts(products);
-//            }
-//
-//            products.add(product);
-//            product.setCount(product.getCount() - 1);
-//            basketRepository.save(basket);
-//        }
-//    }
+    @Transactional
+    public void addProduct(CustomUserDetails userDetails, Long productId) {
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+        Basket basket = basketRepository.findByUser(user);
+        if (product.getCount() > 0) {
 
-//    @Transactional
-//    public void deleteProduct(CustomUserDetails userDetails, Long productId) {
-//        User user = userRepository.findByUsername(userDetails.getUsername());
-//        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
-//        Basket basket = basketRepository.findByUser(user);
-//        List<Product> products = basket.getProducts();
-//        products.remove(product);
-//        product.setCount(product.getCount() + 1);
-//        basketRepository.save(basket);
-//
-//    }
+            if (basket == null) {
+                basket = new Basket();
+                basket.setUser(user);
+            }
 
-//    @Transactional
-//    public void deleteFullProduct(CustomUserDetails userDetails, Long productId) {
-//        User user = userRepository.findByUsername(userDetails.getUsername());
-//        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
-//        Basket basket = basketRepository.findByUser(user);
-//        List<Product> products = basket.getProducts();
-//        while (products.contains(product)) {
-//            products.remove(product);
-//
-//            product.setCount(product.getCount() + 1);
-//        }
-//        basketRepository.save(basket);
-//
-//    }
-@Transactional
-public void addProduct(User user, Product product) {
-    Basket basket = basketRepository.findByUser(user);
-    if(product.getCount() > 0) {
-        if (basket == null) {
-            basket = new Basket();
-            basket.setUser(user);
+            List<Product> products = basket.getProducts();
+            if (products == null) {
+                products = new ArrayList<>();
+                basket.setProducts(products);
+            }
+
+            products.add(product);
+            product.setCount(product.getCount() - 1);
+            basketRepository.save(basket);
         }
-
-        List<Product> products = basket.getProducts();
-        if (products == null) {
-            products = new ArrayList<>();
-            basket.setProducts(products);
-        }
-
-        products.add(product);
-        // меняем колличество товара на - 1
-        product.setCount(product.getCount() - 1);
-        basketRepository.save(basket);
     }
-}
 
     @Transactional
-    public void deleteProduct(User user, Product product) {
+    public void deleteProduct(CustomUserDetails userDetails, Long productId) {
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
         Basket basket = basketRepository.findByUser(user);
         List<Product> products = basket.getProducts();
         products.remove(product);
@@ -140,7 +88,9 @@ public void addProduct(User user, Product product) {
     }
 
     @Transactional
-    public void deleteFullProduct(User user, Product product) {
+    public void deleteFullProduct(CustomUserDetails userDetails, Long productId) {
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
         Basket basket = basketRepository.findByUser(user);
         List<Product> products = basket.getProducts();
         while (products.contains(product)) {
@@ -151,6 +101,9 @@ public void addProduct(User user, Product product) {
         basketRepository.save(basket);
 
     }
+
+
+
 
     @Transactional
     public int returnBasketSize(User user) {

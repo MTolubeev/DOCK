@@ -50,9 +50,7 @@ export const useUserStore = () => {
 
   const login = async (email, password) => {
     try {
-      const response = await api.post(`/user/login`, null, {
-        params: { email, password },
-      });
+      const response = await api.post(`/user/login`,  {email,password});
       const token = response.data.token;
       localStorage.setItem("token", token);
       fetchUser();

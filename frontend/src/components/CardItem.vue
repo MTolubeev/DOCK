@@ -152,6 +152,10 @@ const handleSave = async (updatedProduct) => {
   newFrom.append("newSubCategory", updatedProduct.newSubCategory);
   newFrom.append("newSubSubCategory", updatedProduct.newSubSubCategory);
   newFrom.append("images", updatedProduct.images);
+
+  for (let [key, value] of newFrom.entries()) {
+    console.log(key, value);
+  }
   try {
     await axios.put(`http://localhost:8080/product/change`, newFrom, {
       headers: {
