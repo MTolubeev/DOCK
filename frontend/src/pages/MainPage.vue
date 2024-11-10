@@ -2,27 +2,32 @@
   <n-spin
     content-style="--n-opacity-spinning:0; height: 100vh;"
     stroke="#465a86"
-    :show="loading">
+    :show="loading"
+  >
     <AppHeader @toggle-drawer="toggleDrawer" />
-    <AppDrawer 
-      :is-visible="isDrawerVisible" 
-      @close-drawer="closeDrawer" 
-    />
+    <AppDrawer :is-visible="isDrawerVisible" @close-drawer="closeDrawer" />
     <n-button
       v-if="isAdmin"
       class="button__add"
       color="#465a86"
-      @click="openModal">
+      @click="openModal"
+    >
       Добавить новый товар
     </n-button>
     <AddProduct v-if="showModal" @close="closeModal" />
-    <CardList @products-loaded="onProductsLoaded" />
+    <n-input
+      content-style=""
+      v-model:value="searhQuery"
+      placeholder="Поиск товаров"
+    />
+    <CardList :searh-query="searhQuery" @products-loaded="onProductsLoaded" />
     <div class="all_comments">
       <h2>Отзывы наших пользователей</h2>
       <n-card
         v-for="comment in limitedComments"
         :key="comment.id"
-        content-style="display:flex; justify-content:space-around;">
+        content-style="display:flex; justify-content:space-around;"
+      >
         <div>
           <h3>{{ comment.username }}</h3>
           <span>Оценка за товар: {{ comment.score }}</span>
@@ -32,8 +37,10 @@
           <router-link
             :to="{
               name: 'ProductItem',
-              params: { productId: comment.productId },}"
-            class="name_product">
+              params: { productId: comment.productId },
+            }"
+            class="name_product"
+          >
             {{ comment.productTitle }}
           </router-link>
         </div>
@@ -43,15 +50,15 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import { NButton, NCard, NSpin } from 'naive-ui';
-import axios from 'axios';
-import AppHeader from '@/components/AppHeader.vue';
-import AppDrawer from '@/components/AppDrawer.vue';
-import AddProduct from '@/components/AddProduct.vue';
-import CardList from '@/components/CardList.vue';
-import { useUserStore } from '@/store/userStore';
-import { useDrawer } from '@/composables/useHeader.js';
+import { computed, onMounted, ref } from "vue";
+import { NButton, NCard, NSpin, NInput } from "naive-ui";
+import axios from "axios";
+import AppHeader from "@/components/AppHeader.vue";
+import AppDrawer from "@/components/AppDrawer.vue";
+import AddProduct from "@/components/AddProduct.vue";
+import CardList from "@/components/CardList.vue";
+import { useUserStore } from "@/store/userStore";
+import { useDrawer } from "@/composables/useHeader.js";
 
 const userStore = useUserStore();
 const { isDrawerVisible, toggleDrawer, closeDrawer } = useDrawer();
@@ -60,6 +67,7 @@ const productsLoaded = ref(false);
 const commentsLoaded = ref(false);
 const showModal = ref(false);
 const comments = ref([]);
+const searhQuery = ref("");
 
 const loading = computed(() => !productsLoaded.value || !commentsLoaded.value);
 const role = computed(() => userStore.role.value);
@@ -70,23 +78,26 @@ const limitedComments = computed(() => {
 
 const openModal = () => {
   showModal.value = true;
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = "hidden";
 };
 
 const closeModal = () => {
   showModal.value = false;
-  document.body.style.overflow = '';
+  document.body.style.overflow = "";
 };
 
 const getAllComments = async () => {
   try {
-    const response = await axios.get(`http://localhost:8080/comments/getAllComments`);
+    const response = await axios.get(
+      `http://localhost:8080/comments/getAllComments`
+    );
     comments.value = response.data;
     commentsLoaded.value = true;
   } catch (error) {
     console.error(error);
   }
 };
+
 const onProductsLoaded = () => {
   productsLoaded.value = true;
   if (commentsLoaded.value) {
@@ -145,5 +156,11 @@ h2 {
 
 .name_product:hover::after {
   width: 100%;
+}
+.n-input {
+  width: 300px;
+  position: relative;
+  top: 60px;
+  left: 60%;
 }
 </style>

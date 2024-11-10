@@ -2,7 +2,7 @@
   <h2>Все товары</h2>
   <div class="cards">
     <CardItem
-      v-for="item in items"
+      v-for="item in filteredItems"
       :key="item.id"
       :item="item"
       :category-options="categoryOptions"
@@ -14,12 +14,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineEmits } from 'vue';
+import { ref, onMounted, defineEmits, computed, defineProps } from 'vue';
 import axios from 'axios';
 import CardItem from './CardItem.vue';
 
 const emit = defineEmits(['products-loaded']);
-
+const props = defineProps({
+  searhQuery: String
+})
 const items = ref([]);
 const categoryOptions = ref([]);
 const subcategoryOptions = ref([]);
@@ -40,7 +42,21 @@ const fetchItems = async () => {
     console.error(err);
   }
 };
+const filteredItems = computed(() => {
+  console.log('Текущий запрос поиска:', props.searhQuery);
+  console.log('Исходные элементы:', items.value);
+  
+  if (!props.searhQuery) {
+    return items.value;
+  }
 
+  const result = items.value.filter(item => 
+    item.title.toLowerCase().includes(props.searhQuery.toLowerCase())
+  );
+
+  console.log('Отфильтрованные элементы:', result);
+  return result;
+});
 const fetchCategories = async () => {
   try {
     const response = await axios.get(`http://localhost:8080/product/getAll`);
