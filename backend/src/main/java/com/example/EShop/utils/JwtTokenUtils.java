@@ -45,7 +45,6 @@ public class JwtTokenUtils {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(customUserDetails.getUsername())
-
                 .setIssuedAt(issuedDate)
                 .setExpiration(expiredDate)
                 .signWith(SignatureAlgorithm.HS256, secret)
@@ -66,4 +65,5 @@ public class JwtTokenUtils {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
 }
