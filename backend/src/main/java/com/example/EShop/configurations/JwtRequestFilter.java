@@ -40,7 +40,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader(AUTHORIZATION);
         String username = null;
         String jwt;
-        if (authHeader != null) {
+        if (authHeader != null ) {
             jwt = authHeader;
             try {
                 username = jwtTokenUtils.getUsername(jwt);
@@ -57,8 +57,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     null,
                     customUserDetails.getAuthorities()
             );
-            token
-                    .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(token);
         }
         filterChain.doFilter(request, response);

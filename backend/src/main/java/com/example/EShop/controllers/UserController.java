@@ -34,27 +34,20 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> auth(@RequestBody SafeLoginDto safeLoginDto) {
         try {
-           String token = authService.createAuthToken(safeLoginDto.getEmail(), safeLoginDto.getPassword());
-           User user = userRepository.findByEmail(safeLoginDto.getEmail());
-           return ResponseEntity.ok(new AuthDto(user, token));
-       } catch (BadCredentialsException e) {
-           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неправильный логин или пароль");
-      }
+            String token = authService.createAuthToken(safeLoginDto.getEmail(), safeLoginDto.getPassword());
+            User user = userRepository.findByEmail(safeLoginDto.getEmail());
+            return ResponseEntity.ok(new AuthDto(user, token));
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неправильный логин или пароль");
+        }
     }
+
     @PostMapping("/registration")
     public ResponseEntity<?> createNewUser(@RequestParam(name = "username") String username,
                                            @RequestParam(name = "surname") String surname,
                                            @RequestParam(name = "email") String email,
                                            @RequestParam(name = "password") String password) {
         User user = userService.createNewUser(username, surname, email, password);
-        try {
-            String token = authService.createAuthToken(user.getEmail(), user.getPassword());
-            User user2 = userRepository.findByEmail(email);
-            return ResponseEntity.ok(new AuthDto(user2, token));
-             //return ResponseEntity.ok(new UserDto(user.getId(), user.getUsername(), user.getEmail()));
-        } catch (NullPointerException e) {
-            throw new NullPointerException();
-        }
-
+        return ResponseEntity.ok(userService.registration(email,password, user));
     }
 }
