@@ -6,6 +6,7 @@
   >
     <AppHeader @toggle-drawer="toggleDrawer" />
     <AppDrawer :is-visible="isDrawerVisible" @close-drawer="closeDrawer" />
+    <div class="main__page">
     <n-button
       v-if="isAdmin"
       class="button__add"
@@ -15,8 +16,7 @@
       Добавить новый товар
     </n-button>
     <AddProduct v-if="showModal" @close="closeModal" />
-    <n-input
-      content-style=""
+    <n-input status="error"
       v-model:value="searhQuery"
       placeholder="Поиск товаров"
     />
@@ -46,6 +46,7 @@
         </div>
       </n-card>
     </div>
+  </div>
   </n-spin>
 </template>
 
@@ -112,9 +113,12 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.main__page{
+  margin-top: 4%;
+}
 .button__add {
   position: relative;
-  left: 10%;
+  left: 15%;
   top: 60px;
 }
 .all_comments {
@@ -163,4 +167,5 @@ h2 {
   top: 60px;
   left: 60%;
 }
+
 </style>
