@@ -43,8 +43,10 @@ import { ref } from 'vue';
 import api from '../services/api';
 import { NButton, NDialog, NInput } from 'naive-ui';
 import router from '@/router';
-import { useNotificationService } from '@/composables/useNotifications.js'; 
+import { useNotificationService } from '@/composables/useNotifications.js';
+import { useUserStore } from "@/store/userStore";
 
+const userStore = useUserStore();
 const { showNotificationMessage } = useNotificationService(); 
 const username = ref('');
 const surname = ref('');
@@ -53,15 +55,18 @@ const password = ref('');
 
 const register = async () => {
   try {
-   await api.post('/user/registration', null, {
+    await api.post('/user/registration', null, {
       params: {
         username: username.value,
         surname: surname.value,
         email: email.value,
         password: password.value,
       },
-    });
-    showNotificationMessage('success', 'Успех', 'Вы успешно зарегестрировались. Перейдите на страницу входа'); 
+   });
+    await userStore.login(email.value, password.value);
+    console.log(email.value, password.value)
+    router.push('/');
+    showNotificationMessage('success', 'Успех', 'Вы успешно зарегестрировались.'); 
   } catch (error) {
     showNotificationMessage('error', 'Ошибка', 'Регистрация не прошла'); 
   }
