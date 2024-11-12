@@ -12,6 +12,7 @@ import com.example.EShop.services.CommentService;
 import com.example.EShop.services.ProductService;
 import com.example.EShop.services.UserService;
 import com.example.EShop.utils.JwtTokenUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -83,9 +84,12 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/product/change")
-    public ResponseEntity<?> changeProduct(@RequestBody ProductChangeDto productChangeDto) throws IOException {
-        productService.changeProduct(productChangeDto);
+    @PutMapping(value = "/product/change", consumes = "multipart/form-data")
+    public ResponseEntity<?> changeProduct(@RequestPart("productData") String productData,
+                                           @RequestPart(value = "images", required = false) MultipartFile images) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductChangeDto productChangeDto = objectMapper.readValue(productData, ProductChangeDto.class);
+        productService.changeProduct(productChangeDto, images);
         return ResponseEntity.ok("Product was changed successfully");
     }
 }

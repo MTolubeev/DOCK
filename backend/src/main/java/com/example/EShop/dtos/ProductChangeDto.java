@@ -19,5 +19,4 @@ public class ProductChangeDto {
     private String newCategory;
     private String newSubCategory;
     private String newSubSubCategory;
-    private MultipartFile images;
 }
