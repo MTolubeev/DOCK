@@ -104,9 +104,10 @@ import { defineProps, ref, computed, onMounted } from 'vue';
 import { NCard, NButton, NSelect, NDialog } from 'naive-ui';
 import WriteReviewModal from './WriteReviewModal.vue';
 import { useUserStore } from '@/store/userStore';
-import axios from 'axios';
+// import axios from 'axios';
 import ImageGallery from './ImageGallery.vue';
 import { useNotificationService } from '@/composables/useNotifications';
+import api from '@/services/api.js';
 
 const props = defineProps({
   comments: {
@@ -196,11 +197,11 @@ const confirmDeleteComment = async () => {
 
   try {
     const url = isAdmin.value
-      ? `http://localhost:8080/comments/${commentIdToDelete.value}`
-      : `http://localhost:8080/comments/usersComment/${commentIdToDelete.value}`;
+      ? `/comments/${commentIdToDelete.value}`
+      : `/comments/usersComment/${commentIdToDelete.value}`;
 
     const token = localStorage.getItem("token");
-    const response = await axios.delete(url, {
+    const response = await api.delete(url, {
       headers: {
         Authorization: token,
       },
@@ -226,7 +227,7 @@ const handleDeleteImage = async ({ commentId, imageId }) => {
   try {
     const token = localStorage.getItem("token");
 
-    const response = await axios.delete(`http://localhost:8080/comments/deleteImage/${commentId}`,
+    const response = await api.delete(`/comments/deleteImage/${commentId}`,
       {
         headers: {
           Authorization: token,
@@ -265,51 +266,76 @@ const deleteImageNotification = localStorage.getItem('showDeleteImageSuccessNoti
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .comments__wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .comments__items {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+
+    .profile {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .n-card {
+      width: 300px;
+      border-radius: 20px;
+
+      .admin-icon {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 25px;
+        height: 25px;
+      }
+    }
+
+    .comment-image {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  }
+
+  .images-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .images-wrapper {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+  }
 }
-.comments__items {
-  margin-top: 30px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-}
-.profile {
-  display: flex;
-  gap: 10px;
-}
+
 .title__comments {
   display: flex;
   margin-top: 20px;
   align-items: center;
   flex-direction: column;
   justify-content: center;
+
+  h2, h3 {
+    margin: 0;
+    cursor: pointer;
+  }
 }
-h2,
-h3 {
-  margin: 0;
-  cursor: pointer;
-}
+
 .controls {
   display: flex;
   align-items: center;
   gap: 15px;
-}
-
-.n-card {
-  width: 300px;
-  border-radius: 20px;
-}
-.admin-icon {
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 25px;
-  height: 25px;
 }
 
 .modal-overlay {
@@ -323,31 +349,12 @@ h3 {
   align-items: center;
   justify-content: center;
   z-index: 1000;
-}
 
-.modal-actions {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-.comment-image {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-  border-radius: 10px;
-  cursor: pointer;
-}
-.images-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.images-wrapper {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  .modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
 }
 </style>

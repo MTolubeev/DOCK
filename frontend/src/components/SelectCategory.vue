@@ -62,7 +62,8 @@ watch(inputValue, (newValue) => {
   }
 });
 </script>
-<style scoped>
+
+<style lang="scss" scoped>
 .select__control{
   display: flex;
   align-items: center;

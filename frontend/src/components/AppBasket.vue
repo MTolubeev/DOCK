@@ -11,12 +11,12 @@
             @updateItem="updateCartItem"
           />
         </div>
-        <div class="info__controll">
+        <div class="cart__controll">
           <span>Всего товаров: {{ totalItems }}</span>
           <span>Общая сумма: {{ totalPrice }} ₽</span>
           <n-button 
             color="#465a86" 
-            class="button__confirm" 
+            class="cart__confirm" 
             @click="openConfirmation">
             Оформить заказ
           </n-button>
@@ -65,7 +65,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useCartStore } from '@/store/cartStore';
 import { useUserStore } from '@/store/userStore';
 import BasketItem from './BasketItem.vue';
-import axios from 'axios';
+import api from '@/services/api.js';
 import { NButton, NDialog, NSpin } from 'naive-ui';
 
 const cartStore = useCartStore();
@@ -93,7 +93,7 @@ const placeOrder = async () => {
   const token = localStorage.getItem('token');
   try {
     isLoading.value = true; 
-    await axios.post(`http://localhost:8080/email`, {}, {
+    await api.post(`/email`, {}, {
       headers: {
         Authorization: token,
       },
@@ -126,110 +126,110 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
 .cart {
   margin-top: 100px;
-}
-.cart__main{
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.button__confirm {
-  margin-top: auto;
-}
 
-.cart__info {
-  display: flex;
-  justify-content: center;
-  gap: 200px;
+  &__main{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__confirm{
+    margin-top: auto;
+  }
+
+  &__controll {
+    background-color: #fff;
+    width: 600px;
+    height: 400px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    & span {
+      font-size: 30px;
+    }
+  }
+
+  &__info {
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+  }
+
+  &__empty {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .order-confirmed {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+
+    & img {
+      width: 150px;
+    }
+  }
+  .confirm-dialog {
+    z-index: 100;
+  }
+
+  .modal-content {
+    text-align: center;
+  }
+
+  .modal-actions {
+    margin-top: 20px;
+  }
+
+  p {
+    text-align: center;
+    width: 350px;
+    font-size: 16px;
+  }
+
+  h2 {
+    text-align: center;
+    color: #465a86;
+    font-size: 28px;
+  }
+
+  .dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+  }
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
 }
-
-.info__controll {
-  background-color: #fff;
-  width: 600px;
-  height: 400px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.info__controll span {
-  font-size: 30px;
-}
-
-.cart__empty {
-  display: flex;
-  height: 100vh;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
-}
-
-p {
-  text-align: center;
-  width: 350px;
-  font-size: 16px;
-}
-
-
-h2 {
-  text-align: center;
-  color: #465a86;
-  font-size: 28px;
-}
-
 .n-card {
   width: 600px;
-}
-.order-confirmed {
-  display: flex;
-  height: 100vh;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
-}
-.order-confirmed img {
-  width: 150px;
-}
-.modal-content {
-  text-align: center;
-}
-
-.modal-actions {
-  margin-top: 20px;
-}
-
-.dialog-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 99;
-}
-
-.confirm-dialog {
-  z-index: 100;
-}
-
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
 }
 </style>

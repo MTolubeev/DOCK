@@ -169,7 +169,7 @@ const handleSubcategoryChange = (value) => {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .card {
   width: 800px;
   padding: 50px 20px;
@@ -183,23 +183,32 @@ const handleSubcategoryChange = (value) => {
   position: relative;
   cursor: pointer;
 }
-.edit__button{
+
+.edit__button {
   margin-top: 20px;
   display: flex;
   gap: 20px;
 }
+
 .image__delete {
   width: 150px;
   transition: opacity 0.3s ease;
 }
+
 .image-container {
   position: relative;
   display: inline-block;
+
+  &:hover .image__delete {
+    opacity: 0.5;
+  }
+
+  &:hover .overlay {
+    opacity: 1;
+  }
 }
-.image-container:hover .image__delete {
-  opacity: 0.5;
-}
-.btn__delete{
+
+.btn__delete {
   color: #fff;
 }
 
@@ -215,9 +224,5 @@ const handleSubcategoryChange = (value) => {
   align-items: center;
   opacity: 0;
   transition: opacity 0.3s ease;
-}
-
-.image-container:hover .overlay {
-  opacity: 1;
 }
 </style>

@@ -71,7 +71,7 @@ onBeforeMount(() => {
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .modal__overlay {
   position: fixed;
   width: 100%;

@@ -96,15 +96,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from "vue";
-import axios from "axios";
-import { useRoute } from "vue-router";
-import { NCard, NSpin } from "naive-ui";
-import AppHeader from "@/components/AppHeader.vue";
-import AppDrawer from "@/components/AppDrawer.vue";
-import { useDrawer } from "@/composables/useHeader.js";
-import ProductsComment from "@/components/ProductsComment.vue";
-import BasketButton from "@/components/BasketButton.vue";
+import { ref, onMounted, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { NCard, NSpin } from 'naive-ui';
+import AppHeader from '@/components/AppHeader.vue';
+import AppDrawer from '@/components/AppDrawer.vue';
+import { useDrawer } from '@/composables/useHeader.js';
+import ProductsComment from '@/components/ProductsComment.vue';
+import BasketButton from '@/components/BasketButton.vue';
+import api from '@/services/api.js';
 
 const { isDrawerVisible, toggleDrawer, closeDrawer } = useDrawer();
 const route = useRoute();
@@ -127,9 +127,7 @@ const productSubsubcategory = computed(() => {
 
 const fetchProduct = async (id) => {
   try {
-    const response = await axios.get(
-      `http://localhost:8080/product/getAll/${id}`
-    );
+    const response = await api.get(`/product/getAll/${id}`);
     const productData = response.data;
 
     if (productData.base64Image) {
@@ -166,7 +164,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="scss" >
+<style lang="scss" scoped>
 .product{
   margin-top: 5%;
     h2 {

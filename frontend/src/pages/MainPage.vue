@@ -59,13 +59,13 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { NButton, NCard, NSpin, NInput } from 'naive-ui';
-import axios from 'axios';
 import AppHeader from '@/components/AppHeader.vue';
 import AppDrawer from '@/components/AppDrawer.vue';
 import AddProduct from '@/components/AddProduct.vue';
 import CardList from '@/components/CardList.vue';
 import { useUserStore } from '@/store/userStore';
 import { useDrawer } from '@/composables/useHeader.js';
+import api from '@/services/api.js';
 
 const userStore = useUserStore();
 const { isDrawerVisible, toggleDrawer, closeDrawer } = useDrawer();
@@ -95,9 +95,7 @@ const closeModal = () => {
 
 const getAllComments = async () => {
   try {
-    const response = await axios.get(
-      `http://localhost:8080/comments/getAllComments`
-    );
+    const response = await api.get(`/comments/getAllComments`);
     comments.value = response.data;
     commentsLoaded.value = true;
   } catch (error) {
@@ -118,7 +116,7 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped lang="scss" >
+<style lang="scss" scoped>
 .main__page{
   margin-top: 4%;
   

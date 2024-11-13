@@ -98,7 +98,7 @@ const prevImage = () => {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .image__gallery {
   position: fixed;
   top: 0;
@@ -110,50 +110,54 @@ const prevImage = () => {
   align-items: center;
   justify-content: center;
   z-index: 100;
-}
 
-.gallery__content {
-  text-align: center;
-  display: flex;
-  width: 400px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
+  .gallery__content {
+    text-align: center;
+    display: flex;
+    width: 400px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 
-.gallery__image {
-  max-width: 90%;
-  max-height: 90%;
-}
+    .gallery__image {
+      max-width: 90%;
+      max-height: 90%;
+    }
 
-.prev__button, .next__button {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 101;
-  font-size: 36px;
-  color: #fff;
-}
+    .close__button,
+    .delete__button {
+      position: fixed;
+      top: 10px;
+      color: #fff;
 
-.prev__button {
-  left: 20px;
-}
+      &.close__button {
+        right: 20px;
+        font-size: 30px;
+      }
 
-.next__button {
-  right: 20px;
-}
-.close__button, .delete__button {
-  position: fixed;
-  top: 10px;
-  color: #fff;
-}
+      &.delete__button {
+        left: 20px;
+      }
+    }
+  }
 
-.close__button {
-  right: 20px;
-  font-size: 30px;
-}
-.delete__button {
-  left: 20px;
+  .prev__button,
+  .next__button {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 101;
+    font-size: 36px;
+    color: #fff;
+
+    &.prev__button {
+      left: 20px;
+    }
+
+    &.next__button {
+      right: 20px;
+    }
+  }
 }
 </style>

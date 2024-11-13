@@ -205,12 +205,18 @@ watch(() => props.categories, (newCategories) => {
 });
 </script>
 
-<style scoped>
-a:focus {
-  outline: none;
-}
-a:hover {
-  color: rgb(177, 177, 177);
+<style scoped lang="scss">
+a {
+  text-decoration: none;
+  color: white;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    color: rgb(177, 177, 177);
+  }
 }
 
 li {
@@ -231,30 +237,26 @@ ul {
 .category-content {
   display: flex;
   align-items: center;
+
+  .edit-icon {
+    display: none;
+    cursor: pointer;
+    margin-left: 8px;
+
+    img {
+      width: 16px;
+      height: 16px;
+      stroke: #ccc;
+    }
+  }
+
+  &:hover .edit-icon {
+    display: inline-block;
+  }
 }
 
-.edit-icon {
-  display: none;
-  cursor: pointer;
-  margin-left: 8px;
-}
-
-.category-content:hover .edit-icon {
-  display: inline-block;
-}
-
-.edit-icon img {
-  width: 16px;
-  height: 16px;
-  stroke: #ccc;
-}
 .action-button {
   margin-left: 4px;
   padding: 0;
-}
-
-a {
-  text-decoration: none;
-  color: white;
 }
 </style>
