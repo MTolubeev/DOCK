@@ -1,7 +1,7 @@
 <template>
-  <n-dialog class="modal-overlay">
-    <div class="modal-content">
-      <n-button color="#465a86" class="close-button" @click="closeModal">✖</n-button>
+  <n-dialog class="modal__overlay">
+    <div class="modal__overlay__content">
+      <n-button color="#465a86" class="modal__overlay__close" @click="closeModal">✖</n-button>
       <h2>Вход в личный аккаунт</h2>
       <p>Нет аккаунта? создайте!</p>
       <router-link to="/registration">
@@ -21,9 +21,7 @@
         required
         autocomplete="current-password"
         />
-      <div class="buttons">
-        <n-button color="#465a86" class="registrantion" @click="login">Войти</n-button>
-      </div>
+        <n-button color="#465a86" class="modal__overlay__registrantion" @click="login">Войти</n-button>
     </div>
   </n-dialog>
 </template>
@@ -73,8 +71,8 @@ onBeforeMount(() => {
 });
 </script>
 
-<style scoped>
-.modal-overlay {
+<style scoped lang="scss">
+.modal__overlay {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -82,19 +80,45 @@ onBeforeMount(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-.modal-content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  width: 500px;
-  gap: 10px;
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 500px;
+    gap: 10px;
+
+    & h2 {
+        margin-top: 0;
+      }
+  }
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  &__close {
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+  }
+  &__registrantion {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
 }
 .n-dialog :deep(.n-dialog__title) {
   display: none;
@@ -102,35 +126,5 @@ onBeforeMount(() => {
 .n-dialog :deep(.n-dialog__close) {
   display: none;
 }
-.modal-content h2 {
-  margin-top: 0;
-}
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-}
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-.registrantion {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-}
-.close-button {
-  font-size: 24px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 20px;
-}
+
 </style>

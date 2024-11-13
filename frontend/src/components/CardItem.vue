@@ -142,7 +142,6 @@ const navigateToproduct = () => {
 const handleSave = async (updatedProduct) => {
   const formData = new FormData();
 
-  // Добавляем DTO как JSON-строку
   formData.append("productData", JSON.stringify({
     productId: updatedProduct.id,
     newTitle: updatedProduct.newTitle,
@@ -155,7 +154,6 @@ const handleSave = async (updatedProduct) => {
     newSubSubCategory: updatedProduct.newSubSubCategory
   }));
 
-  // Добавляем изображение
   if (updatedProduct.images) {
     formData.append("images", updatedProduct.images);
   }
@@ -163,7 +161,7 @@ const handleSave = async (updatedProduct) => {
   try {
     await axios.put(`http://localhost:8080/product/change`, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",  // Убедитесь, что указали правильный Content-Type
+        "Content-Type": "multipart/form-data", 
       },
     });
     window.location.reload();
