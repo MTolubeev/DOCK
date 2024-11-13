@@ -1,16 +1,16 @@
 <template>
   <n-dialog
      v-model:show="showModal" 
-     class="modal-overlay">
-      <div class="modal-content"> 
+     class="modal__overlay">
+      <div class="modal__overlay__content"> 
        <n-button 
-         class="close-button"
+         class="modal__overlay__close"
          color="#465a86" 
          @click="emitClose">
          ✖
        </n-button>
-       <div>
-         <div class="form-group">
+       <div class="form-container">
+         <div>
            <label>Изображение к товару:</label>
            <n-upload
              :default-file-list="fileList"
@@ -20,7 +20,8 @@
              <n-button color="#465a86">Выбрать файл</n-button>
            </n-upload>
          </div>
-         <div class="form-group">
+
+         <div>
            <label>Название товара:</label>
            <n-input
              v-model:value="product.title"
@@ -29,7 +30,8 @@
              required 
              />
          </div>
-         <div class="form-group">
+
+         <div>
            <label>Цена:</label>
            <n-input
              v-model:value="product.price"
@@ -39,7 +41,7 @@
              />
          </div>
  
-         <div class="form-group">
+         <div>
            <label>Скидочная цена:</label>
            <n-input
              v-model:value="product.discountPrice"
@@ -48,7 +50,7 @@
              />
          </div>
  
-         <div class="form-group">
+         <div>
            <label>Описание товара:</label>
            <n-input 
            v-model:value="product.description"
@@ -57,28 +59,31 @@
            />
          </div>
  
-         <div class="form-group">
+         <div>
            <SelectCategory
              :options="categoryOptions"
              label="Категория"
              @data-changed="(value) => handleDataChange('category')(value)"
            />
          </div>
-         <div class="form-group">
+
+         <div>
            <SelectCategory
              :options="subcategoryOptions"
              label="Подкатегория (Необязательно)"
              @data-changed="(value) => handleDataChange('subcategory')(value)"
            />
          </div>
-         <div class="form-group">
+
+         <div>
            <SelectCategory
              :options="subsubcategoryOptions"
              label="Подподкатегория (Необязательно)"
              @data-changed="(value) => handleDataChange('subsubcategory')(value)"
            />
          </div>
-         <div class="form-group">
+
+         <div>
            <label>Количество товаров:</label>
            <n-input
              v-model:value="product.count"
@@ -86,9 +91,10 @@
              placeholder="Количество"
              />
          </div>
+
          <n-button 
            color="#465a86" 
-           class="create__product" 
+           class="modal__overlay__create" 
            @click="uploadFile">
            Создать товар
          </n-button>
@@ -212,56 +218,57 @@
  })
  </script>
  
- <style scoped>
- .modal-overlay {
+ <style scoped lang="scss">
+ .modal__overlay {
    position: absolute;
    top: 0;
    left: 0;
    width: 100%;
    overflow-y: auto;
-   height: 100vh;
+   height: 100%;
    background: rgba(0, 0, 0, 0.7);
    display: flex;
    align-items: center;
    justify-content: center;
-   z-index: 99;
- }
- .n-dialog :deep(.n-dialog__title) {
-   display: none;
- }
- .n-dialog :deep(.n-dialog__close) {
-   display: none;
- }
- .modal-content {
-   background: white;
-   padding: 20px;
-   border-radius: 8px;
-   width: 700px;
+   z-index: 130;
+
+  &__content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 700px;
     position: relative; 
-   z-index: 100;
- }
- .form-group {
-   margin-bottom: 15px;
- }
- 
- label {
-   display: block;
-   margin-bottom: 5px;
-   font-weight: bold;
- }
- .close-button {
-   font-size: 24px;
-   position: absolute;
-   top: 10px;
-   right: 20px;
- }
- .create__product {
+    z-index: 100;
+  }
+  &__close {
+  font-size: 24px;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+
+    &:hover {
+      color: #f0f0f0;
+    }
+  }
+  &__create {
    width: 100%;
    padding: 10px;
    cursor: pointer;
- }
- .close-button:hover {
-   color: #f0f0f0;
- }
- </style>
+  }
+  label {
+   display: block;
+   margin-bottom: 5px;
+   font-weight: bold;
+  }
+  .form-container > div {
+   margin-bottom: 15px;
+  }
+}
+.n-dialog :deep(.n-dialog__title) {
+  display: none;
+}
+.n-dialog :deep(.n-dialog__close) {
+  display: none;
+}
+</style>
  

@@ -295,7 +295,7 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void changeProduct(ProductChangeDto productChangeDto) throws IOException {
+    public void changeProduct(ProductChangeDto productChangeDto, MultipartFile images) throws IOException {
         Product oldProduct = productRepository.findById(productChangeDto.getProductId())
                 .orElseThrow(() -> new CustomRuntimeException("Product not found"));
 
@@ -308,25 +308,26 @@ public class ProductService {
         if (productChangeDto.getNewCategory() != null) {
             String cat = productChangeDto.getNewCategory();
             if (productChangeDto.getNewSubCategory() != null)
-                cat += "/" + productChangeDto;
+                cat += "/" + productChangeDto.getNewSubCategory();
+            if (productChangeDto.getNewSubSubCategory() != null) cat += "/" + productChangeDto.getNewSubSubCategory();
             oldProduct.setCategory(cat);
-            if (productChangeDto.getNewSubSubCategory() != null)
-                cat += "/" + productRepository;
             generateCategoryOrderForProduct(oldProduct);
         }
-        if (productChangeDto.getImages() != null) {
-            Image image1;
-            oldProduct.getImages().get(0).setPreviewImage(false);
-            image1 = toImageEntity(productChangeDto.getImages());
-            image1.setPreviewImage(true);
-            image1 = imageRepository.save(image1);
 
-            oldProduct.addImageToProduct(image1);
-            oldProduct.setPreviewImageId(image1.getId());
+        // Обработка изображения
+        if (images != null) {
+            oldProduct.getImages().get(0).setPreviewImage(false);
+            Image imageEntity = toImageEntity(images);
+            imageEntity.setPreviewImage(true);
+            imageEntity = imageRepository.save(imageEntity);
+
+            oldProduct.addImageToProduct(imageEntity);
+            oldProduct.setPreviewImageId(imageEntity.getId());
         }
 
-        Product savedProduct = productRepository.save(oldProduct);
+        productRepository.save(oldProduct);
     }
+
 
 }
 

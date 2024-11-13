@@ -5,13 +5,13 @@
 }
 body{
     background-color: #f0f0f0;
-}
-p,h2,button,li,ul,span{
     font-family: "Inter", sans-serif;
+    header{
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 20;
+    }
 }
-header{
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 100;
-}
+
+

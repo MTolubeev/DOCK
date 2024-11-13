@@ -2,32 +2,39 @@
   <n-spin
     content-style="--n-opacity-spinning:0; height: 100vh;"
     stroke="#465a86"
-    :show="loading"
-  >
+    :show="loading">
     <AppHeader @toggle-drawer="toggleDrawer" />
-    <AppDrawer :is-visible="isDrawerVisible" @close-drawer="closeDrawer" />
+    <AppDrawer 
+      :is-visible="isDrawerVisible" 
+      @close-drawer="closeDrawer" 
+    />
     <div class="main__page">
     <n-button
       v-if="isAdmin"
       class="button__add"
       color="#465a86"
-      @click="openModal"
-    >
+      @click="openModal">
       Добавить новый товар
     </n-button>
-    <AddProduct v-if="showModal" @close="closeModal" />
+    <AddProduct 
+    v-if="showModal" 
+    class="main__page__modal" 
+    @close="closeModal" 
+    />
     <n-input status="error"
       v-model:value="searhQuery"
       placeholder="Поиск товаров"
     />
-    <CardList :searh-query="searhQuery" @products-loaded="onProductsLoaded" />
-    <div class="all_comments">
+    <CardList 
+    :searh-query="searhQuery" 
+    @products-loaded="onProductsLoaded" 
+    />
+    <div class="main__page__comments">
       <h2>Отзывы наших пользователей</h2>
       <n-card
         v-for="comment in limitedComments"
         :key="comment.id"
-        content-style="display:flex; justify-content:space-around;"
-      >
+        content-style="display:flex; justify-content:space-around;">
         <div>
           <h3>{{ comment.username }}</h3>
           <span>Оценка за товар: {{ comment.score }}</span>
@@ -39,8 +46,7 @@
               name: 'ProductItem',
               params: { productId: comment.productId },
             }"
-            class="name_product"
-          >
+            class="main__page__product">
             {{ comment.productTitle }}
           </router-link>
         </div>
@@ -51,15 +57,15 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import { NButton, NCard, NSpin, NInput } from "naive-ui";
-import axios from "axios";
-import AppHeader from "@/components/AppHeader.vue";
-import AppDrawer from "@/components/AppDrawer.vue";
-import AddProduct from "@/components/AddProduct.vue";
-import CardList from "@/components/CardList.vue";
-import { useUserStore } from "@/store/userStore";
-import { useDrawer } from "@/composables/useHeader.js";
+import { computed, onMounted, ref } from 'vue';
+import { NButton, NCard, NSpin, NInput } from 'naive-ui';
+import axios from 'axios';
+import AppHeader from '@/components/AppHeader.vue';
+import AppDrawer from '@/components/AppDrawer.vue';
+import AddProduct from '@/components/AddProduct.vue';
+import CardList from '@/components/CardList.vue';
+import { useUserStore } from '@/store/userStore';
+import { useDrawer } from '@/composables/useHeader.js';
 
 const userStore = useUserStore();
 const { isDrawerVisible, toggleDrawer, closeDrawer } = useDrawer();
@@ -112,60 +118,67 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss" >
 .main__page{
   margin-top: 4%;
-}
-.button__add {
-  position: relative;
-  left: 15%;
-  top: 60px;
-}
-.all_comments {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-  background-color: #465a86;
-}
-.n-card {
-  width: 700px;
-  display: flex;
-  flex-direction: column;
-}
-h2 {
-  color: #fff;
-}
-.name_product {
-  color: #465a86;
-  cursor: pointer;
-  text-decoration: none;
-  position: relative;
-  display: inline-block;
-}
+  
+  .button__add {
+    position: relative;
+    left: 15%;
+    top: 60px;
+  }
+  .n-input {
+    width: 300px;
+    position: relative;
+    top: 60px;
+    left: 60%;
+  }
 
-.name_product::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 0;
-  height: 2px;
-  background-color: #465a86;
-  transition: width 0.3s ease;
-}
+  &__comments {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #465a86;
+  }
 
-.name_product:hover::after {
-  width: 100%;
-}
-.n-input {
-  width: 300px;
-  position: relative;
-  top: 60px;
-  left: 60%;
+  .n-card {
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h2 {
+    color: #fff;
+  }
+
+  &__product {
+    color: #465a86;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 2px;
+      background-color: #465a86;
+      transition: width 0.3s ease;
+    }
+    &:hover::after {
+      width: 100%;
+    }
+  }
+  &__modal{
+    margin-top: -77px;
+  }
 }
 
 </style>

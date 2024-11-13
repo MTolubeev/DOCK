@@ -7,10 +7,10 @@
     <div v-if="product">
       <AppHeader @toggle-drawer="toggleDrawer" />
       <AppDrawer :is-visible="isDrawerVisible" @close-drawer="closeDrawer" />
-      <div class="product__page">
-        <h2 class="breadcrumb">
+      <div class="product">
+        <h2 class="product__breadcrumb">
           <router-link
-            class="product__link"
+            class="product__breadcrumb__link"
             :to="{
               name: 'CategoriesView',
               params: { categoryName: productCategory },
@@ -21,7 +21,7 @@
           /
           <span v-if="productSubcategory !== 'None'">
             <router-link
-              class="product__link"
+              class="product__breadcrumb__link"
               :to="{
                 name: 'CategoriesView',
                 params: {
@@ -36,7 +36,7 @@
           </span>
           <span v-if="productSubsubcategory !== 'None'">
             <router-link
-              class="product__link"
+              class="product__breadcrumb__link"
               :to="{
                 name: 'CategoriesView',
                 params: {
@@ -52,23 +52,22 @@
           </span>
           {{ product.title }}
         </h2>
-        <div class="card__item">
+        <div class="product__item">
           <n-card
-            class="product__card"
-            content-style="display: flex; flex-direction: row !important;"
-          >
-            <div class="img__wrapper">
+            class="product__item__card"
+            content-style="display: flex; flex-direction: row;">
+            <div class="product__item__wrapper">
               <img
                 v-if="product.imageUrl"
                 :src="product.imageUrl"
-                class="product__img"
+                class="product__item__img"
                 alt="Product Image"
               />
             </div>
-            <div class="card__info">
+            <div class="product__info">
               <h1 class="product__title">{{ product.title }}</h1>
               <p class="product__description">{{ product.description }}</p>
-              <div class="card__pay">
+              <div class="product__pay">
                 <span v-if="isAuthenicated"
                   >Цена: <b>{{ product.discountPrice }} руб.</b>
                   <del style="margin-left: 10px">{{ product.price }} руб.</del>
@@ -167,73 +166,74 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-.product__page{
+<style scoped lang="scss" >
+.product{
   margin-top: 5%;
-}
-.breadcrumb {
-  margin-bottom: 20px;
-}
-.card__item {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
+    h2 {
+      margin: 10px 20px;
+    }
+    &__breadcrumb {
+      margin-bottom: 20px;
 
-.product__card {
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+        &__link {
+        text-decoration: none;
+        color: inherit;
+          &:hover {
+            color: gray;
+          }
+      }
+    }
+    
+    &__item {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center; 
 
-.img__wrapper {
-  flex: 1;
-  margin-right: 30px;
-  margin-top: 10px;
-}
-.product__img {
-  width: 350px;
-  object-fit: cover;
-}
-.card__info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.card__pay {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-.product__title {
-  font-size: 28px;
-  margin-bottom: 15px;
-  color: #333;
-}
+      &__card {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
 
-.product__description {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 20px;
-}
+      &__wrapper {
+        flex: 1;
+        margin-right: 30px;
+        margin-top: 10px;
+      }
+      &__img {
+      width: 350px;
+      object-fit: cover;
+    }
+  }
 
-.n-button {
-  align-self: flex-start;
-  width: 100%;
-}
-.n-card {
-  width: 1000px;
-}
-.product__link {
-  text-decoration: none;
-  color: inherit;
-}
-.product__link:hover {
-  color: gray;
-}
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  &__title {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  &__pay {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
 
-h2 {
-  margin: 10px 20px;
+  &__description {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  .n-button {
+    align-self: flex-start;
+    width: 100%;
+  }
+  .n-card {
+    width: 1000px;
+  }
 }
 </style>

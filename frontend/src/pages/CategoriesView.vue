@@ -6,7 +6,7 @@
     <AppHeader @toggle-drawer="toggleDrawer" />
     <AppDrawer :is-visible="isDrawerVisible" @close-drawer="closeDrawer" />
     <div class="categories__page">
-    <div class="paths">
+    <div class="path">
       <h1>
         <router-link
           class="path__link"
@@ -129,25 +129,28 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-.categories__page{
+<style scoped lang="scss" >
+.categories__page {
   margin-top: 5%;
-}
-.paths {
-  margin: 10px 20px;
-}
-.paths .path__link {
-  text-decoration: none;
-  color: inherit;
-}
 
-.path__link:hover {
-  color: gray;
-}
-.cards {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
+  .path {
+    margin: 10px 20px;
+
+    &__link {
+      text-decoration: none;
+      color: inherit;
+
+      &:hover {
+        color: gray;
+      }
+    }
+  }
+
+  .cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
 }
 </style>

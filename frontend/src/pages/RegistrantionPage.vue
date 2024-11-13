@@ -1,7 +1,7 @@
 <template>
-  <n-dialog class="modal-overlay">
-    <div class="modal-content">
-      <n-button color="#465a86" class="close-button" @click="closeModal">✖</n-button>
+  <n-dialog class="modal__overlay">
+    <div class="modal__overlay__content">
+      <n-button color="#465a86" class="modal__overlay__close" @click="closeModal">✖</n-button>
       <h2>Регистрация нового пользователя</h2>
       <p>Если аккаунт уже существует, то войдите</p>
       <router-link :to="{ path: '/signin', query: { from: 'registration' } }">
@@ -31,7 +31,7 @@
         placeholder="Пароль" 
         required 
         />
-        <div class="buttons">
+        <div class="modal__overlay__buttons">
           <n-button color="#465a86" @click="register">Зарегистрироваться</n-button>
         </div>
     </div>
@@ -76,8 +76,8 @@ const closeModal = () => {
 };
 </script>
 
-<style scoped>
-.modal-overlay {
+<style scoped lang="scss">
+.modal__overlay {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -85,47 +85,50 @@ const closeModal = () => {
   display: flex;
   justify-content: center;
   align-items: center;
- 
-}
-.modal-content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  width: 500px;
-  gap: 10px;
+
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 500px;
+    gap: 10px;
+
+    & h2 {
+      margin-top: 0;
+    }
+  }
+  &__close {
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
 }
 .n-dialog :deep(.n-dialog__title) {
   display: none;
 }
 .n-dialog :deep(.n-dialog__close) {
   display: none;
-}
-.modal-content h2 {
-  margin-top: 0;
-}
-.buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.close-button {
-  font-size: 24px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 10px;
 }
 </style>

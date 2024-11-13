@@ -140,25 +140,29 @@ const navigateToproduct = () => {
 };
 
 const handleSave = async (updatedProduct) => {
-  const newFrom = new FormData();
+  const formData = new FormData();
 
-  newFrom.append("productId", updatedProduct.id);
-  newFrom.append("newTitle", updatedProduct.newTitle);
-  newFrom.append("newDescription", updatedProduct.newDescription);
-  newFrom.append("newCount", updatedProduct.newCount);
-  newFrom.append("newPrice", updatedProduct.newPrice);
-  newFrom.append("newDiscountPrice", updatedProduct.newDiscountPrice);
-  newFrom.append("newCategory", updatedProduct.newCategory);
-  newFrom.append("newSubCategory", updatedProduct.newSubCategory);
-  newFrom.append("newSubSubCategory", updatedProduct.newSubSubCategory);
-  newFrom.append("images", updatedProduct.images);
+  formData.append("productData", JSON.stringify({
+    productId: updatedProduct.id,
+    newTitle: updatedProduct.newTitle,
+    newDescription: updatedProduct.newDescription,
+    newCount: updatedProduct.newCount,
+    newPrice: updatedProduct.newPrice,
+    newDiscountPrice: updatedProduct.newDiscountPrice,
+    newCategory: updatedProduct.newCategory,
+    newSubCategory: updatedProduct.newSubCategory,
+    newSubSubCategory: updatedProduct.newSubSubCategory
+  }));
 
-  // for (let [key, value] of newFrom.entries()) {
-  //   console.log(key, value);
-  // }
+  if (updatedProduct.images) {
+    formData.append("images", updatedProduct.images);
+  }
+
   try {
-    await axios.put(`http://localhost:8080/product/change`, newFrom, {
-   
+    await axios.put(`http://localhost:8080/product/change`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", 
+      },
     });
     window.location.reload();
   } catch (error) {
@@ -166,6 +170,8 @@ const handleSave = async (updatedProduct) => {
   }
   isEdited.value = false;
 };
+
+
 
 const handleCancel = () => {
   isEdited.value = false;
