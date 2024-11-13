@@ -9,3 +9,10 @@ body{
 p,h2,button,li,ul,span{
     font-family: "Inter", sans-serif;
 }
+.n-input, .n-input-wrapper, .n-input--resizable, .n-input--stateful{
+    --n-border-hover: 1px solid #465a86;
+}
+/* header{
+    position: fixed;
+    width: 100%;
+} */

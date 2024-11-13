@@ -6,6 +6,7 @@
   >
     <AppHeader @toggle-drawer="toggleDrawer" />
     <AppDrawer :is-visible="isDrawerVisible" @close-drawer="closeDrawer" />
+    <div class="main__content">
     <n-button
       v-if="isAdmin"
       class="button__add"
@@ -16,7 +17,7 @@
     </n-button>
     <AddProduct v-if="showModal" @close="closeModal" />
     <n-input
-      content-style=""
+      content-style="--n-border-hover: none"
       v-model:value="searhQuery"
       placeholder="Поиск товаров"
     />
@@ -46,12 +47,13 @@
         </div>
       </n-card>
     </div>
+  </div>
   </n-spin>
 </template>
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
-import { NButton, NCard, NSpin, NInput } from "naive-ui";
+import { NButton, NCard, NInput, NSpin } from "naive-ui";
 import axios from "axios";
 import AppHeader from "@/components/AppHeader.vue";
 import AppDrawer from "@/components/AppDrawer.vue";
@@ -161,6 +163,6 @@ h2 {
   width: 300px;
   position: relative;
   top: 60px;
-  left: 60%;
+  left: 70%;
 }
 </style>
