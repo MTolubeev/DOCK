@@ -84,7 +84,7 @@ public class ProductController {
     }
 
     @PutMapping("/product/change")
-    public ResponseEntity<?> changeProduct(@RequestBody ProductChangeDto productChangeDto) throws IOException {
+    public ResponseEntity<?> changeProduct(@ModelAttribute ProductChangeDto productChangeDto) throws IOException {
         productService.changeProduct(productChangeDto);
         return ResponseEntity.ok("Product was changed successfully");
     }

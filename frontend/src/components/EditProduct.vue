@@ -139,6 +139,9 @@ const saveChanges = () => {
     if (imageDeleted.value && fileList.value.length > 0) {
         imageToSend = fileList.value[0].file; 
     }
+    console.log(imageDeleted.value)
+    console.log(fileList.value)
+    console.log(imageToSend)
     const updatedProduct = {
       id: editProduct.value.id,
       newTitle: editProduct.value.title,

@@ -142,7 +142,7 @@ const navigateToproduct = () => {
 const handleSave = async (updatedProduct) => {
   const newFrom = new FormData();
 
-  newFrom.append("id", updatedProduct.id);
+  newFrom.append("productId", updatedProduct.id);
   newFrom.append("newTitle", updatedProduct.newTitle);
   newFrom.append("newDescription", updatedProduct.newDescription);
   newFrom.append("newCount", updatedProduct.newCount);
@@ -153,14 +153,12 @@ const handleSave = async (updatedProduct) => {
   newFrom.append("newSubSubCategory", updatedProduct.newSubSubCategory);
   newFrom.append("images", updatedProduct.images);
 
-  for (let [key, value] of newFrom.entries()) {
-    console.log(key, value);
-  }
+  // for (let [key, value] of newFrom.entries()) {
+  //   console.log(key, value);
+  // }
   try {
     await axios.put(`http://localhost:8080/product/change`, newFrom, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+   
     });
     window.location.reload();
   } catch (error) {
