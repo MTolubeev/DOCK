@@ -152,8 +152,7 @@ onMounted(() => {
   padding: 28px 40px;
   top: 0;
   right: 0;
-  z-index: 10;
-  border-left: 3px solid #f0f0f0;
+  z-index: 120;
   overflow-y: scroll;
 }
 .catalog a {

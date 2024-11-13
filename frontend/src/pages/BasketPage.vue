@@ -3,7 +3,7 @@
     <MyHeader @toggle-drawer="toggleDrawer" />
     <AppDrawer :is-visible="isDrawerVisible" @close-drawer="closeDrawer" />
   </div>
-  <AppCart />
+  <AppCart class="cart__page"/>
 </template>
 
 <script setup>
@@ -16,10 +16,5 @@ const { isDrawerVisible, toggleDrawer, closeDrawer } = useDrawer();
 </script>
 
 <style scoped>
-.header {
-  top: 0;
-  width: 100%;
-  z-index: 1;
-  position: fixed;
-}
+
 </style>

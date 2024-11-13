@@ -9,6 +9,7 @@ body{
 p,h2,button,li,ul,span{
     font-family: "Inter", sans-serif;
 }
+<<<<<<< HEAD
 .n-input, .n-input-wrapper, .n-input--resizable, .n-input--stateful{
     --n-border-hover: 1px solid #465a86;
 }
@@ -16,3 +17,11 @@ p,h2,button,li,ul,span{
     position: fixed;
     width: 100%;
 } */
+=======
+header{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+>>>>>>> 0be5daeb74f48b7e7385e833ef338916b2b7e774

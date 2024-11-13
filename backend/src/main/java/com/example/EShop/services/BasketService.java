@@ -102,9 +102,6 @@ public class BasketService {
 
     }
 
-
-
-
     @Transactional
     public int returnBasketSize(User user) {
         Basket basket = basketRepository.findByUser(user);

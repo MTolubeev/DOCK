@@ -41,6 +41,7 @@ public class AuthService {
         } catch (CustomNullPointerException e){
             throw new CustomNullPointerException("User not found");
         }
-
     }
+
+
 }

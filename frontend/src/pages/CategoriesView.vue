@@ -5,6 +5,7 @@
     :show="isLoading">
     <AppHeader @toggle-drawer="toggleDrawer" />
     <AppDrawer :is-visible="isDrawerVisible" @close-drawer="closeDrawer" />
+    <div class="categories__page">
     <div class="paths">
       <h1>
         <router-link
@@ -37,6 +38,7 @@
         @delete ="handleDelete"
         />
     </div>
+  </div>
   </n-spin>
 </template>
 
@@ -128,6 +130,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.categories__page{
+  margin-top: 5%;
+}
 .paths {
   margin: 10px 20px;
 }

@@ -177,19 +177,20 @@ onMounted(() => {
   padding: 10px 0;
 }
 
-::v-deep .n-upload-file-list {
+.n-upload-file-list :deep(.n-upload-file) {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   gap: 10px;
 }
 
-::v-deep .n-upload-file {
-  max-width: 120px; 
+.n-upload-file :deep(.n-upload-file) {
+  max-width: 120px;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
 }
+
 .image-item img {
   max-width: 100px;
   max-height: 100px;

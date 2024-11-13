@@ -6,7 +6,7 @@
   >
     <AppHeader @toggle-drawer="toggleDrawer" />
     <AppDrawer :is-visible="isDrawerVisible" @close-drawer="closeDrawer" />
-    <div class="main__content">
+    <div class="main__page">
     <n-button
       v-if="isAdmin"
       class="button__add"
@@ -16,8 +16,7 @@
       Добавить новый товар
     </n-button>
     <AddProduct v-if="showModal" @close="closeModal" />
-    <n-input
-      content-style="--n-border-hover: none"
+    <n-input status="error"
       v-model:value="searhQuery"
       placeholder="Поиск товаров"
     />
@@ -53,7 +52,7 @@
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
-import { NButton, NCard, NInput, NSpin } from "naive-ui";
+import { NButton, NCard, NSpin, NInput } from "naive-ui";
 import axios from "axios";
 import AppHeader from "@/components/AppHeader.vue";
 import AppDrawer from "@/components/AppDrawer.vue";
@@ -114,9 +113,12 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.main__page{
+  margin-top: 4%;
+}
 .button__add {
   position: relative;
-  left: 10%;
+  left: 15%;
   top: 60px;
 }
 .all_comments {
@@ -163,6 +165,7 @@ h2 {
   width: 300px;
   position: relative;
   top: 60px;
-  left: 70%;
+  left: 60%;
 }
+
 </style>

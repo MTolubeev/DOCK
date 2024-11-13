@@ -11,13 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class ProductChangeDto {
     private Long productId;
-    private String newTitle;
+    private String newTitle ;
     private String newDescription;
-    private Integer newCount;
+    private Integer newCount ;
     private Long newPrice;
     private Long newDiscountPrice;
     private String newCategory;
     private String newSubCategory;
     private String newSubSubCategory;
-    private MultipartFile images;
 }

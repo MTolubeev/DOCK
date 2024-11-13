@@ -140,26 +140,30 @@ const navigateToproduct = () => {
 };
 
 const handleSave = async (updatedProduct) => {
-  const newFrom = new FormData();
+  const formData = new FormData();
 
-  newFrom.append("id", updatedProduct.id);
-  newFrom.append("newTitle", updatedProduct.newTitle);
-  newFrom.append("newDescription", updatedProduct.newDescription);
-  newFrom.append("newCount", updatedProduct.newCount);
-  newFrom.append("newPrice", updatedProduct.newPrice);
-  newFrom.append("newDiscountPrice", updatedProduct.newDiscountPrice);
-  newFrom.append("newCategory", updatedProduct.newCategory);
-  newFrom.append("newSubCategory", updatedProduct.newSubCategory);
-  newFrom.append("newSubSubCategory", updatedProduct.newSubSubCategory);
-  newFrom.append("images", updatedProduct.images);
+  // Добавляем DTO как JSON-строку
+  formData.append("productData", JSON.stringify({
+    productId: updatedProduct.id,
+    newTitle: updatedProduct.newTitle,
+    newDescription: updatedProduct.newDescription,
+    newCount: updatedProduct.newCount,
+    newPrice: updatedProduct.newPrice,
+    newDiscountPrice: updatedProduct.newDiscountPrice,
+    newCategory: updatedProduct.newCategory,
+    newSubCategory: updatedProduct.newSubCategory,
+    newSubSubCategory: updatedProduct.newSubSubCategory
+  }));
 
-  for (let [key, value] of newFrom.entries()) {
-    console.log(key, value);
+  // Добавляем изображение
+  if (updatedProduct.images) {
+    formData.append("images", updatedProduct.images);
   }
+
   try {
-    await axios.put(`http://localhost:8080/product/change`, newFrom, {
+    await axios.put(`http://localhost:8080/product/change`, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "multipart/form-data",  // Убедитесь, что указали правильный Content-Type
       },
     });
     window.location.reload();
@@ -168,6 +172,8 @@ const handleSave = async (updatedProduct) => {
   }
   isEdited.value = false;
 };
+
+
 
 const handleCancel = () => {
   isEdited.value = false;
