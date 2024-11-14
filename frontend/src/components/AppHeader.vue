@@ -1,7 +1,7 @@
 <template>
   <header>
-    <div class="info">
-      <div class="profile">
+    <div class="header__info">
+      <div class="header__profile">
         <img src="@/assets/Union.svg" alt="profile" />
         <router-link v-if="!user" to="/signin">
           <n-button color="#fff">Войти</n-button>
@@ -13,20 +13,20 @@
           </n-button>
         </div>
       </div>
-      <div class="basket">
+      <div class="header__basket">
         <img src="@/assets/cart.svg" alt="cart" />
         <router-link to="/cart">
           <n-button color="#fff">Корзина</n-button>
         </router-link>
         <span>{{ cartItemCount }}</span>
       </div>
-      <div class="main">
+      <div class="header__main">
         <router-link to="/">
           <n-button color="#fff">Главная</n-button>
         </router-link>
       </div>
     </div>
-    <div class="menu">
+    <div class="header__menu">
       <n-button
         color="#fff"
         @click="$emit('toggle-drawer')">
@@ -72,32 +72,25 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 40px;
-  background-color: #465a86;
-}
-.info {
+<style lang="scss" scoped>
+.header__info{
   display: flex;
   gap: 30px;
 }
-.profile,
-.basket,
-.menu {
+.header__profile,
+.header__basket,
+.header__menu {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.profile span {
-  color: #fff;
-  margin-right: 10px;
+.header__profile span {
+    color: #fff;
+    margin-right: 10px;
 }
-.basket span {
-  width: 40px;
-  color: #fff;
+.header__basket span {
+    width: 40px;
+    color: #fff;
 }
 .n-button {
   color: #000;

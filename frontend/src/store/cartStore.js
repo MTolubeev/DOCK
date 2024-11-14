@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
 import { ref } from 'vue';
+import api from '@/services/api.js';
 
 export const useCartStore = defineStore('cart', () => {
   const cartItems = ref([]);
 
   const fetchCart = async (token) => {
     try {
-      const response = await axios.get(`http://localhost:8080/basket/myBasket`,
+      const response = await api.get(`/basket/myBasket`,
         {
           headers: {
             Authorization: token,
@@ -31,7 +31,7 @@ export const useCartStore = defineStore('cart', () => {
 
   const addToCart = async (productId, token) => {
     try {
-      const response = await axios.post(`http://localhost:8080/basket/addToBasket`, null,
+      const response = await api.post(`/basket/addToBasket`, null,
         {
           params: { productId },
           headers: { Authorization: token },
@@ -50,7 +50,7 @@ export const useCartStore = defineStore('cart', () => {
         } else {
           cartItems.value = cartItems.value.filter((i) => i.id !== productId);
         }
-        await axios.post(`http://localhost:8080/basket/delete/${productId}`,null,
+        await api.post(`/basket/delete/${productId}`,null,
           {
             headers: {
               Authorization: token,
@@ -66,7 +66,7 @@ export const useCartStore = defineStore('cart', () => {
 
   const removeFromCartAll = async (productId, token) => {
     try {
-      await axios.post(`http://localhost:8080/basket/deleteFull/${productId}`,null,
+      await api.post(`/basket/deleteFull/${productId}`, null,
         {
           params: {
             productId,

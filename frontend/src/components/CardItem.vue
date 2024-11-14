@@ -1,12 +1,12 @@
 <template>
   <n-card
     v-if="!isEdited"
-    class="card"
+    class="product-card"
     size="huge"
     hoverable
     @click="navigateToproduct"
   >
-    <div class="edit_container">
+    <div class="edit-icon-container">
       <img
         v-if="isAdmin"
         src="@/assets/pencil.svg"
@@ -14,12 +14,12 @@
         @click.stop="editModel"
       />
     </div>
-    <div class="card-content">
-      <div class="image-container">
-        <img :src="item.imageUrl" alt="png" />
+    <div class="product-card__content">
+      <div class="product-card__image">
+        <img :src="item.imageUrl" alt="Изображение продукта" />
       </div>
-      <h3>{{ item.title }}</h3>
-      <div class="info_card">
+      <h3 class="product-card__title">{{ item.title }}</h3>
+      <div class="product-card__info">
         <span v-if="isAuthenticated">
           Цена: <b>{{ item.discountPrice }} руб.</b>
           <del style="margin-left: 10px">{{ item.price }} руб.</del>
@@ -27,12 +27,12 @@
         <span v-else>
           Цена: <b>{{ item.price }} руб.</b>
         </span>
-        <span v-if="item.count > 0"
-          >Количество товаров осталось: <b>{{ item.count }}</b></span
-        >
+        <span v-if="item.count > 0">
+          Количество товаров осталось: <b>{{ item.count }}</b>
+        </span>
         <span v-else><b>Товара нет на складе</b></span>
       </div>
-      <div class="card__button">
+      <div class="product-card__buttons">
         <BasketButton :product-id="item.id" :product="item" @click.stop />
         <n-button v-if="isAdmin" type="error" @click.stop="openConfirmDialog">
           Удалить товар из списка
@@ -40,6 +40,7 @@
       </div>
     </div>
   </n-card>
+
   <EditProduct
     v-else
     :item="item"
@@ -49,6 +50,7 @@
     @save="handleSave"
     @cancel="handleCancel"
   />
+
   <div v-if="confirmDialogVisible" class="dialog-overlay">
     <n-dialog
       class="confirm-dialog"
@@ -70,59 +72,42 @@ import { useRouter } from "vue-router";
 import { NCard, NButton, NDialog } from "naive-ui";
 import { useUserStore } from "@/store/userStore";
 import BasketButton from "./BasketButton.vue";
-import axios from "axios";
 import EditProduct from "./EditProduct.vue";
+import api from '@/services/api.js';
 
 const props = defineProps({
-  item: {
-    type: Object,
-    required: true,
-  },
-
-  categoryOptions: {
-    type: Array,
-    required: true,
-  },
-
-  subcategoryOptions: {
-    type: Array,
-    required: true,
-  },
-
-  subsubcategoryOptions: {
-    type: Array,
-    required: true,
-  },
+  item: { type: Object, required: true },
+  categoryOptions: { type: Array, required: true },
+  subcategoryOptions: { type: Array, required: true },
+  subsubcategoryOptions: { type: Array, required: true },
 });
 
 const emit = defineEmits(["delete"]);
-
 const userStore = useUserStore();
 const router = useRouter();
 const confirmDialogVisible = ref(false);
 const isAuthenticated = ref(false);
 const isEdited = ref(false);
-
 const role = computed(() => userStore.role.value);
 const isAdmin = computed(() => role.value === "ROLE_ADMIN");
 
 const checkAuth = () => {
   const token = localStorage.getItem("token");
-  if (token) {
-    isAuthenticated.value = true;
-  }
+  if (token) isAuthenticated.value = true;
 };
 
 const editModel = () => {
   isEdited.value = true;
 };
+
 const openConfirmDialog = (event) => {
   event.stopPropagation();
   confirmDialogVisible.value = true;
 };
+
 const deleteProduct = async () => {
   try {
-    await axios.post(`http://localhost:8080/product/delete/${props.item.id}`);
+    await api.post(`/product/delete/${props.item.id}`);
     closeConfirmDialog();
     emit("delete", props.item.id);
   } catch (error) {
@@ -141,37 +126,33 @@ const navigateToproduct = () => {
 
 const handleSave = async (updatedProduct) => {
   const formData = new FormData();
+  formData.append(
+    "productData",
+    JSON.stringify({
+      productId: updatedProduct.id,
+      newTitle: updatedProduct.newTitle,
+      newDescription: updatedProduct.newDescription,
+      newCount: updatedProduct.newCount,
+      newPrice: updatedProduct.newPrice,
+      newDiscountPrice: updatedProduct.newDiscountPrice,
+      newCategory: updatedProduct.newCategory,
+      newSubCategory: updatedProduct.newSubCategory,
+      newSubSubCategory: updatedProduct.newSubSubCategory,
+    })
+  );
 
-  formData.append("productData", JSON.stringify({
-    productId: updatedProduct.id,
-    newTitle: updatedProduct.newTitle,
-    newDescription: updatedProduct.newDescription,
-    newCount: updatedProduct.newCount,
-    newPrice: updatedProduct.newPrice,
-    newDiscountPrice: updatedProduct.newDiscountPrice,
-    newCategory: updatedProduct.newCategory,
-    newSubCategory: updatedProduct.newSubCategory,
-    newSubSubCategory: updatedProduct.newSubSubCategory
-  }));
-
-  if (updatedProduct.images) {
-    formData.append("images", updatedProduct.images);
-  }
+  if (updatedProduct.images) formData.append("images", updatedProduct.images);
 
   try {
-    await axios.put(`http://localhost:8080/product/change`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data", 
-      },
+    await api.put(`/product/change`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
     window.location.reload();
   } catch (error) {
-    console.error("Error saving product:", error);
+    console.error("Ошибка при сохранении продукта:", error);
   }
   isEdited.value = false;
 };
-
-
 
 const handleCancel = () => {
   isEdited.value = false;
@@ -183,8 +164,8 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-.card {
+<style lang="scss" scoped>
+.product-card {
   width: 800px;
   padding: 50px 20px;
   border: 1px solid #e0e0e0;
@@ -193,53 +174,57 @@ onMounted(() => {
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   position: relative;
   cursor: pointer;
-}
-.card-content {
-  display: flex;
-  flex-direction: column;
-}
-.image-container {
-  width: 300px;
-  height: 300px;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-size: 24px;
+    margin: 0 0 10px 0;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+
+    span {
+      font-size: 16px;
+    }
+
+    b {
+      font-weight: bold;
+    }
+  }
+
+  &__image {
+    width: 300px;
+    height: 300px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .n-button {
+      width: 100%;
+    }
+  }
 }
 
-.image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.n-button {
-  width: 100%;
-}
-.card__button {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.card h3 {
-  font-size: 24px;
-  margin: 0 0 10px 0;
-}
-.card p {
-  font-size: 16px;
-  margin: 0 0 20px 0;
-}
-.info_card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
-}
-.info_card span {
-  font-size: 16px;
-}
-.info_card b {
-  font-weight: bold;
-}
 .dialog-overlay {
   position: fixed;
   top: 0;
@@ -256,12 +241,14 @@ onMounted(() => {
 .confirm-dialog {
   z-index: 9999;
 }
-.edit_container {
+
+.edit-icon-container {
   position: absolute;
   top: 40px;
   right: 40px;
-}
-.edit_container img {
-  width: 20px;
+
+  img {
+    width: 20px;
+  }
 }
 </style>

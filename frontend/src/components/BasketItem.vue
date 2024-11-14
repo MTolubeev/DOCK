@@ -80,25 +80,26 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .controls {
   display: flex;
   align-items: center;
-}
-.controls button {
-  width: 40px;
-  height: 40px;
-  margin: 0 5px;
-  text-align: center;
-  font-size: 18px;
-  cursor: pointer;
-}
 
-.controls span {
-  font-size: 18px;
-  width: 40px;
-  text-align: center;
-  font-family: "Arial", sans-serif;
+    & button {
+      width: 40px;
+      height: 40px;
+      margin: 0 5px;
+      text-align: center;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    & span {
+      font-size: 18px;
+      width: 40px;
+      text-align: center;
+      font-family: "Arial", sans-serif;
+    }
 }
 .item__price {
   font-size: 20px;

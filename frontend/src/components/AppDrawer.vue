@@ -1,6 +1,6 @@
 <template>
   <div v-if="isVisible" class="catalog">
-    <div class="basket">
+    <div class="catalog__basket">
       <h2>Каталог товаров</h2>
       <svg @click="$emit('close-drawer')" width="16" height="14" fill="#fff">
         <path d="M1 7H14.7143" stroke="#fff" stroke-width="2" />
@@ -19,30 +19,30 @@
       :edit-mode="editMode"
       @drag-end="onDragEnd"
     />
-    <div class="change_order_btns">
-      <n-button 
-        v-if="editMode" 
-        type="warning" 
-        @click="saveOrder">
-        Сохранить изменения
-      </n-button>
-      <n-button 
-        v-if="editMode" 
-        type="error" 
-        @click="cancelEditMode">
-        Отменить изменения
-      </n-button>
-  </div>
+      <div class="catalog__btns">
+        <n-button 
+          v-if="editMode" 
+          type="warning" 
+          @click="saveOrder">
+          Сохранить изменения
+        </n-button>
+        <n-button 
+          v-if="editMode" 
+          type="error" 
+          @click="cancelEditMode">
+          Отменить изменения
+        </n-button>
+      </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, defineProps } from "vue";
-import axios from "axios";
 import DraggableCatalog from './DraggableCatalog.vue';
 import { NButton } from "naive-ui";
 import { useUserStore } from "@/store/userStore";
 import { useOrganizeProducts } from "@/composables/useOrganizeProducts";
+import api from '@/services/api.js';
 
 defineProps({
   isVisible: Boolean,
@@ -66,7 +66,7 @@ const cancelEditMode = () => {
 
 const fetchData = async () => {
   try {
-    const response = await axios.get("http://localhost:8080/product/getAll");
+    const response = await api.get("/product/getAll");
     const products = response.data;
     if (Array.isArray(products)) {
       categories.value = organizeProductsByCategories(products);
@@ -123,7 +123,7 @@ const saveOrder = async () => {
   try {
     const changes = collectChanges();
     const requests = Object.keys(changes).map((productId) =>
-      axios.put("http://localhost:8080/product/categories/reorder", {
+      api.put("/product/categories/reorder", {
         [productId]: changes[productId],
       })
     );
@@ -141,7 +141,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .catalog {
   display: flex;
   flex-direction: column;
@@ -154,29 +154,23 @@ onMounted(() => {
   right: 0;
   z-index: 120;
   overflow-y: scroll;
-}
-.catalog a {
-  color: #fff;
+
+  & h2{
+    color: white;
+  }
+  &__btns{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+    &__basket {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    svg {
+      cursor: pointer;
+    }
+  }
 }
 
-h2,
-span {
-  font-family: Arial, Helvetica, sans-serif;
-  color: #fff;
-}
-
-.basket {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-svg {
-  cursor: pointer;
-}
-.change_order_btns{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
 </style>

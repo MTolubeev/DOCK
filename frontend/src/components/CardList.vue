@@ -24,9 +24,10 @@
  
 <script setup> 
 import { ref, onMounted, defineEmits, computed, defineProps } from 'vue'; 
-import axios from 'axios'; 
+// import axios from 'axios'; 
 import CardItem from './CardItem.vue'; 
 import FilteredProducts from '@/components/FilteredProducts.vue'; 
+import api from '@/services/api.js';
  
 const emit = defineEmits(['products-loaded']); 
 const props = defineProps({ 
@@ -54,7 +55,7 @@ const updatePriceRange = (range) => {
  
 const fetchItems = async () => { 
   try { 
-    const response = await axios.get(`http://localhost:8080/product/getAll`); 
+    const response = await api.get(`/product/getAll`); 
  
     items.value = response.data.map((product) => { 
       return { 
@@ -81,7 +82,7 @@ const resetFilters= () => {
 }
 const fetchCategories = async () => { 
   try { 
-    const response = await axios.get(`http://localhost:8080/product/getAll`); 
+    const response = await api.get(`/product/getAll`); 
     const products = response.data; 
  
     const categoriesSet = new Set(); 
@@ -114,7 +115,7 @@ onMounted(() => {
 }); 
 </script> 
 
-<style scoped> 
+<style lang="scss" scoped> 
 h2 { 
   text-align: center; 
   margin-top: 20px; 
@@ -129,11 +130,12 @@ h2 {
 .card_and_filters{ 
   display: flex;
   gap: 40px; 
-} 
-.filters{ 
-  margin: 20px 0px 0px 20px; 
-  position: sticky; 
-  top: 0; 
-  align-self: flex-start; 
+
+  .filters{ 
+    margin: 20px 0px 0px 20px; 
+    position: sticky; 
+    top: 0; 
+    align-self: flex-start; 
+  } 
 } 
 </style>

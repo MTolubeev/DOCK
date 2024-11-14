@@ -55,9 +55,9 @@
 
 <script setup>
 import { ref, defineProps, defineEmits, watch, onMounted } from 'vue';
-import axios from 'axios';
 import { NModal, NUpload, NButton, NInput } from 'naive-ui';
 import { useNotificationService } from '@/composables/useNotifications.js'; 
+import api from '@/services/api.js';
 
 const props = defineProps({
   modelValue: Boolean,
@@ -115,7 +115,7 @@ const submitReview = async () => {
   });
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.post(`http://localhost:8080/comments/add`, formData, {
+    const response = await api.post(`/comments/add`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': token,
@@ -148,7 +148,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .n-modal  {
   padding: 20px;
   box-sizing: border-box; 
@@ -160,12 +160,12 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
 
-.stars {
-  display: flex;
-  gap: 5px;
-  cursor: pointer;
+  .stars {
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+  }
 }
 
 .images-wrapper {
@@ -175,6 +175,12 @@ onMounted(() => {
   gap: 10px;
   max-width: 100%; 
   padding: 10px 0;
+
+  .image-item img {
+    max-width: 100px;
+    max-height: 100px;
+    margin: 5px;
+  }
 }
 
 .n-upload-file-list :deep(.n-upload-file) {
@@ -190,11 +196,4 @@ onMounted(() => {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-.image-item img {
-  max-width: 100px;
-  max-height: 100px;
-  margin: 5px;
-}
-
 </style>

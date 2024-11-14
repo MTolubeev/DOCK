@@ -106,9 +106,9 @@
  <script setup>
  import { ref, defineEmits, onMounted } from 'vue';
  import { NInput, NButton, NDialog, NUpload } from 'naive-ui';
- import axios from 'axios';
  import SelectCategory from './SelectCategory.vue';
- import { useNotificationService } from '@/composables/useNotifications';
+import { useNotificationService } from '@/composables/useNotifications';
+import api from '@/services/api.js';
  
  const emit = defineEmits(["close"]);
  
@@ -150,7 +150,7 @@
  
  const fetchData = async () => {
    try {
-     const response = await axios.get(`http://localhost:8080/product/getAll`);
+     const response = await api.get(`/product/getAll`);
      const allCategories = response.data.flatMap((product) => product.categories);
      categoryOptions.value = getUniqueValues(allCategories, "name");
      subcategoryOptions.value = getUniqueValues(allCategories.filter((cat) => cat.subcategory !== null),"subcategory");
@@ -193,7 +193,7 @@
      formData.append("count", product.value.count);
      try {
        const token = localStorage.getItem("token");
-        const response = await axios.post(`http://localhost:8080/product/create`, formData,
+        const response = await api.post(`/product/create`, formData,
          {
            headers: {
              "Content-Type": "multipart/form-data",
@@ -218,7 +218,7 @@
  })
  </script>
  
- <style scoped lang="scss">
+ <style lang="scss" scoped>
  .modal__overlay {
    position: absolute;
    top: 0;

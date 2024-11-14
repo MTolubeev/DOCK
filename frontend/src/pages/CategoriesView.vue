@@ -44,13 +44,13 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
-import axios from 'axios';
 import { useRoute } from 'vue-router';
 import { useOrganizeProducts } from '@/composables/useOrganizeProducts.js';
 import CardItem from '@/components/CardItem.vue';
 import { useDrawer } from '@/composables/useHeader.js';
 import AppHeader from '@/components/AppHeader.vue';
 import AppDrawer from '@/components/AppDrawer.vue';
+import api from '@/services/api.js';
 import { NSpin } from 'naive-ui'; 
 
 const { isDrawerVisible, toggleDrawer, closeDrawer } = useDrawer();
@@ -92,7 +92,7 @@ const filteredProducts = computed(() => {
 const fetchData = async () => {
   isLoading.value = true; 
   try {
-    const response = await axios.get(`http://localhost:8080/product/getAll`);
+    const response = await api.get(`/product/getAll`);
     const products = response.data;
 
     if (Array.isArray(products)) {
@@ -129,7 +129,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="scss" >
+<style lang="scss" scoped>
 .categories__page {
   margin-top: 5%;
 

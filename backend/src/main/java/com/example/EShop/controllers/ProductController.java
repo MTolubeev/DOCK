@@ -83,7 +83,6 @@ public class ProductController {
 
         return ResponseEntity.ok().build();
     }
-
     @PutMapping(value = "/product/change", consumes = "multipart/form-data")
     public ResponseEntity<?> changeProduct(@RequestPart("productData") String productData,
                                            @RequestPart(value = "images", required = false) MultipartFile images) throws IOException {
