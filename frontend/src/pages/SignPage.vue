@@ -4,7 +4,7 @@
       <n-button color="#465a86" class="modal__overlay__close" @click="closeModal">✖</n-button>
       <h2>Вход в личный аккаунт</h2>
       <p>Нет аккаунта? создайте!</p>
-      <router-link to="/registration">
+      <router-link :to="{name: 'Registrantion'}">
         <n-button type="warning">Создать аккаунт</n-button>
       </router-link>
       <n-input
@@ -48,7 +48,7 @@ const login = async () => {
     showNotificationMessage('success', 'Успех', 'Вы успешно вошли в аккаунт');
 
     if (cameFromRegistration.value) {
-      router.push("/"); 
+      router.push({name: 'MainPage'}); 
     } else {
       window.history.back(); 
     }
@@ -58,7 +58,7 @@ const login = async () => {
 };
 
 const closeModal = () => {
-  router.push("/").then(() => window.location.reload());
+  router.push({name: 'MainPage'}).then(() => window.location.reload());
 };
 
 onBeforeMount(() => {

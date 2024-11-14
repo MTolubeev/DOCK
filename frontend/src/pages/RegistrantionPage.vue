@@ -4,7 +4,7 @@
       <n-button color="#465a86" class="modal__overlay__close" @click="closeModal">✖</n-button>
       <h2>Регистрация нового пользователя</h2>
       <p>Если аккаунт уже существует, то войдите</p>
-      <router-link :to="{ path: '/signin', query: { from: 'registration' } }">
+      <router-link :to="{ name: 'SignIn', query: { from: 'registration' } }">
          <n-button type="warning">Войти</n-button> 
       </router-link>
       <n-input 
@@ -65,14 +65,14 @@ const register = async () => {
    });
     await userStore.login(email.value, password.value);
     console.log(email.value, password.value)
-    router.push('/');
+    router.push({name: 'MainPage'});
     showNotificationMessage('success', 'Успех', 'Вы успешно зарегестрировались.'); 
   } catch (error) {
     showNotificationMessage('error', 'Ошибка', 'Регистрация не прошла'); 
   }
 };
 const closeModal = () => {
-  router.push("/").then(() => window.location.reload());
+  router.push({name: 'MainPage'}).then(() => window.location.reload());
 };
 </script>
 
