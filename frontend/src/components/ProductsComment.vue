@@ -123,12 +123,9 @@ const { showNotificationMessage } = useNotificationService();
 const userStore = useUserStore();
 
 const showAll = ref(false);
-
-const commentIdToDelete = ref(null);
 const sortOrder = ref('desc');
 const currentImages = ref([]);
-const showImageGallery = ref(false);
-const currentImageGalleryId = ref(null);
+
 const maxStars = 5;
 
 const sortOptions = [
@@ -143,6 +140,8 @@ const isAdmin = computed(() => role.value === "ROLE_ADMIN");
 const toggleComments = () => {
   showAll.value = !showAll.value;
 };
+const showImageGallery = ref(false);
+
 const closeImageGallery = () => {
   showImageGallery.value = false;
   currentImages.value = [];
@@ -174,6 +173,7 @@ const handleWriteReview = () => {
   }
 };
 
+const commentIdToDelete = ref(null);
 const confirmDialogVisible = ref(false);
 
 const openDeleteDialog = (commentId) => {
@@ -185,6 +185,9 @@ const closeConfirmDialog = () => {
   confirmDialogVisible.value = false;
   commentIdToDelete.value = null;
 };
+
+const currentImageGalleryId = ref(null);
+
 const openImageGallery = (images, commentId) => {
   currentImages.value = images.map((image) => ({
     base64: convertBase64(image.bytes),

@@ -82,7 +82,7 @@ const productsLoaded = ref(false);
 const commentsLoaded = ref(false);
 const showModal = ref(false);
 const comments = ref([]);
-const searhQuery = ref("");
+
 
 const loading = computed(() => !productsLoaded.value || !commentsLoaded.value);
 const role = computed(() => userStore.role.value);
@@ -100,6 +100,8 @@ const closeModal = () => {
   showModal.value = false;
   document.body.style.overflow = "";
 };
+
+const searhQuery = ref("");
 
 const clearSearch = () =>{
   searhQuery.value = '';

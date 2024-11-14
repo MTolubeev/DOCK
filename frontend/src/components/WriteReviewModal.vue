@@ -72,10 +72,8 @@ const emits = defineEmits(['update:modelValue']);
 const { showNotificationMessage } = useNotificationService();
 const visible = ref(props.modelValue);
 const reviewText = ref('');
-const rating = ref(0);
 const maxStars = 5;
-const files = ref([]);
-const images = ref([]);
+const rating = ref(0);
 
 const setRating = (star) => {
   rating.value = star;
@@ -84,6 +82,9 @@ const setRating = (star) => {
 const beforeUpload = () => {
   return true;
 };
+
+const files = ref([]);
+const images = ref([]);
 
 const handleChange = (event) => {
   images.value = event.fileList.map(file => {
