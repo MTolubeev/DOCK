@@ -56,9 +56,9 @@ const props = defineProps({
     type: Boolean,
     required: true
   },
-  commentId:{
-    type: Number,
-    required: true
+  commentId: {
+  type: [Number, null],
+  required: true
   }
 });
 

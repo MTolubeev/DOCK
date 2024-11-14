@@ -110,19 +110,19 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['save', 'cancel']);
-
-const imageDeleted = ref(false);
-const editProduct = ref({ ...props.item });
-const fileList = ref([]);
-
 const selectedCategory = ref(props.item.categories[0]?.name || '');
 const selectedSubcategory = ref(props.item.categories[0]?.subcategory || '');
 const selectedSubsubcategory = ref(props.item.categories[0]?.subsubcategory || '');
+
+const imageDeleted = ref(false);
+const editProduct = ref({ ...props.item });
 
 const deleteImage = () => {
   imageDeleted.value = true;
   editProduct.value.imageUrl = null;
 };
+
+const fileList = ref([]);
 
 const handleChange = (event) => {
   if (event.fileList && event.fileList.length > 0) {

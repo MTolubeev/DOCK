@@ -104,7 +104,6 @@ import { defineProps, ref, computed, onMounted } from 'vue';
 import { NCard, NButton, NSelect, NDialog } from 'naive-ui';
 import WriteReviewModal from './WriteReviewModal.vue';
 import { useUserStore } from '@/store/userStore';
-// import axios from 'axios';
 import ImageGallery from './ImageGallery.vue';
 import { useNotificationService } from '@/composables/useNotifications';
 import api from '@/services/api.js';
@@ -124,8 +123,7 @@ const { showNotificationMessage } = useNotificationService();
 const userStore = useUserStore();
 
 const showAll = ref(false);
-const showReviewModal = ref(false);
-const confirmDialogVisible = ref(false);
+
 const commentIdToDelete = ref(null);
 const sortOrder = ref('desc');
 const currentImages = ref([]);
@@ -166,6 +164,8 @@ const sortedComments = computed(() => {
   return showAll.value ? sorted : sorted.slice(0, 3);
 });
 
+const showReviewModal = ref(false);
+
 const handleWriteReview = () => {
   if (user.value) {
     showReviewModal.value = true;
@@ -173,6 +173,8 @@ const handleWriteReview = () => {
     showNotificationMessage('error', 'Ошибка добавления комментария','Авторизуйтесь для создания комментария');
   }
 };
+
+const confirmDialogVisible = ref(false);
 
 const openDeleteDialog = (commentId) => {
   commentIdToDelete.value = commentId;

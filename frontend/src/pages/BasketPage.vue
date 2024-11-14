@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <MyHeader @toggle-drawer="toggleDrawer" />
+    <AppHeader @toggle-drawer="toggleDrawer" />
     <AppDrawer 
       :is-visible="isDrawerVisible" 
       @close-drawer="closeDrawer" 
@@ -11,7 +11,7 @@
 
 <script setup>
 import AppCart from '@/components/AppBasket.vue';
-import MyHeader from '@/components/AppHeader.vue';
+import AppHeader from '@/components/AppHeader.vue';
 import AppDrawer from '@/components/AppDrawer.vue';
 import { useDrawer } from '@/composables/useHeader.js';
 

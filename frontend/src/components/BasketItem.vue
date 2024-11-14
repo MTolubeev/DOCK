@@ -73,10 +73,11 @@ watch(() => props.item,
 );
 
 onMounted(async () => {
-  if (!user.value) {
+  if (!user.value || !token) {
     await userStore.fetchUser();
+    await cartStore.fetchCart(token);
   }
-  await cartStore.fetchCart(token);
+  
 });
 </script>
 

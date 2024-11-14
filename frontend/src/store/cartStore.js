@@ -7,22 +7,23 @@ export const useCartStore = defineStore('cart', () => {
 
   const fetchCart = async (token) => {
     try {
-      const response = await api.get(`/basket/myBasket`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      cartItems.value = response.data.map((item) => {
-        return {
-          ...item,
-          imageUrl: item.base64Image
-            ? `data:image/png;base64,${item.base64Image}`
-            : null,
-        };
-      });
-
+      if(token !== null){
+        const response = await api.get(`/basket/myBasket`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        cartItems.value = response.data.map((item) => {
+          return {
+            ...item,
+            imageUrl: item.base64Image
+              ? `data:image/png;base64,${item.base64Image}`
+              : null,
+          };
+        });
+      }
       return cartItems.value;
     } catch (error) {
       console.error("Ошибка получения корзины:",error.response.data);

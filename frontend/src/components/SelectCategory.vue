@@ -2,20 +2,24 @@
   <div>
     <label>{{ label }}</label>
     <div class="select__control">
-      <NSelect 
+      <n-select 
       v-model:value="selectedValue" 
       :options="options" 
       />
-      <NButton @click="toggleInput" size="small" style="margin-left: 8px">
+      <div class="select__control__btns">
+      <n-button size="small" style="margin-left: 8px" @click="toggleInput">
         {{ showInput ? "-" : "+" }}
-      </NButton>
+      </n-button>
+      <n-button size="small" @click="clearSelect">Очистить</n-button>
+    </div>
     </div>
     <n-input
       v-if="showInput"
       :value="inputValue"
       placeholder="Введите новое значение"
       style="margin-top: 8px"
-      @update:value="updateInputValue"/>
+      @update:value="updateInputValue"
+      />
   </div>
 </template>
 
@@ -37,6 +41,10 @@ const selectedValue = ref(null);
 const inputValue = ref('');
 const showInput = ref(false);
 
+const clearSelect = () =>{
+  selectedValue.value = null;
+  inputValue.value = '';
+}
 const updateInputValue = (value) => {
   inputValue.value = value;
 };
@@ -67,5 +75,10 @@ watch(inputValue, (newValue) => {
 .select__control{
   display: flex;
   align-items: center;
+
+  &__btns{
+    display: flex;
+    gap: 5px;
+  }
 }
 </style>

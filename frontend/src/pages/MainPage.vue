@@ -24,7 +24,15 @@
     <n-input status="error"
       v-model:value="searhQuery"
       placeholder="Поиск товаров"
-    />
+      />
+    <n-button 
+      v-if="searhQuery"
+      class="button__clear" 
+      size="small"
+      color="#465a86"
+      @click="clearSearch">
+      +
+    </n-button>
     <CardList 
     :searh-query="searhQuery" 
     @products-loaded="onProductsLoaded" 
@@ -93,6 +101,9 @@ const closeModal = () => {
   document.body.style.overflow = "";
 };
 
+const clearSearch = () =>{
+  searhQuery.value = '';
+}
 const getAllComments = async () => {
   try {
     const response = await api.get(`/comments/getAllComments`);
@@ -131,7 +142,11 @@ onMounted(async () => {
     top: 60px;
     left: 60%;
   }
-
+  .button__clear{
+    position: relative;
+    top: 60px;
+    left: 58%;
+  }
   &__comments {
     margin-top: 20px;
     display: flex;

@@ -3,9 +3,14 @@
     <div class="header__info">
       <div class="header__profile">
         <img src="@/assets/Union.svg" alt="profile" />
-        <router-link v-if="!user" to="/signin">
+        <div v-if="!user" class="header__info__btns">
+          <router-link  :to="{name: 'SignIn'}">
           <n-button color="#fff">Войти</n-button>
         </router-link>
+        <router-link  :to="{name: 'Registrantion'}">
+          <n-button color="#fff">Создать аккаунт</n-button>
+        </router-link>
+        </div>
         <div v-else>
           <span>{{ user.sub }}</span>
           <n-button color="#fff" @click="logout">
@@ -15,13 +20,13 @@
       </div>
       <div class="header__basket">
         <img src="@/assets/cart.svg" alt="cart" />
-        <router-link to="/cart">
+        <router-link :to="{name: 'BasketPage'}">
           <n-button color="#fff">Корзина</n-button>
         </router-link>
         <span>{{ cartItemCount }}</span>
       </div>
       <div class="header__main">
-        <router-link to="/">
+        <router-link :to="{name: 'MainPage'}">
           <n-button color="#fff">Главная</n-button>
         </router-link>
       </div>
@@ -76,6 +81,11 @@ onMounted(async () => {
 .header__info{
   display: flex;
   gap: 30px;
+
+  &__btns{
+    display: flex;
+    gap: 10px;
+  }
 }
 .header__profile,
 .header__basket,

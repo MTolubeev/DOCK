@@ -24,7 +24,6 @@
  
 <script setup> 
 import { ref, onMounted, defineEmits, computed, defineProps } from 'vue'; 
-// import axios from 'axios'; 
 import CardItem from './CardItem.vue'; 
 import FilteredProducts from '@/components/FilteredProducts.vue'; 
 import api from '@/services/api.js';
@@ -34,20 +33,17 @@ const props = defineProps({
   searhQuery: String 
 });
 
-const items = ref([]); 
 const categoryOptions = ref([]); 
 const subcategoryOptions = ref([]); 
 const subsubcategoryOptions = ref([]); 
-
-
 const selectedPhones = ref([]); 
 const priceRange = ref([500, 1000000]); 
-
 
 const updateSelectedPhones = (phones) => { 
   selectedPhones.value = phones; 
 };
 
+const items = ref([]); 
 
 const updatePriceRange = (range) => { 
   priceRange.value = range; 

@@ -76,25 +76,34 @@ import EditProduct from "./EditProduct.vue";
 import api from '@/services/api.js';
 
 const props = defineProps({
-  item: { type: Object, required: true },
-  categoryOptions: { type: Array, required: true },
-  subcategoryOptions: { type: Array, required: true },
-  subsubcategoryOptions: { type: Array, required: true },
+  item: 
+  { 
+    type: Object, 
+    required: true 
+  },
+  categoryOptions: { 
+    type: Array 
+  },
+  subcategoryOptions: { 
+    type: Array 
+  },
+  subsubcategoryOptions: { 
+    type: Array 
+  },
 });
 
-const emit = defineEmits(["delete"]);
 const userStore = useUserStore();
-const router = useRouter();
 const confirmDialogVisible = ref(false);
-const isAuthenticated = ref(false);
-const isEdited = ref(false);
 const role = computed(() => userStore.role.value);
 const isAdmin = computed(() => role.value === "ROLE_ADMIN");
+const isAuthenticated = ref(false);
 
 const checkAuth = () => {
   const token = localStorage.getItem("token");
   if (token) isAuthenticated.value = true;
 };
+
+const isEdited = ref(false);
 
 const editModel = () => {
   isEdited.value = true;
@@ -104,6 +113,8 @@ const openConfirmDialog = (event) => {
   event.stopPropagation();
   confirmDialogVisible.value = true;
 };
+
+const emit = defineEmits(["delete"]);
 
 const deleteProduct = async () => {
   try {
@@ -120,15 +131,15 @@ const closeConfirmDialog = () => {
   confirmDialogVisible.value = false;
 };
 
+const router = useRouter();
+
 const navigateToproduct = () => {
   router.push({ path: `/product-view/${props.item.id}` });
 };
 
 const handleSave = async (updatedProduct) => {
   const formData = new FormData();
-  formData.append(
-    "productData",
-    JSON.stringify({
+  formData.append("productData", JSON.stringify({
       productId: updatedProduct.id,
       newTitle: updatedProduct.newTitle,
       newDescription: updatedProduct.newDescription,
@@ -142,7 +153,6 @@ const handleSave = async (updatedProduct) => {
   );
 
   if (updatedProduct.images) formData.append("images", updatedProduct.images);
-
   try {
     await api.put(`/product/change`, formData, {
       headers: { "Content-Type": "multipart/form-data" },

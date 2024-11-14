@@ -16,7 +16,7 @@ import { useRouter } from 'vue-router';
 import { useNotificationService } from '@/composables/useNotifications.js'; 
 
 const { showNotificationMessage } = useNotificationService();
-const router = useRouter();
+
 const cartStore = useCartStore();
 const userStore = useUserStore();
 const inCart = ref(false);
@@ -44,20 +44,24 @@ const buttonStyle = computed(() => ({
 }));
 
 const updateInCartStatus = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    await userStore.fetchUser();
-    const userId = user.value?.id;
-    if (userId) {
-      const cart = await cartStore.fetchCart(token);
-      inCart.value = cart.some((item) => item.id === props.productId);
-    } else {
-      console.error('User ID is missing.');
+  const token = localStorage.getItem("token");
+    if(token === null || user.value === null){
+      inCart.value = false;
+      return;
     }
-  } catch (error) {
-    console.error("Ошибка получения корзины", error);
+    try {
+      await userStore.fetchUser();
+      const userId = user.value?.id;
+      if (userId) {
+        const cart = await cartStore.fetchCart(token);
+        inCart.value = cart.some((item) => item.id === props.productId);
+      } 
+    } catch (error) {
+      console.error("Ошибка получения корзины", error);
   }
 };
+
+const router = useRouter();
 
 const toggleCart = async () => {
   try {

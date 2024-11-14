@@ -103,37 +103,22 @@
   </n-dialog>
  </template>
  
- <script setup>
- import { ref, defineEmits, onMounted } from 'vue';
- import { NInput, NButton, NDialog, NUpload } from 'naive-ui';
- import SelectCategory from './SelectCategory.vue';
+<script setup>
+import { ref, defineEmits, onMounted } from 'vue';
+import { NInput, NButton, NDialog, NUpload } from 'naive-ui';
+import SelectCategory from './SelectCategory.vue';
 import { useNotificationService } from '@/composables/useNotifications';
 import api from '@/services/api.js';
- 
- const emit = defineEmits(["close"]);
  
  const { showNotificationMessage } = useNotificationService();
  
  const showModal = ref(false);
- const fileList = ref([]);
- const product = ref({
-   title: '',
-   price: '',
-   discountPrice: '',
-   description: '',
-   category: '',
-   count: '',
- });
- 
  const categoryOptions = ref([]);
  const subcategoryOptions = ref([]);
  const subsubcategoryOptions = ref([]);
- const selectedData = ref({
-   category: null,
-   subcategory: null,
-   subsubcategory: null,
- });
  
+ const emit = defineEmits(["close"]);
+
  const emitClose = () => {
    showModal.value = false;
    emit("close");
@@ -147,7 +132,16 @@ import api from '@/services/api.js';
        value: value,
      }));
  };
- 
+
+ const product = ref({
+   title: '',
+   price: '',
+   discountPrice: '',
+   description: '',
+   category: '',
+   count: '',
+ });
+
  const fetchData = async () => {
    try {
      const response = await api.get(`/product/getAll`);
@@ -159,16 +153,25 @@ import api from '@/services/api.js';
      console.error("Ошибка при загрузке данных:", error);
    }
  };
+
+ const selectedData = ref({
+   category: null,
+   subcategory: null,
+   subsubcategory: null,
+ });
  
  const handleDataChange = (field) => (value) => {
    selectedData.value[field] = value;
  };
  
+ const fileList = ref([]);
+
  const handleFileChange = (event) => {
    if (event.fileList && event.fileList.length > 0) {
      fileList.value = event.fileList;
    }
  };
+
  const isFormValid = () => {
    return (
      fileList.value.length > 0 &&
@@ -179,6 +182,7 @@ import api from '@/services/api.js';
      product.value.count !== ""
    );
  };
+ 
  const uploadFile =  async() => {
    if (isFormValid()) {
      const formData = new FormData();

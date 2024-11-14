@@ -89,6 +89,7 @@ const updateCartItem = (updatedItem) => {
     }
   }
 };
+
 const placeOrder = async () => {
   const token = localStorage.getItem('token');
   try {
@@ -117,9 +118,11 @@ const closeConfirmation = () => {
 
 onMounted(async () => {
   try {
-    await userStore.fetchUser();
-      const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+    if(!userStore.value || !token){
+      await userStore.fetchUser();
       await cartStore.fetchCart(token);
+    }
   } catch (err) {
     console.error("Ошибка загрузки корзины пользователя", err);
   }

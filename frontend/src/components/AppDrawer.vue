@@ -44,6 +44,8 @@ import { useUserStore } from "@/store/userStore";
 import { useOrganizeProducts } from "@/composables/useOrganizeProducts";
 import api from '@/services/api.js';
 
+const { organizeProductsByCategories } = useOrganizeProducts();
+
 defineProps({
   isVisible: Boolean,
 });
@@ -51,7 +53,6 @@ defineProps({
 const userStore = useUserStore();
 const categories = ref([]);
 const editMode = ref(false);
-const { organizeProductsByCategories } = useOrganizeProducts();
 
 const role = computed(() => userStore.role.value);
 const isAdmin = computed(() => role.value === "ROLE_ADMIN");
@@ -85,7 +86,9 @@ const onDragEnd = (newCategories) => {
 const collectChanges = () => {
   let changes = {};
 
-  const processProduct = (product, category, subcategory = null, subsubcategory = null, categoryIndex, subcategoryIndex = null, subsubcategoryIndex = null, productIndex) => {
+  const processProduct = (params) => {
+    const { product, category, subcategory = null, subsubcategory = null, categoryIndex, subcategoryIndex = null, subsubcategoryIndex = null, productIndex } = params;
+
     if (!changes[product.id]) {
       changes[product.id] = [];
     }
@@ -102,21 +105,25 @@ const collectChanges = () => {
 
   categories.value.forEach((category, categoryIndex) => {
     category.productsWithoutSubcategory.forEach((product, productIndex) => {
-      processProduct(product, category, null, null, categoryIndex, null, null, productIndex);
+      const params = { product, category, categoryIndex, productIndex };
+      processProduct(params);
     });
 
     category.subcategories.forEach((subcategory, subcategoryIndex) => {
       subcategory.products.forEach((product, productIndex) => {
-        processProduct(product, category, subcategory, null, categoryIndex, subcategoryIndex, null, productIndex);
+        const params = { product, category, subcategory, categoryIndex, subcategoryIndex, productIndex };
+        processProduct(params);
       });
 
       subcategory.subsubcategories.forEach((subsubcategory, subsubcategoryIndex) => {
         subsubcategory.products.forEach((product, productIndex) => {
-          processProduct(product, category, subcategory, subsubcategory, categoryIndex, subcategoryIndex, subsubcategoryIndex, productIndex);
+          const params = { product, category, subcategory, subsubcategory, categoryIndex, subcategoryIndex, subsubcategoryIndex, productIndex };
+          processProduct(params);
         });
       });
     });
   });
+
   return changes;
 };
 const saveOrder = async () => {
