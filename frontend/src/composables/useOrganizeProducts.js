@@ -8,7 +8,7 @@ export const useOrganizeProducts = () => {
         if (!category) {
           category = {
             name: cat.name,
-            order: cat.order || 0, // Предполагается, что поле order существует
+            order: cat.order || 0, 
             subcategories: [],
             productsWithoutSubcategory: [],
           };
@@ -51,12 +51,10 @@ export const useOrganizeProducts = () => {
       });
     });
 
-    // Преобразуем Map в массив и сортируем категории по полю order
     const sortedCategories = Array.from(categoryMap.values()).sort(
       (a, b) => a.order - b.order
     );
 
-    // Сортируем подкатегории и подподкатегории по полю order
     sortedCategories.forEach((category) => {
       category.subcategories.sort((a, b) => a.order - b.order);
       category.subcategories.forEach((subcategory) => {
