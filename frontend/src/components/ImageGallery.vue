@@ -1,7 +1,7 @@
 <template>
   <div v-if="show" class="image__gallery">
     <n-button 
-     color="#465a86"
+      color="#465a86"
       class="prev__button" 
       :disabled="currentIndex === 0"
       @click="prevImage">
@@ -13,6 +13,7 @@
         v-if="currentImage"
         :src="currentImage"
         class="gallery__image" 
+        :key="currentIndex"
         alt="gallery image"/>
       <n-button
         size="large"
@@ -33,7 +34,7 @@
     </div>
 
     <n-button 
-       color="#465a86"
+      color="#465a86"
       class="next__button" 
       :disabled="currentIndex >= images.length - 1"
       @click="nextImage">
@@ -57,10 +58,11 @@ const props = defineProps({
     required: true
   },
   commentId: {
-  type: [Number, null],
-  required: true
+    type: [Number, null],
+    required: true
   }
 });
+
 
 const emit = defineEmits(['close', 'delete-image']);
 
@@ -123,6 +125,7 @@ const prevImage = () => {
     .gallery__image {
       max-width: 90%;
       max-height: 90%;
+      object-fit: contain;
     }
 
     .close__button,
@@ -159,5 +162,13 @@ const prevImage = () => {
       right: 20px;
     }
   }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

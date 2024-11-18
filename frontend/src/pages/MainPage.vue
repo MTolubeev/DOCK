@@ -31,7 +31,7 @@
       size="small"
       color="#465a86"
       @click="clearSearch">
-      +
+      &times;
     </n-button>
     <CardList 
     :searh-query="searhQuery" 
