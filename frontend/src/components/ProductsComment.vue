@@ -65,8 +65,8 @@
         </div>
         <ImageGallery
           :images="currentImages"
-          :show="showImageGallery"
-          :comment-id="currentImageGalleryId"
+          :show="showImageGallery === comment.id"
+          :comment-id="comment.id"
           @close="closeImageGallery"
           @delete-image="handleDeleteImage"
         />
@@ -143,7 +143,7 @@ const toggleComments = () => {
 const showImageGallery = ref(false);
 
 const closeImageGallery = () => {
-  showImageGallery.value = false;
+  showImageGallery.value = null;
   currentImages.value = [];
 };
 
@@ -194,7 +194,7 @@ const openImageGallery = (images, commentId) => {
     ...image,
   }));
   currentImageGalleryId.value = commentId;
-  showImageGallery.value = true;
+  showImageGallery.value = commentId;
 };
 
 const confirmDeleteComment = async () => {

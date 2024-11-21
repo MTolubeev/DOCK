@@ -25,7 +25,8 @@
       v-model:value="searhQuery"
       placeholder="Поиск товаров"
       clearable
-    />
+      />
+
     <CardList 
     :searh-query="searhQuery" 
     @products-loaded="onProductsLoaded" 

@@ -103,8 +103,11 @@ const handleClose = () => {
 };
 
 const submitReview = async () => {
-  if (!reviewText.value || rating.value === 0) {
-    showNotificationMessage('error', 'Ошибка', 'Заполните все поля!');
+  if (!reviewText.value)  {
+    showNotificationMessage('error', 'Ошибка', 'Заполните поле отзыва');
+    return;
+  } else if(rating.value === 0){
+    showNotificationMessage('error', 'Ошибка', 'Не выбрана оценка');
     return;
   }
   const formData = new FormData();
@@ -131,7 +134,7 @@ const submitReview = async () => {
     }
   } catch (error) {
     console.error('Ошибка при отправке комментария:', error.response ? error.response.data : error.message);
-    showNotificationMessage('error', 'Ошибка', 'Произошла ошибка при отправке комментария.');
+    showNotificationMessage('error', 'Ошибка', 'Произошла ошибка при отправке отзыва.');
   }
 };
 
