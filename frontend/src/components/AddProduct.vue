@@ -55,6 +55,7 @@
            <n-input 
            v-model:value="product.description"
            type="textarea" 
+           placeholder="Описание товара"
            required 
            />
          </div>

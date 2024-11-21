@@ -4,9 +4,9 @@
       <div class="header__profile">
         <img src="@/assets/Union.svg" alt="profile" />
         <div v-if="!user" class="header__info__btns">
-          <router-link  :to="{name: 'SignIn'}">
-          <n-button color="#fff">Войти</n-button>
-        </router-link>
+          <router-link :to="{ name: 'SignIn', query: { redirect: $route.fullPath } }">
+            <n-button color="#fff">Войти</n-button>
+          </router-link>
         <router-link  :to="{name: 'Registrantion'}">
           <n-button color="#fff">Создать аккаунт</n-button>
         </router-link>
