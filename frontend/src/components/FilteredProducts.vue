@@ -14,12 +14,14 @@
         :show-button="false" 
         :min="0" 
         :max="1000000" 
+        placeholder="Минимум"
       /> 
       <n-input-number 
         v-model:value="localPriceRange[1]"
         :show-button="false" 
         :min="0" 
-        :max="Infinity" 
+        :max="1000000" 
+        placeholder="Максимум"
       /> 
       <n-button color="#465a86" @click="applyFilters">Применить</n-button>
       <n-button style="margin-top: 10px;" color="#465a86" @click="resetFilters">Сбросить</n-button>
@@ -33,20 +35,21 @@ import { NCheckbox, NCheckboxGroup, NCard, NSpace, NInputNumber, NButton } from 
 
 const emit = defineEmits(['update:selectedPhones', 'update:priceRange', 'resetFilters']); 
 
-
 const localSelectedPhones = ref([]);
-const localPriceRange = ref([0, 1000000]);
+const localPriceRange = ref([0, '']); 
 
 const applyFilters = () => {
-  const minPrice = localPriceRange.value[0] || 0;
-  const maxPrice = localPriceRange.value[1] || Infinity;
+  const minPrice = localPriceRange.value[0] || 0; 
+  const maxPrice = localPriceRange.value[1] === '' ? Infinity : localPriceRange.value[1]; 
+  
   emit('update:priceRange', [minPrice, maxPrice]);
   emit('update:selectedPhones', localSelectedPhones.value);
 };
 
 const resetFilters = () => {
   localSelectedPhones.value = [];
-  localPriceRange.value = [0, 1000000];
+  localPriceRange.value = [0, '']; 
+  applyFilters();
   emit('resetFilters');
 };
 </script> 

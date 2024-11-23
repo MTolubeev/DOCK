@@ -44,7 +44,7 @@ const subcategoryOptions = ref([]);
 const subsubcategoryOptions = ref([]);
 
 const selectedPhones = ref([]);
-const priceRange = ref([0, 1000000]);
+const priceRange = ref([0, Infinity]);
 
 const updateSelectedPhones = (phones) => {
   selectedPhones.value = phones;
@@ -77,9 +77,7 @@ const fetchItems = async () => {
 };
 const filteredItems = computed(() => {
   return items.value.filter((item) => {
-    const matchesSearch =
-      !props.searhQuery ||
-      item.title.toLowerCase().includes(props.searhQuery.toLowerCase());
+    const matchesSearch = !props.searhQuery || item.title.toLowerCase().includes(props.searhQuery.toLowerCase());
     const matchesPhones =
       selectedPhones.value.length === 0 ||
       selectedPhones.value.some((phone) =>
@@ -164,7 +162,7 @@ h2 {
   .filters {
     margin: 20px 0px 0px 20px;
     position: sticky;
-    top: 0;
+    top: 80px;
     align-self: flex-start;
   }
 }

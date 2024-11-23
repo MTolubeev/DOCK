@@ -21,8 +21,13 @@
       <h3 class="product-card__title">{{ item.title }}</h3>
       <div class="product-card__info">
         <span v-if="isAuthenticated">
-          Цена: <b>{{ item.discountPrice }} руб.</b>
-          <del style="margin-left: 10px">{{ item.price }} руб.</del>
+          <span v-if="item.discountPrice && item.discountPrice > 0">
+            Цена: <b>{{ item.discountPrice }} руб.</b>
+            <del style="margin-left: 10px">{{ item.price }} руб.</del>
+          </span>
+          <span v-else>
+            Цена: <b>{{ item.price }} руб.</b>
+          </span>
         </span>
         <span v-else>
           Цена: <b>{{ item.price }} руб.</b>
@@ -73,22 +78,21 @@ import { NCard, NButton, NDialog } from "naive-ui";
 import { useUserStore } from "@/store/userStore";
 import BasketButton from "./BasketButton.vue";
 import EditProduct from "./EditProduct.vue";
-import api from '@/services/api.js';
+import api from "@/services/api.js";
 
 const props = defineProps({
-  item: 
-  { 
-    type: Object, 
-    required: true 
+  item: {
+    type: Object,
+    required: true,
   },
-  categoryOptions: { 
-    type: Array 
+  categoryOptions: {
+    type: Array,
   },
-  subcategoryOptions: { 
-    type: Array 
+  subcategoryOptions: {
+    type: Array,
   },
-  subsubcategoryOptions: { 
-    type: Array 
+  subsubcategoryOptions: {
+    type: Array,
   },
 });
 
@@ -139,7 +143,9 @@ const navigateToproduct = () => {
 
 const handleSave = async (updatedProduct) => {
   const formData = new FormData();
-  formData.append("productData", JSON.stringify({
+  formData.append(
+    "productData",
+    JSON.stringify({
       productId: updatedProduct.id,
       newTitle: updatedProduct.newTitle,
       newDescription: updatedProduct.newDescription,
