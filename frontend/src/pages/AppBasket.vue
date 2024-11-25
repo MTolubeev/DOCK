@@ -67,7 +67,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useCartStore } from '@/store/cartStore';
 import { useUserStore } from '@/store/userStore';
-import BasketItem from './BasketItem.vue';
+import BasketItem from '../components/BasketItem.vue';
 import api from '@/services/api.js';
 import { NButton, NDialog, NSpin } from 'naive-ui';
 

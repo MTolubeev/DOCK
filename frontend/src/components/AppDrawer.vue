@@ -1,55 +1,67 @@
 <template>
-  <div v-if="isVisible" class="catalog">
-    <div class="catalog__basket">
-      <h2>Каталог товаров</h2>
-      <svg @click="$emit('close-drawer')" width="16" height="14" fill="#fff">
-        <path d="M1 7H14.7143" stroke="#fff" stroke-width="2" />
-        <path d="M8.71436 1L14.7144 7L8.71436 13" stroke="#fff" stroke-width="2" />
-      </svg>
-    </div>
-    <n-button 
-      v-if="!editMode && isAdmin" 
-      type="warning" 
-      size="small" 
-      @click="enableEditMode">
-      Включить режим редактирования
-    </n-button>
-    <DraggableCatalog
-      :categories="categories"
-      :edit-mode="editMode"
-      @drag-end="onDragEnd"
-    />
-      <div class="catalog__btns">
+  <n-drawer 
+    v-model:show="localVisible" 
+    :width="384" 
+    :placement="'right'" 
+    @update:show="handleClose">
+    <n-drawer-content>
+      <div class="catalog">
+        <div class="catalog__basket">
+          <h2>Каталог товаров</h2>
+          <svg @click="closeDrawer" width="16" height="14" fill="#fff">
+            <path d="M1 7H14.7143" stroke="#fff" stroke-width="2" />
+            <path d="M8.71436 1L14.7144 7L8.71436 13" stroke="#fff" stroke-width="2" />
+          </svg>
+        </div>
         <n-button 
-          v-if="editMode" 
+          v-if="!editMode && isAdmin" 
           type="warning" 
-          @click="saveOrder">
-          Сохранить изменения
+          size="small" 
+          @click="enableEditMode">
+          Включить режим редактирования
         </n-button>
-        <n-button 
-          v-if="editMode" 
-          type="error" 
-          @click="cancelEditMode">
-          Отменить изменения
-        </n-button>
+        <DraggableCatalog
+          :categories="categories"
+          :edit-mode="editMode"
+          @drag-end="onDragEnd"
+          @close-drawer="closeDrawer"
+        />
+        <div class="catalog__btns">
+          <n-button 
+            v-if="editMode" 
+            type="warning" 
+            @click="saveOrder">
+            Сохранить изменения
+          </n-button>
+          <n-button 
+            v-if="editMode" 
+            type="error" 
+            @click="cancelEditMode">
+            Отменить изменения
+          </n-button>
+        </div>
       </div>
-  </div>
+    </n-drawer-content>
+  </n-drawer>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, defineProps } from "vue";
+import { ref, watch, computed, onMounted, defineProps, defineEmits } from "vue";
 import DraggableCatalog from './DraggableCatalog.vue';
-import { NButton } from "naive-ui";
+import { NButton, NDrawer, NDrawerContent } from "naive-ui";
 import { useUserStore } from "@/store/userStore";
 import { useOrganizeProducts } from "@/composables/useOrganizeProducts";
 import api from '@/services/api.js';
 
 const { organizeProductsByCategories } = useOrganizeProducts();
 
-defineProps({
+const props = defineProps({
   isVisible: Boolean,
 });
 
+const emit = defineEmits(['close-drawer']);
+
+const localVisible = ref(false);
 const userStore = useUserStore();
 const categories = ref([]);
 const editMode = ref(false);
@@ -126,6 +138,7 @@ const collectChanges = () => {
 
   return changes;
 };
+
 const saveOrder = async () => {
   try {
     const changes = collectChanges();
@@ -142,11 +155,30 @@ const saveOrder = async () => {
   }
 };
 
+const closeDrawer = () => {
+  emit('close-drawer');
+};
+
+const handleClose = (value) => {
+  if (!value) {
+    closeDrawer();
+  }
+};
+
+watch(
+  () => props.isVisible,
+  (newVal) => {
+    localVisible.value = newVal;
+  },
+  { immediate: true }
+);
+
 onMounted(() => {
   userStore.fetchUser();
   fetchData();
 });
 </script>
+
 
 <style lang="scss" scoped>
 .catalog {

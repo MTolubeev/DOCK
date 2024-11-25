@@ -3,11 +3,6 @@
     content-style="--n-opacity-spinning:0; height: 100vh;"
     stroke="#465a86"
     :show="loading">
-    <AppHeader @toggle-drawer="toggleDrawer" />
-    <AppDrawer 
-      :is-visible="isDrawerVisible" 
-      @close-drawer="closeDrawer" 
-    />
     <div class="main__page">
     <n-button
       v-if="isAdmin"
@@ -62,16 +57,13 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { NButton, NCard, NSpin, NInput } from 'naive-ui';
-import AppHeader from '@/components/AppHeader.vue';
-import AppDrawer from '@/components/AppDrawer.vue';
 import AddProduct from '@/components/AddProduct.vue';
 import CardList from '@/components/CardList.vue';
 import { useUserStore } from '@/store/userStore';
-import { useDrawer } from '@/composables/useHeader.js';
 import api from '@/services/api.js';
 
 const userStore = useUserStore();
-const { isDrawerVisible, toggleDrawer, closeDrawer } = useDrawer();
+
 
 const productsLoaded = ref(false);
 const commentsLoaded = ref(false);

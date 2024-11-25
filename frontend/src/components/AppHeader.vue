@@ -5,15 +5,15 @@
         <img src="@/assets/Union.svg" alt="profile" />
         <div v-if="!user" class="header__info__btns">
           <router-link :to="{ name: 'SignIn', query: { redirect: $route.fullPath } }">
-            <n-button color="#fff">Войти</n-button>
+            <n-button ghost color="#fff">Войти</n-button>
           </router-link>
           <router-link :to="{ name: 'Registrantion', query: { redirect: $route.fullPath } }">
-            <n-button color="#fff">Создать аккаунт</n-button>
+            <n-button ghost color="#fff">Создать аккаунт</n-button>
           </router-link>
         </div>
         <div v-else>
           <span>{{ user.sub }}</span>
-          <n-button color="#fff" @click="logout">
+          <n-button ghost color="#fff" @click="logout">
             Выйти
           </n-button>
         </div>
@@ -21,18 +21,19 @@
       <div class="header__basket">
         <img src="@/assets/cart.svg" alt="basket" />
         <router-link :to="{name: 'BasketPage'}">
-          <n-button color="#fff">Корзина</n-button>
+          <n-button ghost color="#fff">Корзина</n-button>
         </router-link>
         <span>{{ cartItemCount }}</span>
       </div>
       <div class="header__main">
         <router-link :to="{name: 'MainPage'}">
-          <n-button color="#fff">Главная</n-button>
+          <n-button ghost color="#fff">Главная</n-button>
         </router-link>
       </div>
     </div>
     <div class="header__menu">
       <n-button
+        ghost
         color="#fff"
         @click="$emit('toggle-drawer')">
         Каталог
@@ -102,11 +103,6 @@ onMounted(async () => {
     width: 40px;
     color: #fff;
 }
-.n-button {
-  color: #000;
-}
 
-.n-button:hover{
-  color: #465a86;
-}
+
 </style>

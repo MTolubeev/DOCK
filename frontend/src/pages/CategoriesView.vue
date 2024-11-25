@@ -3,8 +3,6 @@
     content-style="--n-opacity-spinning:0; height: 100vh;" 
     stroke="blue" 
     :show="isLoading">
-    <AppHeader @toggle-drawer="toggleDrawer" />
-    <AppDrawer :is-visible="isDrawerVisible" @close-drawer="closeDrawer" />
     <div class="categories__page">
     <div class="path">
       <h1>
@@ -43,18 +41,16 @@
   </n-spin>
 </template>
 
+
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useOrganizeProducts } from '@/composables/useOrganizeProducts.js';
 import CardItem from '@/components/CardItem.vue';
-import { useDrawer } from '@/composables/useHeader.js';
-import AppHeader from '@/components/AppHeader.vue';
-import AppDrawer from '@/components/AppDrawer.vue';
 import api from '@/services/api.js';
 import { NSpin } from 'naive-ui'; 
 
-const { isDrawerVisible, toggleDrawer, closeDrawer } = useDrawer();
+
 const route = useRoute();
 const categories = ref([]);
 const isLoading = ref(true); 
@@ -120,7 +116,6 @@ watch(
     subcategoryName.value = newParams.subcategoryName || '';
     subsubcategoryName.value = newParams.subsubcategoryName || '';
     fetchData();
-    closeDrawer();
   },
   { immediate: true }
 );

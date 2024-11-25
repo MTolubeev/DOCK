@@ -2,11 +2,8 @@
   <n-spin
     content-style="--n-opacity-spinning:0; height: 100vh;"
     stroke="blue"
-    :show="loader"
-  >
+    :show="loader">
     <div v-if="product">
-      <AppHeader @toggle-drawer="toggleDrawer" />
-      <AppDrawer :is-visible="isDrawerVisible" @close-drawer="closeDrawer" />
       <div class="product">
         <h2 class="product__breadcrumb">
           <router-link
@@ -68,8 +65,8 @@
               <h1 class="product__title">{{ product.title }}</h1>
               <p class="product__description">{{ product.description }}</p>
               <div class="product__pay">
-                <span v-if="isAuthenicated"
-                  >Цена: <b>{{ product.discountPrice }} руб.</b>
+                <span v-if="isAuthenicated">
+                  Цена: <b>{{ product.discountPrice }} руб.</b>
                   <del style="margin-left: 10px">{{ product.price }} руб.</del>
                 </span>
                 <span v-else>Цена: {{ product.price }}</span>
@@ -99,14 +96,10 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { NCard, NSpin } from 'naive-ui';
-import AppHeader from '@/components/AppHeader.vue';
-import AppDrawer from '@/components/AppDrawer.vue';
-import { useDrawer } from '@/composables/useHeader.js';
 import ProductsComment from '@/components/ProductsComment.vue';
 import BasketButton from '@/components/BasketButton.vue';
 import api from '@/services/api.js';
 
-const { isDrawerVisible, toggleDrawer, closeDrawer } = useDrawer();
 const route = useRoute();
 const product = ref(null);
 
@@ -152,7 +145,6 @@ watch(
   (newId) => {
     if (newId) {
       fetchProduct(newId);
-      closeDrawer();
     }
   }
 );

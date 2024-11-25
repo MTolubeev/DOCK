@@ -27,14 +27,14 @@
         type="text" 
         placeholder="Название товара" 
         clearable
-        />
+      />
       <label>Описание товара</label>
       <n-input
         v-model:value="editProduct.description"
         type="textarea"
         placeholder="Введите описание товара"
         clearable
-        />
+      />
       <label>Цена товара</label>
       <n-input-number
         v-model:value="editProduct.price"
@@ -42,7 +42,7 @@
         type="number"
         placeholder="Введите цену товара"
         clearable
-        />
+      />
       <label>Скидочная цена товара</label>
       <n-input-number
         v-model:value="editProduct.discountPrice"
@@ -50,7 +50,7 @@
         type="number"
         placeholder="Введите скидку товара"
         clearable
-        />
+      />
       <label>Количество товаров</label>
       <n-input-number
         v-model:value="editProduct.count"

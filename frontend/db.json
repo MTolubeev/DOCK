@@ -1,0 +1,216 @@
+{
+  "products": [
+    {
+      "id": 2802,
+      "title": "Смартфон Apple iPhone 15 Pro 128GB",
+      "description": "Данная модель могла быть активирована до продажи без привязки к аккаунту Apple ID. Это не влияет на потребительские характеристики, внешний вид товара, функциональность или какие-либо иные свойства продукта. Срок гарантии на смартфон составляет 1 год с момента покупки.",
+      "count": 167,
+      "price": 124999,
+      "previewImageId": 952,
+      "discountPrice": 110999,
+      "categories": [
+        {
+          "name": "Смартфоны",
+          "order": 1,
+          "subcategory": "Apple",
+          "subcategoryOrder": 1,
+          "subsubcategory": null
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 2707,
+      "title": "Умная колонка Яндекс Станция",
+      "description": "Умная колонка Яндекс Станция Мини с часами с Алисой представлена в ярком цвете мутный белый. Алиса вовремя разбудит, напомнит о важных делах, сообщит последние новости, включит любимую композицию или предложит новый плейлист, расскажет детям интересную историю. Станция имеет яркий и мощный звук благодаря динамику 10 Вт.",
+      "count": 2,
+      "price": 9990,
+      "previewImageId": 857,
+      "discountPrice": 8000,
+      "categories": [
+        {
+          "name": "Аудиотехника",
+          "order": 3,
+          "subcategory": "Портативные колонки",
+          "subcategoryOrder": 1,
+          "subsubcategory": null
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 2704,
+      "title": "Смартфон Samsung Galaxy S23",
+      "description": "Смартфон Samsung Galaxy S23 — модель с безрамочным экраном диагональю 6,1 дюйма, выполненным по технологии Dynamic AMOLED 2X. Разрешение — 2400x1080 пикселей, частота обновления — 120 Гц. Отображается 16 млн цветов.",
+      "count": 8,
+      "price": 76990,
+      "previewImageId": 854,
+      "discountPrice": 69300,
+      "categories": [
+        {
+          "name": "Смартфоны",
+          "order": 1,
+          "subcategory": "Samsung",
+          "subcategoryOrder": 2,
+          "subsubcategory": null
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 2705,
+      "title": "Смартфон Huawei Mate 50 Pro",
+      "description": "Флагманский смартфон Huawei Mate 50 Pro, на ОС Android (оболочка Emui 13) представлен в защищенном по стандарту IP 68 корпусе из металла и закаленного стекла габаритами 162х76х8,5 мм. Размер оперативной памяти девайса — 8 Гб, встроенной — 256 Гб.",
+      "count": 3,
+      "price": 49990,
+      "previewImageId": 855,
+      "discountPrice": 45000,
+      "categories": [
+        {
+          "name": "Смартфоны",
+          "order": 1,
+          "subcategory": null,
+          "subcategoryOrder": 4,
+          "subsubcategory": null
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 2708,
+      "title": "Наушники Apple AirPods Pro",
+      "description": "Наушники Apple AirPods Pro — модель типа вкладыши в корпус из пластика, амбушюры сделаны из силикона. Благодаря стандарту IPX4 модель не боится попадания воды.",
+      "count": 5,
+      "price": 27990,
+      "previewImageId": 858,
+      "discountPrice": 24300,
+      "categories": [
+        {
+          "name": "Смартфоны",
+          "order": 1,
+          "subcategory": "Сопутствующие товары",
+          "subcategoryOrder": 3,
+          "subsubcategory": "Наушники",
+          "subsubcategoryOrder": 1
+        },
+        {
+          "name": "Аудиотехника",
+          "order": 3,
+          "subcategory": "Наушники",
+          "subcategoryOrder": 2,
+          "subsubcategory": null
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 2702,
+      "title": "Смартфон Apple iPhone 15",
+      "description": "Смартфон Apple iPhone 15 (Dual Sim) получил дисплей диагональю 6,1 дюйма, выполненный по технологии Super Retina XDR. Разрешение — 2556x1179 пикселей, яркость достигает 2000 нит, контрастность составляет 2000000:1 — изображение четкое, детализированное и насыщенное. Частота обновления 60 Гц обеспечивает плавность отображения любого динамичного контента.",
+      "count": 15,
+      "price": 81990,
+      "previewImageId": 852,
+      "discountPrice": 73800,
+      "categories": [
+        {
+          "name": "Смартфоны",
+          "order": 1,
+          "subcategory": "Apple",
+          "subcategoryOrder": 1,
+          "subsubcategory": null
+        }
+      ],
+      "comments": [
+        {
+          "id": 4,
+          "text": "прекрасный телефон",
+          "images": [],
+          "score": 5,
+          "userId": 1,
+          "username": "max",
+          "productId": 2702,
+          "productTitle": "Смартфон Apple iPhone 15"
+        },
+        {
+          "id": 2,
+          "text": "Очень очень красивый телефон, камера бомба(и фотки и съемка видео), производительность на высоте, и вообще оболочка ios мне очень нравится, размер очень удобный много крутых функций и плюшек.",
+          "images": [],
+          "score": 5,
+          "userId": 2,
+          "username": "eva",
+          "productId": 2702,
+          "productTitle": "Смартфон Apple iPhone 15"
+        },
+        {
+          "id": 5,
+          "text": "о",
+          "images": [],
+          "score": 5,
+          "userId": 4,
+          "username": "Thomas",
+          "productId": 2702,
+          "productTitle": "Смартфон Apple iPhone 15"
+        },
+        {
+          "id": 1,
+          "text": "Выглядит красиво, батарею держит отлично Недостатки: Не стоит своих денег от слова совсем, не отличается от предыдущих серий по пользованию ничем",
+          "images": [],
+          "score": 3,
+          "userId": 4,
+          "username": "Thomas",
+          "productId": 2702,
+          "productTitle": "Смартфон Apple iPhone 15"
+        },
+        {
+          "id": 3,
+          "text": "Камера чуть хуже, чем у многих андроидов, лучше переплатить и взять Pro версию",
+          "images": [],
+          "score": 4,
+          "userId": 8,
+          "username": "тест2",
+          "productId": 2702,
+          "productTitle": "Смартфон Apple iPhone 15"
+        }
+      ]
+    },
+    {
+      "id": 2706,
+      "title": "Чехол для Huawei Mate 50 Pro",
+      "description": "Чехол из прочного пластика с патриотичным дизайном",
+      "count": 6,
+      "price": 4990,
+      "previewImageId": 856,
+      "discountPrice": 4000,
+      "categories": [
+        {
+          "name": "Смартфоны",
+          "order": 1,
+          "subcategory": "Сопутствующие товары",
+          "subcategoryOrder": 3,
+          "subsubcategory": "Чехлы",
+          "subsubcategoryOrder": 2
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 2703,
+      "title": "Смартфон Apple iPhone 14",
+      "description": "Смартфон Apple iPhone 14 со встроенной памятью 128 Гб оснащен экраном диагональю 6,1 дюйма, выполненным по технологии OLED. Дисплей типа Super Retina XDR обладает разрешением 2532x1170 пикселей. В этой модели установлен шестиядерный процессор А15 Bionic. В девайсе используются две SIM-карты формата nano.",
+      "count": 4,
+      "price": 72990,
+      "previewImageId": 853,
+      "discountPrice": 65700,
+      "categories": [
+        {
+          "name": "Смартфоны",
+          "order": 1,
+          "subcategory": "Apple",
+          "subcategoryOrder": 1,
+          "subsubcategory": null
+        }
+      ],
+      "comments": []
+    }
+  ]
+}

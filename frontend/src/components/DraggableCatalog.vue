@@ -21,7 +21,9 @@
             </n-button>
           </template>
           <template v-else>
-            <router-link :to="{ name: 'CategoriesView', params: { categoryName: element.name } }" class="category-link">
+            <router-link :to="{ name: 'CategoriesView', params: { categoryName: element.name } }" 
+            class="category-link"
+            @click="closeDrawerOnClick">
               <strong>{{ element.name }}</strong>
             </router-link>
           </template>
@@ -54,7 +56,9 @@
                     </n-button>
                   </template>
                   <template v-else>
-                    <router-link :to="{ name: 'CategoriesView', params: { categoryName: element.name, subcategoryName: subcategory.name } }">
+                    <router-link 
+                      :to="{ name: 'CategoriesView', params: { categoryName: element.name, subcategoryName: subcategory.name } }"
+                      @click="closeDrawerOnClick">
                       <strong>{{ subcategory.name }}</strong>
                     </router-link>
                   </template>
@@ -85,7 +89,9 @@
                             </n-button>
                           </template>
                           <template v-else>
-                            <router-link :to="{ name: 'CategoriesView', params: { categoryName: element.name, subcategoryName: subcategory.name, subsubcategoryName: subsubcategory.name } }">
+                            <router-link 
+                              :to="{ name: 'CategoriesView', params: { categoryName: element.name, subcategoryName: subcategory.name, subsubcategoryName: subsubcategory.name } }"
+                              @click="closeDrawerOnClick">
                               <strong>{{ subsubcategory.name }}</strong>
                             </router-link>
                           </template>
@@ -103,7 +109,9 @@
                           <template #item="{ element: product }">
                             <ul>
                               <li>
-                                <router-link :to="{ name: 'ProductItem', params: { productId: product.id } }">
+                                <router-link 
+                                  :to="{ name: 'ProductItem', params: { productId: product.id } }"
+                                  @click="closeDrawerOnClick">
                                   {{ product.title }}
                                 </router-link>
                               </li>
@@ -123,7 +131,9 @@
                   <template #item="{ element: product }">
                     <ul>
                       <li>
-                        <router-link :to="{ name: 'ProductItem', params: { productId: product.id } }">
+                        <router-link 
+                          :to="{ name: 'ProductItem', params: { productId: product.id } }"
+                          @click="closeDrawerOnClick">
                           {{ product.title }}
                         </router-link>
                       </li>
@@ -144,7 +154,9 @@
           <template #item="{ element: product }">
             <ul>
               <li>
-                <router-link :to="{ name: 'ProductItem', params: { productId: product.id } }">
+                <router-link 
+                  :to="{ name: 'ProductItem', params: { productId: product.id } }"
+                  @click="closeDrawerOnClick">
                   {{ product.title }}
                 </router-link>
               </li>
@@ -198,6 +210,9 @@ const handleDragEnd = () => {
 
 const checkSameList = (evt) => {
   return evt.from === evt.to;
+};
+const closeDrawerOnClick = () => {
+  emit('close-drawer'); 
 };
 
 watch(() => props.categories, (newCategories) => {

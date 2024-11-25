@@ -8,7 +8,7 @@ const routes = [
   {
     path: "/cart",
     name: "BasketPage",
-    component: () => import('@/pages/BasketPage.vue')
+    component: () => import('@/pages/AppBasket.vue')
   },
   {
     path: "/registration",
