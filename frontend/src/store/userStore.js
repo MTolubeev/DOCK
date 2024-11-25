@@ -55,7 +55,7 @@ export const useUserStore = () => {
       localStorage.setItem("token", token);
       fetchUser();
     } catch (error) {
-      console.error(error);
+      throw new Error( 'Неправильный логин или пароль');
     }
   };
 

@@ -21,22 +21,17 @@
     class="main__page__modal" 
     @close="closeModal" 
     />
-    <n-input status="error"
+    <n-input
       v-model:value="searhQuery"
       placeholder="Поиск товаров"
-      />
-    <n-button 
-      v-if="searhQuery"
-      class="button__clear" 
-      size="small"
-      color="#465a86"
-      @click="clearSearch">
-      &times;
-    </n-button>
+      clearable
+    />
+
     <CardList 
     :searh-query="searhQuery" 
     @products-loaded="onProductsLoaded" 
     />
+    
     <div class="main__page__comments">
       <h2>Отзывы наших пользователей</h2>
       <n-card
@@ -103,9 +98,6 @@ const closeModal = () => {
 
 const searhQuery = ref("");
 
-const clearSearch = () =>{
-  searhQuery.value = '';
-}
 const getAllComments = async () => {
   try {
     const response = await api.get(`/comments/getAllComments`);

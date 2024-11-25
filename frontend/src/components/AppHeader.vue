@@ -4,12 +4,12 @@
       <div class="header__profile">
         <img src="@/assets/Union.svg" alt="profile" />
         <div v-if="!user" class="header__info__btns">
-          <router-link  :to="{name: 'SignIn'}">
-          <n-button color="#fff">Войти</n-button>
-        </router-link>
-        <router-link  :to="{name: 'Registrantion'}">
-          <n-button color="#fff">Создать аккаунт</n-button>
-        </router-link>
+          <router-link :to="{ name: 'SignIn', query: { redirect: $route.fullPath } }">
+            <n-button color="#fff">Войти</n-button>
+          </router-link>
+          <router-link :to="{ name: 'Registrantion', query: { redirect: $route.fullPath } }">
+            <n-button color="#fff">Создать аккаунт</n-button>
+          </router-link>
         </div>
         <div v-else>
           <span>{{ user.sub }}</span>
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="header__basket">
-        <img src="@/assets/cart.svg" alt="cart" />
+        <img src="@/assets/cart.svg" alt="basket" />
         <router-link :to="{name: 'BasketPage'}">
           <n-button color="#fff">Корзина</n-button>
         </router-link>

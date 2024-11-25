@@ -27,6 +27,9 @@
       <h2>Корзина пуста</h2>
       <img src="@/assets/corob.svg" alt="Пустая корзина" />
       <p>Войдите или зарегистрируйтесь, чтобы вы смогли добавлять товары в корзину</p>
+      <router-link :to="{ name: 'SignIn', query: { redirect: $route.fullPath } }">
+        <n-button color="#465a86">Авторизоваться</n-button>
+      </router-link>
     </div>
   </div>
 

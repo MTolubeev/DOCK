@@ -28,7 +28,7 @@
              type="text"
              placeholder="Название"
              required 
-             />
+            />
          </div>
 
          <div>
@@ -38,7 +38,7 @@
              type="number"
              placeholder="Цена"
              required
-             />
+            />
          </div>
  
          <div>
@@ -53,9 +53,10 @@
          <div>
            <label>Описание товара:</label>
            <n-input 
-           v-model:value="product.description"
-           type="textarea" 
-           required 
+            v-model:value="product.description"
+            type="textarea" 
+            placeholder="Описание товара"
+            required 
            />
          </div>
  
@@ -87,6 +88,7 @@
            <label>Количество товаров:</label>
            <n-input
              v-model:value="product.count"
+             :show-button="false"
              type="number"
              placeholder="Количество"
              />

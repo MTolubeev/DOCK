@@ -35,6 +35,7 @@
         v-for="product in filteredProducts"
         :key="product.id"
         :item="product"
+        :is-editable="false"
         @delete ="handleDelete"
         />
     </div>

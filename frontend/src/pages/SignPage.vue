@@ -4,7 +4,7 @@
       <n-button color="#465a86" class="modal__overlay__close" @click="closeModal">✖</n-button>
       <h2>Вход в личный аккаунт</h2>
       <p>Нет аккаунта? создайте!</p>
-      <router-link :to="{name: 'Registrantion'}">
+      <router-link :to="{ name: 'Registrantion'}">
         <n-button type="warning">Создать аккаунт</n-button>
       </router-link>
       <n-input
@@ -43,22 +43,24 @@ const loginPassword = ref('');
 let cameFromRegistration = ref(false);
 
 const login = async () => {
+  if (!loginEmail.value || !loginPassword.value) {
+    showNotificationMessage('error', 'Ошибка', 'Поля не заполнены');
+    return;
+  }
   try {
-    await userStore.login(loginEmail.value, loginPassword.value);
+    await userStore.login(loginEmail.value, loginPassword.value); 
     showNotificationMessage('success', 'Успех', 'Вы успешно вошли в аккаунт');
 
-    if (cameFromRegistration.value) {
-      router.push({name: 'MainPage'}); 
-    } else {
-      window.history.back(); 
-    }
+    const redirectPath = route.query.redirect || '/'; 
+    router.push(redirectPath);
   } catch (error) {
-    showNotificationMessage('error', 'Ошибка', 'Неправильный логин или пароль');
+    showNotificationMessage('error', 'Ошибка', error.message || 'Неправильный логин или пароль');
   }
 };
 
 const closeModal = () => {
-  router.push({name: 'MainPage'}).then(() => window.location.reload());
+  const redirectPath = route.query.redirect || '/';
+  router.push(redirectPath).then(() => window.location.reload());
 };
 
 onBeforeMount(() => {

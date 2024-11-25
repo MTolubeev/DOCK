@@ -26,30 +26,38 @@
         v-model:value="editProduct.title"
         type="text" 
         placeholder="Название товара" 
+        clearable
         />
       <label>Описание товара</label>
       <n-input
         v-model:value="editProduct.description"
         type="textarea"
         placeholder="Введите описание товара"
+        clearable
         />
       <label>Цена товара</label>
-      <n-input
+      <n-input-number
         v-model:value="editProduct.price"
+        :show-button="false"
         type="number"
         placeholder="Введите цену товара"
+        clearable
         />
       <label>Скидочная цена товара</label>
-      <n-input
+      <n-input-number
         v-model:value="editProduct.discountPrice"
+        :show-button="false"
         type="number"
         placeholder="Введите скидку товара"
+        clearable
         />
       <label>Количество товаров</label>
-      <n-input
+      <n-input-number
         v-model:value="editProduct.count"
-        type="numer"
+        :show-button="false"
+        type="number"
         placeholder="Введите количество товаров"
+        clearable
         />
   
       <label>Категория</label>
@@ -68,7 +76,7 @@
         @update:value="handleSubcategoryChange"
         />
   
-      <label>Поподкатегория</label>
+      <label>Подподкатегория</label>
       <n-select
         v-model:value="selectedSubsubcategory"
         :options="subsubcategoryOptions"
@@ -88,7 +96,7 @@
   
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue';
-import { NCard, NButton, NInput, NUpload, NSelect } from 'naive-ui';
+import { NCard, NButton, NInput, NUpload, NSelect, NInputNumber } from 'naive-ui';
 
 const props = defineProps({
   item: {
@@ -139,9 +147,6 @@ const saveChanges = () => {
     if (imageDeleted.value && fileList.value.length > 0) {
         imageToSend = fileList.value[0].file; 
     }
-    console.log(imageDeleted.value)
-    console.log(fileList.value)
-    console.log(imageToSend)
     const updatedProduct = {
       id: editProduct.value.id,
       newTitle: editProduct.value.title,

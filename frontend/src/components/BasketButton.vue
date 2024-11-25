@@ -45,10 +45,6 @@ const buttonStyle = computed(() => ({
 
 const updateInCartStatus = async () => {
   const token = localStorage.getItem("token");
-    if(token === null || user.value === null){
-      inCart.value = false;
-      return;
-    }
     try {
       await userStore.fetchUser();
       const userId = user.value?.id;
@@ -67,7 +63,7 @@ const toggleCart = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    if (!token || !user.value) {
+    if (!token) {
       return router.push("/signin");
     }
     if (props.product.count <= 0) {

@@ -1,4 +1,5 @@
 <template>
+  <div>
   <n-card
     v-if="!isEdited"
     class="product-card"
@@ -6,7 +7,7 @@
     hoverable
     @click="navigateToproduct"
   >
-    <div class="edit-icon-container">
+    <div v-if="isEditable" class="edit-icon-container">
       <img
         v-if="isAdmin"
         src="@/assets/pencil.svg"
@@ -21,8 +22,13 @@
       <h3 class="product-card__title">{{ item.title }}</h3>
       <div class="product-card__info">
         <span v-if="isAuthenticated">
-          Цена: <b>{{ item.discountPrice }} руб.</b>
-          <del style="margin-left: 10px">{{ item.price }} руб.</del>
+          <span v-if="item.discountPrice && item.discountPrice > 0">
+            Цена: <b>{{ item.discountPrice }} руб.</b>
+            <del style="margin-left: 10px">{{ item.price }} руб.</del>
+          </span>
+          <span v-else>
+            Цена: <b>{{ item.price }} руб.</b>
+          </span>
         </span>
         <span v-else>
           Цена: <b>{{ item.price }} руб.</b>
@@ -33,7 +39,10 @@
         <span v-else><b>Товара нет на складе</b></span>
       </div>
       <div class="product-card__buttons">
-        <BasketButton :product-id="item.id" :product="item" @click.stop />
+        <BasketButton 
+          :product-id="item.id" 
+          :product="item" 
+          @click.stop />
         <n-button v-if="isAdmin" type="error" @click.stop="openConfirmDialog">
           Удалить товар из списка
         </n-button>
@@ -64,6 +73,7 @@
       Вы уверены, что хотите удалить этот продукт?
     </n-dialog>
   </div>
+</div>
 </template>
 
 <script setup>
@@ -73,23 +83,26 @@ import { NCard, NButton, NDialog } from "naive-ui";
 import { useUserStore } from "@/store/userStore";
 import BasketButton from "./BasketButton.vue";
 import EditProduct from "./EditProduct.vue";
-import api from '@/services/api.js';
+import api from "@/services/api.js";
 
 const props = defineProps({
-  item: 
-  { 
-    type: Object, 
-    required: true 
+  item: {
+    type: Object,
+    required: true,
   },
-  categoryOptions: { 
-    type: Array 
+  categoryOptions: {
+    type: Array,
   },
-  subcategoryOptions: { 
-    type: Array 
+  subcategoryOptions: {
+    type: Array,
   },
-  subsubcategoryOptions: { 
-    type: Array 
+  subsubcategoryOptions: {
+    type: Array,
   },
+  isEditable: { 
+    type: Boolean,
+    required: true,
+  }
 });
 
 const userStore = useUserStore();
@@ -139,7 +152,9 @@ const navigateToproduct = () => {
 
 const handleSave = async (updatedProduct) => {
   const formData = new FormData();
-  formData.append("productData", JSON.stringify({
+  formData.append(
+    "productData",
+    JSON.stringify({
       productId: updatedProduct.id,
       newTitle: updatedProduct.newTitle,
       newDescription: updatedProduct.newDescription,

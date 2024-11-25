@@ -93,7 +93,7 @@
       @positive-click="confirmDeleteComment"
       @negative-click="closeConfirmDialog"
       :closable="false">
-      Оформить заказ?
+      Удалить этот комменнтарий?
     </n-dialog>
   </div>
   <WriteReviewModal v-model:show="showReviewModal" :product-id="productId" />

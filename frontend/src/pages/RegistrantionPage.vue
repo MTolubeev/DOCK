@@ -30,10 +30,10 @@
         type="password" 
         placeholder="Пароль" 
         required 
-        />
-        <div class="modal__overlay__buttons">
-          <n-button color="#465a86" @click="register">Зарегистрироваться</n-button>
-        </div>
+      />
+      <div class="modal__overlay__buttons">
+        <n-button color="#465a86" @click="register">Зарегистрироваться</n-button>
+      </div>
     </div>
   </n-dialog>
 </template>
@@ -44,7 +44,7 @@ import api from '../services/api';
 import { NButton, NDialog, NInput } from 'naive-ui';
 import router from '@/router';
 import { useNotificationService } from '@/composables/useNotifications.js';
-import { useUserStore } from "@/store/userStore";
+import { useUserStore } from '@/store/userStore';
 
 const userStore = useUserStore();
 const { showNotificationMessage } = useNotificationService(); 
@@ -62,15 +62,15 @@ const register = async () => {
         email: email.value,
         password: password.value,
       },
-   });
+    });
     await userStore.login(email.value, password.value);
-    console.log(email.value, password.value)
-    router.push({name: 'MainPage'});
-    showNotificationMessage('success', 'Успех', 'Вы успешно зарегестрировались.'); 
+    router.push({ name: 'MainPage' });
+    showNotificationMessage('success', 'Успех', 'Вы успешно зарегистрировались.');
   } catch (error) {
-    showNotificationMessage('error', 'Ошибка', 'Регистрация не прошла'); 
+    showNotificationMessage('error', 'Ошибка', 'Регистрация не прошла');
   }
 };
+
 const closeModal = () => {
   router.push({name: 'MainPage'}).then(() => window.location.reload());
 };
