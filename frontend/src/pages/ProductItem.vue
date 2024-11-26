@@ -5,50 +5,52 @@
     :show="loader">
     <div v-if="product">
       <div class="product">
-        <h2 class="product__breadcrumb">
-          <router-link
-            class="product__breadcrumb__link"
-            :to="{
-              name: 'CategoriesView',
-              params: { categoryName: productCategory },
-            }"
-          >
-            {{ productCategory }}
-          </router-link>
-          /
-          <span v-if="productSubcategory !== 'None'">
+        <n-breadcrumb>
+          <n-breadcrumb-item>
             <router-link
               class="product__breadcrumb__link"
               :to="{
                 name: 'CategoriesView',
-                params: {
-                  categoryName: productCategory,
-                  subcategoryName: productSubcategory,
-                },
-              }"
-            >
-              {{ productSubcategory }}
+                params: { categoryName: productCategory }
+              }">
+              {{ productCategory }}
             </router-link>
-            /
-          </span>
-          <span v-if="productSubsubcategory !== 'None'">
-            <router-link
-              class="product__breadcrumb__link"
-              :to="{
-                name: 'CategoriesView',
-                params: {
-                  categoryName: productCategory,
-                  subcategoryName: productSubcategory,
-                  subsubcategoryName: productSubsubcategory,
-                },
-              }"
-            >
-              {{ productSubsubcategory }}
-            </router-link>
-            /
-          </span>
-          {{ product.title }}
-        </h2>
+          </n-breadcrumb-item>
+         
+            <n-breadcrumb-item v-if="productSubcategory !== 'None'">
+              <router-link
+                class="product__breadcrumb__link"
+                :to="{
+                  name: 'CategoriesView',
+                  params: {
+                    categoryName: productCategory,
+                    subcategoryName: productSubcategory,}
+                }">
+                {{ productSubcategory }}
+              </router-link>
+            </n-breadcrumb-item>
+        
+            <n-breadcrumb-item v-if="productSubsubcategory !== 'None'">
+                <router-link
+                  class="product__breadcrumb__link"
+                  :to="{
+                    name: 'CategoriesView',
+                    params: {
+                      categoryName: productCategory,
+                      subcategoryName: productSubcategory,
+                      subsubcategoryName: productSubsubcategory,
+                    }
+                  }">
+                  {{ productSubsubcategory }}
+                </router-link>
+            </n-breadcrumb-item>
+
+          <n-breadcrumb-item>
+            <span class="product__breadcrumb__link">
+              {{ product.title }}
+            </span>
+          </n-breadcrumb-item>
+        </n-breadcrumb>
         <div class="product__item">
           <n-card
             class="product__item__card"
@@ -70,9 +72,9 @@
                   <del style="margin-left: 10px">{{ product.price }} руб.</del>
                 </span>
                 <span v-else>Цена: {{ product.price }}</span>
-                <span v-if="product.count > 0"
-                  >Количество товаров осталось: <b>{{ product.count }}</b></span
-                >
+                <span v-if="product.count > 0">
+                  Количество товаров осталось: <b>{{ product.count }}</b>
+                  </span>
                 <span v-else><b>Товара нет на складе</b></span>
                 <BasketButton
                   v-if="product"
@@ -93,12 +95,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { NCard, NSpin } from 'naive-ui';
-import ProductsComment from '@/components/ProductsComment.vue';
-import BasketButton from '@/components/BasketButton.vue';
-import api from '@/services/api.js';
+import { ref, onMounted, computed, watch } from "vue";
+import { useRoute } from "vue-router";
+import { NCard, NSpin, NBreadcrumb, NBreadcrumbItem } from "naive-ui";
+import ProductsComment from "@/components/ProductsComment.vue";
+import BasketButton from "@/components/BasketButton.vue";
+import api from "@/services/api.js";
 
 const route = useRoute();
 const product = ref(null);
@@ -157,41 +159,31 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.product{
+.product {
   margin-top: 5%;
-    h2 {
-      margin: 10px 20px;
+  margin-left: 20px;
+    &__breadcrumb__link {
+      font-size: 20px;
     }
-    &__breadcrumb {
-      margin-bottom: 20px;
 
-        &__link {
-        text-decoration: none;
-        color: inherit;
-          &:hover {
-            color: gray;
-          }
-      }
+  &__item {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    &__card {
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    
-    &__item {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center; 
 
-      &__card {
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      &__wrapper {
-        flex: 1;
-        margin-right: 30px;
-        margin-top: 10px;
-      }
-      &__img {
+    &__wrapper {
+      flex: 1;
+      margin-right: 30px;
+      margin-top: 10px;
+    }
+    &__img {
       width: 350px;
       object-fit: cover;
     }

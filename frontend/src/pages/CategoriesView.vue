@@ -5,28 +5,32 @@
     :show="isLoading">
     <div class="categories__page">
     <div class="path">
-      <h1>
-        <router-link
-          class="path__link"
-          :to="{ name: 'CategoriesView', params: { categoryName: categoryName } }">
-          {{ categoryName }}
-        </router-link>
-        /
-        <router-link
-          v-if="subcategoryName"
-          class="path__link"
-          :to="{ name: 'CategoriesView', params: { categoryName: categoryName, subcategoryName: subcategoryName } }">
-          {{ subcategoryName }}
-        </router-link>
-        <span v-if="subsubcategoryName">
-          /
-          <router-link
-            class="path__link"
-            :to="{ name: 'CategoriesView', params: { categoryName: categoryName, subcategoryName: subcategoryName, subsubcategoryName: subsubcategoryName } }">
-            {{ subsubcategoryName }}
-          </router-link>
-        </span>
-      </h1>
+        <n-breadcrumb>
+          <n-breadcrumb-item>
+            <router-link
+              class="path__link"
+              :to="{ name: 'CategoriesView', params: { categoryName: categoryName } }">
+              {{ categoryName }}
+            </router-link>
+          </n-breadcrumb-item>
+          <n-breadcrumb-item>
+            <router-link
+              v-if="subcategoryName"
+              class="path__link"
+              :to="{ name: 'CategoriesView', params: { categoryName: categoryName, subcategoryName: subcategoryName } }">
+              {{ subcategoryName }}
+            </router-link>
+          </n-breadcrumb-item>
+            <span v-if="subsubcategoryName">
+              <n-breadcrumb-item>
+                <router-link
+                  class="path__link"
+                  :to="{ name: 'CategoriesView', params: { categoryName: categoryName, subcategoryName: subcategoryName, subsubcategoryName: subsubcategoryName } }">
+                  {{ subsubcategoryName }}
+                </router-link>
+              </n-breadcrumb-item>
+            </span>
+        </n-breadcrumb>
     </div>
     <div class="cards">
       <CardItem
@@ -41,15 +45,13 @@
   </n-spin>
 </template>
 
-
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useOrganizeProducts } from '@/composables/useOrganizeProducts.js';
 import CardItem from '@/components/CardItem.vue';
 import api from '@/services/api.js';
-import { NSpin } from 'naive-ui'; 
-
+import { NSpin, NBreadcrumb, NBreadcrumbItem } from 'naive-ui'; 
 
 const route = useRoute();
 const categories = ref([]);
@@ -132,13 +134,8 @@ onMounted(() => {
   .path {
     margin: 10px 20px;
 
-    &__link {
-      text-decoration: none;
-      color: inherit;
-
-      &:hover {
-        color: gray;
-      }
+    &__link{
+      font-size: 20px;
     }
   }
 
